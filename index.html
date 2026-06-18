@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GAOLONG MEDICAL · 高浪预防医学</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
+
+  :root{
+    --bg:#FAF8F5; --bg-card:#FFFFFF;
+    --text:#1A1A1A; --text-2:#6B6560; --text-3:#A8A29B;
+    --accent:#8B7355; --accent-2:#C4AD8F; --accent-soft:#F2ECE2;
+    --border:#E8E4DF; --border-2:#F0ECE7;
+    --gold:#C9A96E; --green:#4A7C59; --green-soft:#EEF4EF;
+    --blue:#5B7B9A; --amber:#B08742;
+    --shadow:0 1px 3px rgba(0,0,0,.04);
+    --shadow-2:0 6px 28px rgba(60,50,40,.10);
+    --serif:'Cormorant Garamond','Noto Serif SC',Georgia,serif;
+    --sans:-apple-system,'SF Pro Text','Helvetica Neue',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--sans);background:#E9E4DD;color:var(--text);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:36px 0;}
+
+  /* ---------- phone shell ---------- */
+  .phone{width:390px;height:844px;background:var(--bg);border-radius:46px;box-shadow:0 0 0 12px #1b1b1b,0 0 0 14px #3a3a3a,0 40px 90px rgba(0,0,0,.34);overflow:hidden;position:relative;}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:124px;height:33px;background:#1b1b1b;border-radius:0 0 20px 20px;z-index:1500;}
+  .home-bar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;background:rgba(20,20,20,.75);border-radius:3px;z-index:1500;pointer-events:none;}
+  #screen{position:absolute;inset:0;overflow:hidden;}
+
+  /* ---------- view transitions ---------- */
+  .view{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);
+        transition:transform .42s cubic-bezier(.32,.72,0,1),opacity .42s;will-change:transform;}
+  .view.from-right{transform:translateX(100%);}
+  .view.from-left{transform:translateX(-26%);opacity:.55;}
+  .view.to-left{transform:translateX(-26%);opacity:.55;}
+  .view.to-right{transform:translateX(100%);}
+  .view.fade{opacity:0;}
+  .scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  /* ---------- status / nav ---------- */
+  .statusbar{flex:none;height:52px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 7px;font-size:14px;font-weight:600;}
+  .statusbar .si{display:flex;gap:6px;align-items:center;font-size:11px;font-weight:500;}
+  .navbar{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 14px 12px;}
+  .nav-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);background:none;border:none;cursor:pointer;}
+  .nav-ttl{font-family:var(--serif);font-size:17px;font-weight:500;letter-spacing:.5px;}
+  .nav-sub{font-size:11px;color:var(--text-3);text-align:center;margin-top:1px;letter-spacing:1px;}
+
+  /* ---------- tab bar ---------- */
+  .tabbar{flex:none;height:80px;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);border-top:1px solid var(--border-2);display:flex;justify-content:space-around;padding-top:9px;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:var(--text-3);font-size:10px;letter-spacing:.5px;transition:color .2s;}
+  .tab.on{color:var(--accent);}
+  .tab svg{width:22px;height:22px;}
+
+  /* ---------- bottom action bar ---------- */
+  .actionbar{flex:none;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border-2);padding:13px 22px 28px;display:flex;align-items:center;gap:11px;}
+  .ab-price{flex:1;}
+  .ab-price .l{font-size:10px;color:var(--text-3);letter-spacing:1px;}
+  .ab-price .v{font-family:var(--serif);font-size:22px;color:var(--accent);line-height:1.1;}
+  .btn{border:none;cursor:pointer;border-radius:2px;letter-spacing:1px;font-family:var(--sans);transition:.18s;}
+  .btn-line{padding:13px 18px;font-size:13px;border:1px solid var(--text);background:transparent;color:var(--text);}
+  .btn-line:active{background:var(--text);color:#fff;}
+  .btn-fill{padding:14px 26px;font-size:13px;background:var(--text);color:#fff;}
+  .btn-fill:active{background:#3a3a3a;}
+  .btn-fill.wide,.btn-line.wide{flex:1;text-align:center;}
+  .btn-fill[disabled]{background:var(--border);color:var(--text-3);cursor:default;}
+
+  /* ---------- home ---------- */
+  .hero{position:relative;height:420px;}
+  .hero .bg{width:100%;height:100%;object-fit:cover;}
+  .hero .ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 4%,rgba(250,248,245,.1) 42%,transparent 70%);}
+  .hero .ct{position:absolute;left:24px;right:24px;bottom:30px;}
+  .eyebrow{font-family:var(--serif);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+  .hero h1{font-family:var(--serif);font-size:33px;font-weight:300;line-height:1.18;letter-spacing:-.5px;margin-bottom:9px;}
+  .hero p{font-size:13px;color:var(--text-2);line-height:1.6;}
+
+  .sec-h{display:flex;justify-content:space-between;align-items:baseline;padding:30px 24px 15px;}
+  .sec-t{font-family:var(--serif);font-size:21px;font-weight:500;}
+  .sec-m{font-size:12px;color:var(--accent);cursor:pointer;letter-spacing:.5px;}
+
+  .rscroll{display:flex;gap:13px;padding:0 24px 8px;overflow-x:auto;scrollbar-width:none;}
+  .rscroll::-webkit-scrollbar{display:none;}
+  .rcard{flex:0 0 138px;height:182px;border-radius:5px;overflow:hidden;position:relative;cursor:pointer;transition:transform .18s;}
+  .rcard:active{transform:scale(.97);}
+  .rcard .bg{width:100%;height:100%;}
+  .rcard .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,10,.62),transparent 58%);}
+  .rcard .ct{position:absolute;left:14px;bottom:14px;color:#fff;}
+  .rcard .fl{font-size:21px;margin-bottom:5px;}
+  .rcard .nm{font-family:var(--serif);font-size:17px;letter-spacing:.5px;}
+  .rcard .cn{font-size:11px;opacity:.82;margin-top:2px;}
+  .rcard .soon{position:absolute;top:10px;right:10px;font-size:9px;letter-spacing:1px;background:rgba(255,255,255,.9);color:var(--accent);padding:2px 7px;border-radius:2px;}
+
+  .fcard{margin:0 24px 15px;background:var(--bg-card);border-radius:5px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .3s,transform .18s;}
+  .fcard:active{box-shadow:var(--shadow-2);transform:translateY(-1px);}
+  .fcard .img{width:100%;height:188px;}
+  .fcard .bd{padding:18px 20px 20px;}
+  .ftag{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent-2);padding:3px 10px;border-radius:2px;margin-bottom:12px;}
+  .fcard .nm{font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.3;margin-bottom:8px;}
+  .fcard .ds{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:13px;}
+  .fmeta{display:flex;gap:15px;font-size:11px;color:var(--text-3);}
+
+  .bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;padding:0 24px 14px;}
+  .bitem{aspect-ratio:1.15;background:var(--bg-card);border:1px solid var(--border-2);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:.2s;}
+  .bitem:active{border-color:var(--accent-2);box-shadow:var(--shadow-2);}
+  .blogo{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:2px;}
+  .bsub{font-size:9px;color:var(--text-3);letter-spacing:1.5px;}
+
+  /* ---------- region / hospital list ---------- */
+  .rband{height:150px;position:relative;margin-bottom:6px;}
+  .rband .bg{width:100%;height:100%;}
+  .rband .ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg),transparent 70%);}
+  .rband .ct{position:absolute;left:24px;bottom:14px;}
+  .rband .fl{font-size:26px;}
+  .rband h2{font-family:var(--serif);font-size:26px;font-weight:300;margin-top:2px;}
+  .rband .cn{font-size:12px;color:var(--text-2);margin-top:2px;}
+
+  .list{padding:0 24px;}
+  .litem{display:flex;align-items:center;gap:15px;padding:18px 0;border-bottom:1px solid var(--border-2);cursor:pointer;}
+  .litem:active{opacity:.65;}
+  .lico{width:52px;height:52px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none;}
+  .linfo{flex:1;min-width:0;}
+  .lname{font-family:var(--serif);font-size:17px;font-weight:500;margin-bottom:3px;}
+  .ldet{font-size:12px;color:var(--text-2);}
+  .lbrand{display:inline-block;font-size:10px;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:2px;margin-top:5px;letter-spacing:.5px;}
+  .larr{color:var(--text-3);font-size:16px;}
+  .lrate{font-family:var(--serif);font-size:15px;color:var(--accent);}
+
+  /* ---------- filters ---------- */
+  .filters{flex:none;display:flex;gap:8px;padding:2px 24px 14px;overflow-x:auto;scrollbar-width:none;}
+  .filters::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;padding:7px 16px;font-size:12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--text-2);cursor:pointer;transition:.2s;white-space:nowrap;}
+  .chip.on{background:var(--text);color:#fff;border-color:var(--text);}
+
+  /* ---------- project card ---------- */
+  .pcard{margin:0 24px 18px;background:var(--bg-card);border-radius:5px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .3s,transform .18s;}
+  .pcard:active{box-shadow:var(--shadow-2);transform:translateY(-1px);}
+  .pcard .img{width:100%;height:150px;position:relative;}
+  .pcard .free-rib{position:absolute;top:12px;left:0;background:var(--green);color:#fff;font-size:11px;letter-spacing:1px;padding:4px 12px 4px 14px;border-radius:0 2px 2px 0;}
+  .pcard .bd{padding:15px 17px;}
+  .pcard .row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;gap:10px;}
+  .pcard .nm{font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.25;}
+  .pcard .pr{font-family:var(--serif);font-size:17px;color:var(--accent);white-space:nowrap;}
+  .pcard .pr .freeword{color:var(--green);}
+  .pcard .hp{font-size:12px;color:var(--text-2);margin-bottom:10px;}
+  .ptags{display:flex;gap:6px;flex-wrap:wrap;}
+  .ptag{font-size:10px;color:var(--text-3);border:1px solid var(--border);padding:2px 8px;border-radius:2px;}
+  .empty{text-align:center;color:var(--text-3);font-size:13px;padding:60px 24px;}
+
+  /* ---------- detail ---------- */
+  .dhero{height:296px;position:relative;flex:none;}
+  .dhero .img{width:100%;height:100%;}
+  .dround{position:absolute;top:50px;width:38px;height:38px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:none;z-index:5;}
+  .dback{left:16px;}.dfav{right:16px;font-size:16px;}
+  .dcontent{padding:24px;}
+  .dbadge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#f5f0e8,#ebe3d5);padding:6px 13px;border-radius:2px;font-size:11px;color:var(--accent);letter-spacing:1.5px;margin-bottom:15px;}
+  .dtitle{font-family:var(--serif);font-size:27px;font-weight:300;line-height:1.25;margin-bottom:9px;}
+  .dhosp{font-size:13px;color:var(--text-2);display:flex;align-items:center;gap:6px;margin-bottom:20px;}
+  .dprice{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--border-2);}
+  .dprice .big{font-family:var(--serif);font-size:28px;color:var(--accent);}
+  .dprice .big.free{color:var(--green);}
+  .dprice .ori{font-size:14px;color:var(--text-3);text-decoration:line-through;}
+  .dprice .note{font-size:11px;color:var(--green);background:var(--green-soft);padding:3px 10px;border-radius:2px;}
+  .dsec{margin-bottom:24px;}
+  .dsec-t{font-family:var(--serif);font-size:16px;font-weight:600;letter-spacing:.5px;margin-bottom:11px;}
+  .dsec p{font-size:13px;color:var(--text-2);line-height:1.85;}
+  .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .dgi{background:var(--bg);border:1px solid var(--border-2);padding:13px;border-radius:4px;}
+  .dgi .l{font-size:10px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+  .dgi .v{font-family:var(--serif);font-size:15px;font-weight:500;}
+  .ddoc{display:flex;align-items:center;gap:14px;padding:15px;background:var(--bg);border-radius:4px;}
+  .ddoc .av{width:48px;height:48px;border-radius:50%;background:var(--accent-2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;color:#fff;flex:none;}
+  .ddoc .n{font-family:var(--serif);font-size:15px;font-weight:500;margin-bottom:3px;}
+  .ddoc .t{font-size:12px;color:var(--text-2);}
+  .dlist{list-style:none;}
+  .dlist li{font-size:13px;color:var(--text-2);line-height:1.9;padding-left:16px;position:relative;}
+  .dlist li::before{content:'';position:absolute;left:0;top:11px;width:4px;height:4px;border-radius:50%;background:var(--accent-2);}
+
+  /* ---------- booking ---------- */
+  .steps{flex:none;display:flex;align-items:center;justify-content:center;padding:4px 24px 18px;}
+  .step{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-3);}
+  .step.on{color:var(--text);}.step.done{color:var(--green);}
+  .snum{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;transition:.2s;}
+  .step.on .snum{background:var(--text);color:#fff;border-color:var(--text);}
+  .step.done .snum{background:var(--green);color:#fff;border-color:var(--green);}
+  .sline{width:30px;height:1px;background:var(--border);margin:0 5px;}
+  .bform{padding:0 24px 16px;}
+  .fg{margin-bottom:22px;}
+  .flabel{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-2);margin-bottom:10px;display:block;}
+  .finput{width:100%;padding:13px 15px;font-size:14px;border:1px solid var(--border);border-radius:2px;background:var(--bg-card);font-family:var(--sans);color:var(--text);outline:none;transition:border-color .2s;}
+  .finput:focus{border-color:var(--accent);}
+  .finput::placeholder{color:var(--text-3);}
+  .finput.err{border-color:#c0564a;}
+  .ferr{font-size:11px;color:#c0564a;margin-top:6px;}
+  .fselect{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23A8A29B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;}
+  .calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .calhead .mo{font-family:var(--serif);font-size:16px;}
+  .calhead .nav{color:var(--text-3);font-size:13px;letter-spacing:6px;}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+  .cw{text-align:center;font-size:10px;color:var(--text-3);padding:7px 0;letter-spacing:1px;}
+  .cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:50%;cursor:pointer;color:var(--text-2);transition:.15s;}
+  .cd:active{background:var(--border-2);}
+  .cd.dis{color:var(--border);pointer-events:none;}
+  .cd.full{color:var(--text-3);pointer-events:none;text-decoration:line-through;opacity:.5;}
+  .cd.sel{background:var(--text);color:#fff;}
+  .times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .ts{padding:12px;text-align:center;font-size:13px;border:1px solid var(--border);border-radius:2px;cursor:pointer;color:var(--text-2);transition:.15s;}
+  .ts:active{border-color:var(--accent);}
+  .ts.sel{background:var(--text);color:#fff;border-color:var(--text);}
+  .ts.dis{color:var(--border);pointer-events:none;}
+  .fnote{display:flex;align-items:flex-start;gap:9px;padding:14px;background:var(--accent-soft);border-radius:4px;font-size:12px;color:var(--text-2);line-height:1.6;margin-top:6px;}
+  .fnote .i{font-size:15px;flex:none;margin-top:1px;}
+  .rev{background:var(--bg-card);border:1px solid var(--border-2);border-radius:5px;overflow:hidden;margin-bottom:16px;}
+  .rev-h{padding:15px 18px;border-bottom:1px solid var(--border-2);font-family:var(--serif);font-size:13px;letter-spacing:2px;color:var(--text-2);}
+  .rev-b{padding:8px 18px 14px;}
+  .rrow{display:flex;justify-content:space-between;padding:9px 0;font-size:13px;}
+  .rrow .l{color:var(--text-3);}.rrow .v{color:var(--text);text-align:right;max-width:62%;}
+  .rdiv{height:1px;background:var(--border-2);margin:6px 0;}
+
+  /* ---------- confirm ---------- */
+  .csuccess{text-align:center;padding:64px 40px 28px;}
+  .ccheck{width:64px;height:64px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:28px;color:#fff;animation:pop .4s cubic-bezier(.2,1.4,.5,1);}
+  @keyframes pop{0%{transform:scale(0);}100%{transform:scale(1);}}
+  .csuccess h2{font-family:var(--serif);font-size:25px;font-weight:300;margin-bottom:9px;}
+  .csuccess p{font-size:13px;color:var(--text-2);line-height:1.6;}
+  .cqr{text-align:center;padding:6px 24px 24px;}
+  .cqr-box{width:130px;height:130px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;margin:0 auto 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:12px;color:var(--text-3);}
+  .cqr p{font-size:12px;color:var(--text-2);}
+
+  /* ---------- streamer ---------- */
+  .sphead{text-align:center;padding:18px 24px 26px;background:linear-gradient(to bottom,#efe9e0,var(--bg));}
+  .savatar{width:70px;height:70px;border-radius:50%;background:var(--accent);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:27px;color:#fff;}
+  .sphead h2{font-family:var(--serif);font-size:23px;margin-bottom:5px;}
+  .slevel{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--gold);letter-spacing:2px;border:1px solid var(--gold);padding:3px 12px;border-radius:20px;}
+  .stats{display:flex;justify-content:space-around;margin:0 24px 18px;padding:20px 0;background:var(--bg-card);border-radius:6px;box-shadow:var(--shadow);}
+  .stat{text-align:center;}
+  .stat .v{font-family:var(--serif);font-size:24px;color:var(--accent);margin-bottom:3px;}
+  .stat .l{font-size:10px;color:var(--text-3);letter-spacing:1px;}
+  .earn{margin:0 24px 18px;padding:22px;background:linear-gradient(140deg,#2c2520,#3f352b);border-radius:6px;color:#fff;}
+  .earn .lab{font-size:11px;letter-spacing:2px;opacity:.55;margin-bottom:8px;}
+  .earn .big{font-family:var(--serif);font-size:34px;font-weight:300;}
+  .earn .sub{font-size:12px;opacity:.5;margin-top:3px;}
+  .earn .grid{display:flex;justify-content:space-between;margin-top:20px;padding-top:17px;border-top:1px solid rgba(255,255,255,.12);}
+  .earn .gi{text-align:center;flex:1;}
+  .earn .gi .v{font-family:var(--serif);font-size:18px;margin-bottom:3px;}
+  .earn .gi .l{font-size:10px;opacity:.5;letter-spacing:1px;}
+  .card-w{margin:0 24px 18px;background:var(--bg-card);border-radius:6px;box-shadow:var(--shadow);overflow:hidden;}
+  .card-h{padding:16px 18px 6px;display:flex;justify-content:space-between;align-items:baseline;}
+  .card-h .t{font-family:var(--serif);font-size:17px;font-weight:600;}
+  .card-h .m{font-size:12px;color:var(--accent);cursor:pointer;}
+
+  .funnel{padding:8px 18px 18px;}
+  .frow{margin-bottom:13px;}
+  .frow:last-child{margin-bottom:4px;}
+  .frow .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;}
+  .frow .top .s{color:var(--text-2);}
+  .frow .top .n{font-family:var(--serif);font-size:14px;color:var(--text);}
+  .fbar{height:7px;background:var(--border-2);border-radius:4px;overflow:hidden;}
+  .fbar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent-2),var(--accent));}
+
+  .ledger{padding:4px 18px 10px;}
+  .lg{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border-2);cursor:pointer;}
+  .lg:last-child{border-bottom:none;}
+  .lg:active{opacity:.6;}
+  .lg-av{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--accent);flex:none;}
+  .lg-mid{flex:1;min-width:0;}
+  .lg-n{font-size:14px;font-weight:500;margin-bottom:3px;}
+  .lg-d{font-size:11px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lg-r{text-align:right;flex:none;}
+  .lg-c{font-family:var(--serif);font-size:15px;color:var(--accent);margin-bottom:4px;}
+  .lg-c.pending{color:var(--text-3);}
+  .pill{font-size:10px;padding:2px 9px;border-radius:20px;letter-spacing:.5px;white-space:nowrap;}
+  .pill-amber{background:#f7efe1;color:var(--amber);}
+  .pill-blue{background:#eaf0f5;color:var(--blue);}
+  .pill-green{background:var(--green-soft);color:var(--green);}
+  .pill-gold{background:#f6eed8;color:var(--gold);}
+  .pill-muted{background:var(--border-2);color:var(--text-3);}
+
+  .rule{padding:6px 18px 18px;}
+  .rrule{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--border-2);}
+  .rrule:last-child{border-bottom:none;}
+  .rrule .ic{width:30px;height:30px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;}
+  .rrule .tx .t{font-size:13px;font-weight:500;margin-bottom:2px;}
+  .rrule .tx .d{font-size:12px;color:var(--text-2);line-height:1.5;}
+
+  .linkbox{margin:0 24px 18px;padding:16px 18px;background:var(--bg-card);border:1px dashed var(--accent-2);border-radius:6px;}
+  .linkbox .l{font-size:11px;letter-spacing:1px;color:var(--text-3);margin-bottom:7px;}
+  .linkbox .row{display:flex;align-items:center;gap:10px;}
+  .linkbox .url{flex:1;font-size:13px;color:var(--accent);font-family:var(--serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .linkbox .cp{font-size:12px;color:#fff;background:var(--accent);border:none;padding:7px 14px;border-radius:2px;cursor:pointer;letter-spacing:1px;}
+  .linkbox .preview{margin-top:11px;width:100%;padding:11px;font-size:12px;background:transparent;border:1px solid var(--border);border-radius:2px;color:var(--text-2);cursor:pointer;letter-spacing:1px;}
+
+  .menu{padding:6px 24px;}
+  .mitem{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--border-2);cursor:pointer;font-size:14px;}
+  .mitem:active{opacity:.6;}
+  .mleft{display:flex;align-items:center;gap:12px;}
+  .mico{width:32px;height:32px;background:var(--bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .mright{color:var(--text-3);font-size:13px;}
+
+  /* my bookings (customer) */
+  .mb{margin:0 24px 14px;background:var(--bg-card);border-radius:6px;box-shadow:var(--shadow);overflow:hidden;}
+  .mb-top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border-2);}
+  .mb-code{font-size:11px;color:var(--text-3);letter-spacing:.5px;}
+  .mb-bd{padding:14px 16px;}
+  .mb-n{font-family:var(--serif);font-size:17px;font-weight:500;margin-bottom:5px;}
+  .mb-i{font-size:12px;color:var(--text-2);line-height:1.7;}
+
+  /* ---------- toast / modal ---------- */
+  .toast{position:absolute;top:78px;left:50%;transform:translateX(-50%) translateY(-16px);background:rgba(26,26,26,.92);color:#fff;padding:11px 22px;border-radius:9px;font-size:13px;opacity:0;transition:.3s;z-index:2000;white-space:nowrap;pointer-events:none;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .ov-modal{position:absolute;inset:0;background:rgba(0,0,0,.42);z-index:1800;opacity:0;pointer-events:none;transition:.3s;}
+  .ov-modal.show{opacity:1;pointer-events:auto;}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg-card);border-radius:18px 18px 0 0;padding:22px 24px 38px;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);}
+  .ov-modal.show .sheet{transform:translateY(0);}
+  .handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+  .sheet h3{font-family:var(--serif);font-size:20px;text-align:center;margin-bottom:13px;}
+  .sheet p{font-size:13px;color:var(--text-2);line-height:1.7;text-align:center;margin-bottom:22px;}
+
+  /* ---------- demo control ---------- */
+  .demo{margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .demo .lab{font-size:11px;letter-spacing:3px;color:#9a9088;}
+  .demo .seg{display:flex;background:#fff;border-radius:30px;padding:4px;box-shadow:0 4px 18px rgba(60,50,40,.12);}
+  .demo .seg button{border:none;background:none;padding:9px 20px;font-size:13px;color:#8a8079;cursor:pointer;border-radius:24px;transition:.2s;letter-spacing:.5px;}
+  .demo .seg button.on{background:#2c2520;color:#fff;}
+  .demo .reset{font-size:12px;color:#9a9088;background:none;border:none;cursor:pointer;letter-spacing:1px;text-decoration:underline;text-underline-offset:3px;}
+
+  /* ---------- image gradients ---------- */
+  .img-japan{background:linear-gradient(135deg,#e8d5c4,#f2e8db 50%,#d4bfa8);}
+  .img-korea{background:linear-gradient(135deg,#c8d4e0,#dde5ed 50%,#b8c8d8);}
+  .img-hk{background:linear-gradient(135deg,#d4c8b8,#e0d8cc 50%,#c8bca8);}
+  .img-macau{background:linear-gradient(135deg,#d8c8c0,#e8dcd4 50%,#ccb8b0);}
+  .img-europe{background:linear-gradient(135deg,#bcc9bc,#d4ded4 50%,#aabfaa);}
+  .img-clinic{background:linear-gradient(135deg,#e6ddd2,#f0ece4 50%,#d8cdbe);}
+  .img-skin{background:linear-gradient(135deg,#f0e0d0,#f8f0e8 50%,#e8d4c0);}
+  .img-anti-age{background:linear-gradient(135deg,#d8d0e0,#e8e0f0 50%,#c8c0d4);}
+  .img-inject{background:linear-gradient(135deg,#e0d2c4,#efe6da 50%,#d2c0ac);}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div id="screen"></div>
+  <div class="home-bar"></div>
+  <div class="toast" id="toast"></div>
+  <div class="ov-modal" id="modal" onclick="hideModal()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <h3 id="m-title">在线咨询</h3>
+      <p id="m-text"></p>
+      <button class="btn btn-fill wide" style="margin-bottom:10px" id="m-ok" onclick="hideModal();toast('已为您分配专属医美顾问')">添加顾问微信</button>
+      <button class="btn wide" style="background:none;color:var(--text-2);padding:14px" onclick="hideModal()">稍后再说</button>
+    </div>
+  </div>
+</div>
+
+<div class="demo">
+  <div class="lab">演 示 视 角</div>
+  <div class="seg">
+    <button id="seg-customer" class="on" onclick="switchRole('customer')">客户端 · 粉丝</button>
+    <button id="seg-streamer" onclick="switchRole('streamer')">主播工作台</button>
+  </div>
+  <button class="reset" onclick="resetDemo()">重置演示</button>
+</div>
+
+<script>
+/* ============================ DATA ============================ */
+const REGIONS=[
+  {id:'kr',name:'韩国',flag:'🇰🇷',cities:'首尔 · 釜山',img:'img-korea'},
+  {id:'jp',name:'日本',flag:'🇯🇵',cities:'东京 · 大阪',img:'img-japan'},
+  {id:'hk',name:'中国香港',flag:'🇭🇰',cities:'中环 · 尖沙咀',img:'img-hk'},
+  {id:'mo',name:'澳门',flag:'🇲🇴',cities:'澳门半岛 · 氹仔',img:'img-macau'},
+  {id:'eu',name:'欧洲',flag:'🇪🇺',cities:'卢森堡 · 巴黎 · 苏黎世',img:'img-europe'},
+  {id:'cn',name:'中国 · 海南',flag:'🇨🇳',cities:'博鳌乐城 · 即将上线',img:'img-clinic',soon:true},
+];
+const HOSPITALS=[
+  {id:'h_newstar',name:'Newstar 皮肤科医院',region:'kr',city:'首尔江南区',brand:'Medpcent 核心供应商',rating:4.9},
+  {id:'h_medclinic',name:'Med 联合诊所',region:'kr',city:'首尔明洞',brand:'Med 合作',rating:4.7},
+  {id:'h_tokyo',name:'东京长寿医学中心',region:'jp',city:'东京银座',brand:'高浪自营',rating:4.8},
+  {id:'h_osaka',name:'大阪抗衰研究所',region:'jp',city:'大阪心斋桥',brand:'合作机构',rating:4.6},
+  {id:'h_hk',name:'中环综合医疗中心',region:'hk',city:'香港中环',brand:'合作机构',rating:4.7},
+  {id:'h_macau',name:'澳门国际医美',region:'mo',city:'澳门氹仔',brand:'合作机构',rating:4.6},
+  {id:'h_lux',name:'卢森堡 Pluryal 医学中心',region:'eu',city:'卢森堡市',brand:'Pluryal 自营',rating:4.9},
+  {id:'h_hainan',name:'博鳌乐城高浪诊所',region:'cn',city:'海南博鳌',brand:'高浪自营',rating:0,soon:true},
+];
+const PROJECTS=[
+  {id:'p_water',name:'水光焕肤疗程',hid:'h_newstar',cat:'皮肤管理',price:0,original:6800,free:true,duration:'60 分钟',recovery:'24 小时',times:'单次',age:'25 岁以上',brand:'Medpcent',
+   doctor:{n:'金泰熙',t:'Newstar 皮肤科 · 院长 · 15 年经验'},
+   products:['Medpcent 透明质酸精华液（KFDA 认证）','Medpcent 胶原蛋白修复面膜','Newstar 专利导入凝胶'],
+   intro:'采用韩国最新一代微针水光注射技术，将 Medpcent 专研玻尿酸精华直接导入真皮层，一次治疗即可深层补水、提亮肤色、细致毛孔。所有操作由持证皮肤科医师完成。',
+   notices:['治疗前 24 小时避免饮酒','术后 6 小时内避免碰水','术后 3 天内避免剧烈运动','到店需签署知情同意书']},
+  {id:'p_photon',name:'胶原蛋白光子嫩肤',hid:'h_newstar',cat:'皮肤管理',price:5200,original:6800,free:false,duration:'45 分钟',recovery:'即时',times:'单次',age:'22 岁以上',brand:'Medpcent',
+   doctor:{n:'金泰熙',t:'Newstar 皮肤科 · 院长'},products:['Medpcent 舒缓修复精华','医用冷敷贴'],
+   intro:'宽光谱强脉冲光作用于真皮层，刺激胶原再生，改善色斑、泛红与整体肤质。',notices:['治疗前两周避免暴晒','术后加强防晒']},
+  {id:'p_prp',name:'PRP 自体血清焕活',hid:'h_newstar',cat:'抗衰老',price:8800,original:11800,free:false,duration:'90 分钟',recovery:'1-2 天',times:'建议 3 次',age:'30 岁以上',brand:'Newstar',
+   doctor:{n:'金泰熙',t:'Newstar 皮肤科 · 院长'},products:['自体血小板血浆','Medpcent 修复面膜'],
+   intro:'提取自体血液离心后的高浓度血小板血浆回输面部，激活自我修复与胶原新生。',notices:['治疗当天清淡饮食','术后避免化妆 24 小时']},
+  {id:'p_pdrn',name:'PDRN 三文鱼针',hid:'h_medclinic',cat:'注射填充',price:12000,original:15000,free:false,duration:'30 分钟',recovery:'1 天',times:'建议 3 次',age:'28 岁以上',brand:'Med',
+   doctor:{n:'朴敏珠',t:'Med 联合诊所 · 主诊医师'},products:['PDRN 多核苷酸注射剂'],
+   intro:'三文鱼 DNA 提取的多核苷酸成分，促进组织修复与细胞再生，改善细纹与肤质。',notices:['孕期及哺乳期禁用','术后避免高温环境']},
+  {id:'p_baby',name:'少女针面部填充',hid:'h_medclinic',cat:'注射填充',price:18000,original:0,free:false,duration:'40 分钟',recovery:'2-3 天',times:'单次',age:'30 岁以上',brand:'Med',
+   doctor:{n:'朴敏珠',t:'Med 联合诊所 · 主诊医师'},products:['聚己内酯（PCL）填充剂'],
+   intro:'胶原蛋白再生型填充，循序渐进改善凹陷与轮廓，自然持久。',notices:['术后一周避免按压注射部位']},
+  {id:'p_stem',name:'干细胞再生抗衰疗程',hid:'h_tokyo',cat:'长寿医学',price:88000,original:0,free:false,duration:'180 分钟',recovery:'3 天',times:'单次',age:'35 岁以上',brand:'高浪自营',
+   doctor:{n:'佐藤健一',t:'东京长寿医学中心 · 主任医师'},products:['自体脂肪间充质干细胞'],
+   intro:'提取自体脂肪干细胞，体外培养扩增后回输，从细胞层面实现整体年轻化与机能修复。',notices:['需提前一周面诊评估','术前需完成血液检查']},
+  {id:'p_nmn',name:'NMN 静脉滴注',hid:'h_tokyo',cat:'长寿医学',price:0,original:6800,free:true,duration:'60 分钟',recovery:'即时',times:'单次',age:'30 岁以上',brand:'高浪自营',
+   doctor:{n:'佐藤健一',t:'东京长寿医学中心 · 主任医师'},products:['医用级 NMN 滴注液','复合维生素'],
+   intro:'通过静脉滴注补充 NMN 前体，提升细胞 NAD+ 水平，改善疲劳与代谢，是入门级长寿医学体验。',notices:['滴注后多饮水','当天避免饮酒']},
+  {id:'p_rf',name:'黄金射频紧致',hid:'h_osaka',cat:'抗衰老',price:9800,original:12800,free:false,duration:'50 分钟',recovery:'即时',times:'建议 3 次',age:'30 岁以上',brand:'合作',
+   doctor:{n:'山本由美',t:'大阪抗衰研究所 · 医师'},products:['微针射频探头','医用修复凝胶'],
+   intro:'微针射频深入真皮层加热，刺激胶原收缩与新生，紧致提升面部轮廓。',notices:['体内有金属植入物者禁用']},
+  {id:'p_hk',name:'全身抗衰健康管理',hid:'h_hk',cat:'长寿医学',price:28000,original:0,free:false,duration:'120 分钟',recovery:'即时',times:'年度方案',age:'35 岁以上',brand:'合作',
+   doctor:{n:'陈志强',t:'中环综合医疗中心 · 抗衰专科'},products:['全身机能检测','个性化营养方案'],
+   intro:'结合精密体检、激素与营养评估，制定个性化抗衰与健康管理方案。',notices:['建议空腹到店']},
+  {id:'p_pluryal',name:'Pluryal 玻尿酸面部填充',hid:'h_lux',cat:'注射填充',price:15000,original:0,free:false,duration:'45 分钟',recovery:'1-2 天',times:'单次',age:'28 岁以上',brand:'Pluryal',
+   doctor:{n:'Dr. Müller',t:'卢森堡 Pluryal 医学中心'},products:['Pluryal 系列玻尿酸'],
+   intro:'欧洲原产 Pluryal 玻尿酸，精准填充塑形，改善法令纹与面部凹陷。',notices:['术后 48 小时避免高温']},
+  {id:'p_ocean',name:'海洋胶原焕肤',hid:'h_macau',cat:'皮肤管理',price:0,original:4200,free:true,duration:'50 分钟',recovery:'即时',times:'单次',age:'22 岁以上',brand:'合作',
+   doctor:{n:'何美玲',t:'澳门国际医美 · 美容医师'},products:['深海胶原导入精华'],
+   intro:'深海胶原蛋白配合超声导入，快速补水修护、提亮肤色。',notices:['敏感肌需提前告知']},
+];
+const CATS=['全部','皮肤管理','抗衰老','长寿医学','注射填充'];
+const CAT_IMG={'皮肤管理':'img-skin','抗衰老':'img-anti-age','长寿医学':'img-clinic','注射填充':'img-inject'};
+const BRANDS=[['MPC','MEDPCENT'],['N★','NEWSTAR'],['PLY','PLURYAL'],['JM','JMOON'],['AP','APOEM'],['+','MORE']];
+
+const STREAMER={
+  name:'Jessy',level:'GOLD PARTNER',code:'JESSY888',
+  month:38400, settled:12800, pending:25600, locked:4200, trend:'+23%',
+  funnel:[['推荐客户',127],['进店预约',58],['确认到店',43],['完成疗程',39],['到店升单',16]],
+  ledger:[
+    {name:'王*婷',proj:'水光焕肤疗程',region:'首尔',date:'06-15',status:'已升单',commission:2500,spend:58000},
+    {name:'李*宁',proj:'干细胞再生抗衰',region:'东京',date:'06-12',status:'已完成',commission:8800,spend:88000},
+    {name:'张*萌',proj:'PDRN 三文鱼针',region:'首尔',date:'06-16',status:'已到店',commission:1200,spend:12000},
+    {name:'陈*琳',proj:'NMN 静脉滴注',region:'东京',date:'06-17',status:'待到店',commission:0,spend:0},
+    {name:'周*怡',proj:'Pluryal 玻尿酸填充',region:'卢森堡',date:'06-10',status:'已结算',commission:1500,spend:15000},
+    {name:'刘*月',proj:'黄金射频紧致',region:'大阪',date:'06-11',status:'已完成',commission:980,spend:9800},
+    {name:'吴*',proj:'胶原蛋白光子嫩肤',region:'首尔',date:'06-14',status:'已升单',commission:1800,spend:23000},
+    {name:'赵*璐',proj:'海洋胶原焕肤',region:'澳门',date:'06-18',status:'待到店',commission:0,spend:0},
+  ],
+};
+const PILL={'待到店':'pill-amber','已到店':'pill-blue','已完成':'pill-green','已升单':'pill-gold','已结算':'pill-muted'};
+
+/* ============================ STATE ============================ */
+const state={
+  role:'customer',
+  streamer:'Jessy',
+  cat:'全部',
+  ledgerFilter:'全部',
+  booking:null,
+  lastBooking:null,
+  myBookings:[
+    {id:'GL2606-882',proj:'胶原蛋白光子嫩肤',hosp:'Newstar 皮肤科医院',region:'首尔江南区',date:'2026 年 6 月 10 日',time:'14:00',status:'已完成',referrer:'Jessy',free:false},
+  ],
+};
+
+/* ============================ HELPERS ============================ */
+const money=n=>'¥'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+const hospital=id=>HOSPITALS.find(h=>h.id===id);
+const project=id=>PROJECTS.find(p=>p.id===id);
+const region=id=>REGIONS.find(r=>r.id===id);
+const projByRegion=rid=>PROJECTS.filter(p=>hospital(p.hid).region===rid);
+const projByHosp=hid=>PROJECTS.filter(p=>p.hid===hid);
+const hospByRegion=rid=>HOSPITALS.filter(h=>h.region===rid);
+const projRegionId=p=>hospital(p.hid).region;
+
+const IC={
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>',
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10 15 15 0 014-10z"/></svg>',
+  grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  board:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>',
+  users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13A4 4 0 0119 7"/></svg>',
+  wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg>',
+};
+const STATUS='<div class="statusbar"><span>9:41</span><div class="si"><span>●●●●○</span><span>5G</span><span>92%</span></div></div>';
+
+function navBar(title,sub,backTo){
+  const back = backTo===false ? '<div style="width:38px"></div>' : `<button class="nav-btn" onclick="back()">←</button>`;
+  return `<div class="navbar">${back}<div><div class="nav-ttl" style="text-align:center">${title}</div>${sub?`<div class="nav-sub">${sub}</div>`:''}</div><div style="width:38px"></div></div>`;
+}
+function tabBar(active){
+  const tabs = state.role==='customer'
+    ? [['home','首页','home'],['regions','地区','globe'],['projects','项目','grid'],['my','我的','user']]
+    : [['dash','工作台','board'],['customers','客户','users'],['earnings','收益','wallet'],['sprofile','我的','user']];
+  return `<div class="tabbar">${tabs.map(([v,l,ic])=>
+    `<button class="tab ${active===v?'on':''}" onclick="switchTab('${v}')">${IC[ic]}<span>${l}</span></button>`).join('')}</div>`;
+}
+function shell(parts,bottom){return STATUS+parts+(bottom||'');}
+
+/* ============================ VIEWS ============================ */
+const VIEWS={};
+
+VIEWS.home=()=>shell(navBarless()+`<div class="scroll">
+  <div class="hero">
+    <div class="bg img-clinic"></div><div class="ov"></div>
+    <div class="ct">
+      <div class="eyebrow">Gaolong Preventive Medicine</div>
+      <h1>全球预防医学<br>触手可及</h1>
+      <p>汇聚日韩港澳与欧洲顶级医疗资源，为你定制专属抗衰方案</p>
+    </div>
+  </div>
+  <div class="sec-h"><div class="sec-t">选择目的地</div><div class="sec-m" onclick="switchTab('regions')">全部地区 →</div></div>
+  <div class="rscroll">${REGIONS.map(r=>{
+    const cnt=projByRegion(r.id).length;
+    const click = r.soon?`onclick="toast('${r.name}项目即将上线')"`:`onclick="navigate('hospitals',{rid:'${r.id}'})"`;
+    return `<div class="rcard" ${click}><div class="bg ${r.img}"></div><div class="ov"></div>
+      ${r.soon?'<span class="soon">即将上线</span>':''}
+      <div class="ct"><div class="fl">${r.flag}</div><div class="nm">${r.name}</div><div class="cn">${r.soon?'敬请期待':cnt+' 个项目'}</div></div></div>`;
+  }).join('')}</div>
+  <div class="sec-h"><div class="sec-t">精选项目</div><div class="sec-m" onclick="switchTab('projects')">查看更多 →</div></div>
+  ${[project('p_water'),project('p_stem')].map(p=>{const h=hospital(p.hid);return `
+    <div class="fcard" onclick="navigate('detail',{id:'${p.id}'})">
+      <div class="img ${CAT_IMG[p.cat]}"></div>
+      <div class="bd"><span class="ftag">${p.brand}</span>
+        <div class="nm">${p.name}</div>
+        <div class="ds">${p.intro.slice(0,46)}…</div>
+        <div class="fmeta"><span>📍 ${h.city}</span><span>⏱ ${p.duration}</span><span>⭐ ${h.rating}</span></div>
+      </div></div>`;}).join('')}
+  <div class="sec-h"><div class="sec-t">合作品牌</div></div>
+  <div class="bgrid">${BRANDS.map(([lo,sub])=>`<div class="bitem" onclick="toast('${sub} 品牌专区')"><div class="blogo" ${lo==='+'?'style=color:var(--text-3)':''}>${lo}</div><div class="bsub">${sub}</div></div>`).join('')}</div>
+  <div style="height:14px"></div>
+</div>`,tabBar('home'));
+function navBarless(){return '';}
+
+VIEWS.regions=()=>shell(navBar('全球医疗网络','GLOBAL NETWORK',false)+`<div class="scroll"><div class="list">
+  ${REGIONS.map(r=>{
+    const cnt=projByRegion(r.id).length;
+    const click = r.soon?`onclick="toast('${r.name}项目即将上线')"`:`onclick="navigate('hospitals',{rid:'${r.id}'})"`;
+    return `<div class="litem" ${click}><div class="lico">${r.flag}</div>
+      <div class="linfo"><div class="lname">${r.name}</div><div class="ldet">${r.cities} · ${r.soon?'即将上线':cnt+' 个项目'}</div></div>
+      <div class="larr">→</div></div>`;
+  }).join('')}
+</div><div style="height:14px"></div></div>`,tabBar('regions'));
+
+VIEWS.hospitals=({rid})=>{
+  const r=region(rid),hs=hospByRegion(rid);
+  return shell(`<div class="scroll">
+    <div class="rband"><div class="bg ${r.img}"></div><div class="ov"></div>
+      <button class="dround dback" onclick="back()">←</button>
+      <div class="ct"><span class="fl">${r.flag}</span><h2>${r.name}</h2><div class="cn">${r.cities} · 共 ${projByRegion(rid).length} 个项目</div></div></div>
+    <div class="sec-h" style="padding-top:14px"><div class="sec-t">合作医疗机构</div></div>
+    <div class="list">${hs.map(h=>`
+      <div class="litem" onclick="navigate('projects',{hid:'${h.id}'})">
+        <div class="lico" style="font-size:15px;font-family:var(--serif);color:var(--accent)">${h.name.slice(0,1)}</div>
+        <div class="linfo"><div class="lname">${h.name}</div><div class="ldet">📍 ${h.city} · ${projByHosp(h.id).length} 个项目</div>
+          <span class="lbrand">${h.brand}</span></div>
+        <div style="text-align:right"><div class="lrate">${h.rating?'★ '+h.rating:'即将'}</div></div>
+      </div>`).join('')}</div>
+    <div style="height:20px"></div>
+  </div>`,tabBar('regions'));
+};
+
+VIEWS.projects=({rid,hid})=>{
+  let list, title, sub;
+  if(hid){const h=hospital(hid);list=projByHosp(hid);title=h.name;sub=h.city;}
+  else if(rid){const r=region(rid);list=projByRegion(rid);title=r.name;sub='全部项目';}
+  else{list=PROJECTS.slice();title='全部项目';sub='ALL TREATMENTS';}
+  if(state.cat!=='全部') list=list.filter(p=>p.cat===state.cat);
+  const cards = list.length?list.map(p=>{const h=hospital(p.hid);return `
+    <div class="pcard" onclick="navigate('detail',{id:'${p.id}'})">
+      <div class="img ${CAT_IMG[p.cat]}">${p.free?'<span class="free-rib">粉丝专属 · 免费</span>':''}</div>
+      <div class="bd"><div class="row">
+        <div class="nm">${p.name}</div>
+        <div class="pr">${p.free?'<span class="freeword">限时免费</span>':money(p.price)}</div></div>
+        <div class="hp">📍 ${h.name} · ${h.city}</div>
+        <div class="ptags"><span class="ptag">${p.brand}</span><span class="ptag">${p.duration}</span><span class="ptag">${p.cat}</span></div>
+      </div></div>`;}).join('') : `<div class="empty">该分类下暂无项目</div>`;
+  return shell(navBar(title,sub)+
+    `<div class="filters">${CATS.map(c=>`<button class="chip ${state.cat===c?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('')}</div>
+     <div class="scroll">${cards}<div style="height:14px"></div></div>`,tabBar('projects'));
+};
+
+VIEWS.detail=({id})=>{
+  const p=project(id),h=hospital(p.hid);
+  const priceBlock = p.free
+    ? `<div class="big free">限时免费</div><div class="ori">原价 ${money(p.original)}</div><div class="note">粉丝专属</div>`
+    : `<div class="big">${money(p.price)}</div>${p.original?`<div class="ori">原价 ${money(p.original)}</div>`:''}`;
+  return `<div class="scroll" style="padding-bottom:0">
+    <div class="dhero"><div class="img ${CAT_IMG[p.cat]}"></div>
+      <button class="dround dback" onclick="back()">←</button>
+      <div class="dround dfav" onclick="toast('已收藏到「我的」')">♡</div></div>
+    <div class="dcontent">
+      <div class="dbadge">✦ ${p.brand.toUpperCase()}</div>
+      <div class="dtitle">${p.name}</div>
+      <div class="dhosp">📍 ${h.name} · ${h.city}</div>
+      <div class="dprice">${priceBlock}</div>
+      ${p.free?`<div class="fnote" style="margin-bottom:24px"><span class="i">✦</span><span>本项目由平台承担成本，作为粉丝专属引流体验。到院后可由医师评估，自愿升级为正式疗程方案。</span></div>`:''}
+      <div class="dsec"><div class="dsec-t">项目介绍</div><p>${p.intro}</p></div>
+      <div class="dsec"><div class="dsec-t">疗程信息</div><div class="dgrid">
+        <div class="dgi"><div class="l">时长</div><div class="v">${p.duration}</div></div>
+        <div class="dgi"><div class="l">恢复期</div><div class="v">${p.recovery}</div></div>
+        <div class="dgi"><div class="l">疗程次数</div><div class="v">${p.times}</div></div>
+        <div class="dgi"><div class="l">适用人群</div><div class="v">${p.age}</div></div></div></div>
+      <div class="dsec"><div class="dsec-t">主治医师</div><div class="ddoc"><div class="av">${p.doctor.n.slice(0,1)}</div>
+        <div><div class="n">${p.doctor.n} 医师</div><div class="t">${p.doctor.t}</div></div></div></div>
+      <div class="dsec"><div class="dsec-t">使用产品</div><ul class="dlist">${p.products.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <div class="dsec"><div class="dsec-t">注意事项</div><ul class="dlist">${p.notices.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    </div></div>
+    <div class="actionbar">
+      <div class="ab-price"><div class="l">${p.free?'粉丝专属价':'参考价'}</div><div class="v">${p.free?'免费体验':money(p.price)}</div></div>
+      <button class="btn btn-line" onclick="consult('${p.name}')">咨询</button>
+      <button class="btn btn-fill" onclick="startBooking('${p.id}')">立即预约</button>
+    </div>`;
+};
+
+VIEWS.booking=()=>{
+  const b=state.booking,p=project(b.projectId),h=hospital(p.hid);
+  const stepBar=`<div class="steps">
+    ${stepNode(1,'选择时间',b.step)}<div class="sline"></div>${stepNode(2,'个人信息',b.step)}<div class="sline"></div>${stepNode(3,'确认预约',b.step)}
+  </div>`;
+  let body='',bar='';
+  if(b.step===1){
+    body=`<div class="bform">
+      <div class="fg"><label class="flabel">选择日期</label>
+        <div class="calhead"><span class="mo">2026 年 7 月</span><span class="nav">‹  ›</span></div>
+        <div class="cal">${['日','一','二','三','四','五','六'].map(d=>`<div class="cw">${d}</div>`).join('')}
+          ${calCells(b)}</div></div>
+      <div class="fg"><label class="flabel">选择时段</label><div class="times">
+        ${['09:00','10:00','11:00','14:00','15:00','16:00'].map(t=>{
+          const dis=t==='16:00';return `<div class="ts ${dis?'dis':''} ${b.time===t?'sel':''}" ${dis?'':`onclick="pickTime('${t}')"`}>${t}${dis?' 满':''}</div>`;}).join('')}
+      </div></div>
+      <div class="fnote"><span class="i">ℹ</span><span>实际到店时间以专属顾问最终确认为准，预约成功后可免费改期一次。</span></div>
+    </div>`;
+    bar=`<div class="actionbar"><div class="ab-price"><div class="l">${p.name}</div><div class="v">${p.free?'免费体验':money(p.price)}</div></div>
+      <button class="btn btn-fill wide" onclick="bookingNext()">下一步</button></div>`;
+  } else if(b.step===2){
+    body=`<div class="bform">
+      <div class="fg"><label class="flabel">姓名</label>
+        <input class="finput ${b.errors.name?'err':''}" placeholder="请输入真实姓名（与护照一致）" value="${b.name}" oninput="setField('name',this.value)">
+        ${b.errors.name?`<div class="ferr">${b.errors.name}</div>`:''}</div>
+      <div class="fg"><label class="flabel">手机号</label>
+        <input class="finput ${b.errors.phone?'err':''}" type="tel" inputmode="numeric" placeholder="用于顾问联系，11 位手机号" value="${b.phone}" oninput="setField('phone',this.value)">
+        ${b.errors.phone?`<div class="ferr">${b.errors.phone}</div>`:''}</div>
+      <div class="fg"><label class="flabel">护照号（选填）</label>
+        <input class="finput" placeholder="出境就医可提前协助办理" value="${b.passport}" oninput="setField('passport',this.value)"></div>
+      <div class="fg"><label class="flabel">推荐主播</label>
+        <select class="finput fselect" onchange="setField('referrer',this.value)">
+          ${['Jessy','妮米','其他主播','无'].map(s=>`<option ${b.referrer===s?'selected':''}>${s}</option>`).join('')}</select></div>
+      <div class="fnote"><span class="i">🔒</span><span>你的信息仅用于本次预约与行程协助，受加密保护，不会用于其他用途。</span></div>
+    </div>`;
+    bar=`<div class="actionbar"><button class="btn btn-line" onclick="bookingGo(1)">上一步</button>
+      <button class="btn btn-fill wide" onclick="bookingNext()">下一步</button></div>`;
+  } else {
+    body=`<div class="bform"><div class="rev"><div class="rev-h">BOOKING REVIEW</div><div class="rev-b">
+      <div class="rrow"><span class="l">项目</span><span class="v">${p.name}</span></div>
+      <div class="rrow"><span class="l">医院</span><span class="v">${h.name}</span></div>
+      <div class="rrow"><span class="l">地点</span><span class="v">${h.city}</span></div>
+      <div class="rdiv"></div>
+      <div class="rrow"><span class="l">日期</span><span class="v">2026 年 7 月 ${b.date} 日</span></div>
+      <div class="rrow"><span class="l">时段</span><span class="v">${b.time}</span></div>
+      <div class="rdiv"></div>
+      <div class="rrow"><span class="l">姓名</span><span class="v">${b.name}</span></div>
+      <div class="rrow"><span class="l">手机号</span><span class="v">${b.phone}</span></div>
+      <div class="rrow"><span class="l">推荐主播</span><span class="v">${b.referrer}</span></div>
+      <div class="rdiv"></div>
+      <div class="rrow"><span class="l">费用</span><span class="v" style="color:${p.free?'var(--green)':'var(--accent)'}">${p.free?'粉丝专属 · 免费':money(p.price)}</span></div>
+    </div></div>
+    <div class="fnote"><span class="i">ℹ</span><span>提交后专属顾问将在 24 小时内与你联系，确认行程并协助签证、机票、酒店安排。</span></div></div>`;
+    bar=`<div class="actionbar"><button class="btn btn-line" onclick="bookingGo(2)">上一步</button>
+      <button class="btn btn-fill wide" onclick="submitBooking()">确认预约</button></div>`;
+  }
+  return STATUS+navBar('预约','BOOKING')+stepBar+`<div class="scroll">${body}</div>`+bar;
+};
+function stepNode(n,label,cur){const cls=cur>n?'done':cur===n?'on':'';return `<div class="step ${cls}"><div class="snum">${cur>n?'✓':n}</div><span>${label}</span></div>`;}
+function calCells(b){
+  let html='';
+  for(let i=0;i<3;i++) html+='<div class="cd dis"></div>';   // 7月1日落在周三
+  const full=[12,20,26];
+  for(let d=1;d<=31;d++){
+    if(d<=4){html+=`<div class="cd dis">${d}</div>`;continue;}
+    if(full.includes(d)){html+=`<div class="cd full">${d}</div>`;continue;}
+    html+=`<div class="cd ${b.date===d?'sel':''}" onclick="pickDate(${d})">${d}</div>`;
+  }
+  return html;
+}
+
+VIEWS.confirm=()=>{
+  const r=state.lastBooking;
+  return STATUS+`<div class="scroll">
+    <div class="csuccess"><div class="ccheck">✓</div><h2>预约提交成功</h2>
+      <p>专属顾问将在 24 小时内联系你<br>确认预约详情并协助行程安排</p></div>
+    <div class="rev" style="margin:8px 24px 0"><div class="rev-h">BOOKING DETAILS</div><div class="rev-b">
+      <div class="rrow"><span class="l">预约编号</span><span class="v">${r.id}</span></div>
+      <div class="rrow"><span class="l">项目</span><span class="v">${r.proj}</span></div>
+      <div class="rrow"><span class="l">医院</span><span class="v">${r.hosp}</span></div>
+      <div class="rdiv"></div>
+      <div class="rrow"><span class="l">日期</span><span class="v">${r.date}</span></div>
+      <div class="rrow"><span class="l">时段</span><span class="v">${r.time}</span></div>
+      <div class="rrow"><span class="l">地点</span><span class="v">${r.region}</span></div>
+      <div class="rdiv"></div>
+      <div class="rrow"><span class="l">费用</span><span class="v" style="color:${r.free?'var(--green)':'var(--accent)'}">${r.free?'粉丝专属 · 免费':'到店结算'}</span></div>
+      <div class="rrow"><span class="l">推荐主播</span><span class="v">${r.referrer}</span></div>
+    </div></div>
+    <div class="cqr"><div class="cqr-box"><span style="font-size:30px">⊞</span><span>扫码添加顾问</span></div>
+      <p>添加专属顾问微信，获取出行攻略与术后跟踪</p></div>
+    <div style="padding:0 24px;display:flex;gap:11px">
+      <button class="btn btn-line wide" onclick="goRoot('home')">返回首页</button>
+      <button class="btn btn-fill wide" onclick="goRoot('my')">我的预约</button></div>
+    <div style="height:24px"></div>
+  </div>`;
+};
+
+VIEWS.my=()=>shell(navBar('我的','MY ACCOUNT',false)+`<div class="scroll">
+  <div class="sphead" style="padding-top:6px">
+    <div class="savatar" style="background:var(--accent-2)">客</div>
+    <h2>体验官 · 138****8991</h2>
+    <div class="slevel" style="color:var(--accent);border-color:var(--accent-2)">推荐人 ${state.streamer}</div>
+  </div>
+  <div class="card-h" style="padding:6px 24px 4px"><div class="t" style="font-size:18px">我的预约</div></div>
+  ${state.myBookings.map(r=>`
+    <div class="mb"><div class="mb-top"><span class="mb-code">${r.id}</span><span class="pill ${PILL[r.status]||'pill-amber'}">${r.status}</span></div>
+      <div class="mb-bd"><div class="mb-n">${r.proj}</div>
+        <div class="mb-i">📍 ${r.hosp} · ${r.region}<br>🗓 ${r.date} ${r.time} · ${r.free?'<span style="color:var(--green)">粉丝免费</span>':'到店结算'}</div></div></div>`).join('')}
+  <div class="menu" style="margin-top:8px">
+    ${[['📋','咨询记录'],['❤','我的收藏'],['🎫','优惠与权益'],['⚙','设置']].map(([i,t])=>
+      `<div class="mitem" onclick="toast('${t}')"><div class="mleft"><div class="mico">${i}</div><span>${t}</span></div><span class="mright">→</span></div>`).join('')}
+  </div><div style="height:14px"></div>
+</div>`,tabBar('my'));
+
+/* ---------- streamer ---------- */
+VIEWS.dash=()=>{
+  const s=STREAMER, max=s.funnel[0][1];
+  return shell(`<div class="scroll">
+    <div class="sphead"><div class="savatar">J</div><h2>${s.name}</h2><div class="slevel">✦ ${s.level}</div></div>
+    <div class="stats">
+      <div class="stat"><div class="v">${s.funnel[0][1]}</div><div class="l">累计推荐</div></div>
+      <div class="stat"><div class="v">${s.funnel[3][1]}</div><div class="l">完成疗程</div></div>
+      <div class="stat"><div class="v">${s.funnel[4][1]}</div><div class="l">到店升单</div></div>
+    </div>
+    <div class="earn"><div class="lab">本月收益（元）</div><div class="big">${money(s.month)}</div><div class="sub">较上月 ${s.trend}</div>
+      <div class="grid">
+        <div class="gi"><div class="v">${money(s.settled)}</div><div class="l">已结算</div></div>
+        <div class="gi"><div class="v">${money(s.pending)}</div><div class="l">待结算</div></div>
+        <div class="gi"><div class="v">${money(s.locked)}</div><div class="l">锁定中</div></div>
+      </div></div>
+    <div class="card-w"><div class="card-h"><div class="t">转化漏斗</div><div class="m">本月</div></div>
+      <div class="funnel">${s.funnel.map(([label,n])=>`
+        <div class="frow"><div class="top"><span class="s">${label}</span><span class="n">${n}</span></div>
+          <div class="fbar"><i style="width:${Math.max(8,n/max*100)}%"></i></div></div>`).join('')}</div></div>
+    <div class="linkbox"><div class="l">我的专属推广链接</div>
+      <div class="row"><span class="url">gaolong.med/r/${s.code}</span><button class="cp" onclick="copyLink()">复制</button></div>
+      <button class="preview" onclick="previewAsFan()">预览粉丝看到的预约页 →</button></div>
+    <div class="card-w"><div class="card-h"><div class="t">最近成交</div><div class="m" onclick="switchTab('customers')">查看全部</div></div>
+      <div class="ledger">${s.ledger.slice(0,3).map(lgRow).join('')}</div></div>
+    <div style="height:18px"></div>
+  </div>`,tabBar('dash'));
+};
+function lgRow(e){
+  const pend=e.commission===0;
+  return `<div class="lg" onclick="ledgerDetail('${e.name}')">
+    <div class="lg-av">${e.name.slice(0,1)}</div>
+    <div class="lg-mid"><div class="lg-n">${e.name}</div><div class="lg-d">${e.proj} · ${e.region} · ${e.date}</div></div>
+    <div class="lg-r"><div class="lg-c ${pend?'pending':''}">${pend?'待计':'+'+money(e.commission)}</div><span class="pill ${PILL[e.status]}">${e.status}</span></div>
+  </div>`;
+}
+VIEWS.customers=()=>{
+  const filters=['全部','待到店','已到店','已完成','已升单','已结算'];
+  let list=STREAMER.ledger.slice();
+  if(state.ledgerFilter!=='全部') list=list.filter(e=>e.status===state.ledgerFilter);
+  return shell(navBar('客户台账','CUSTOMER LEDGER',false)+
+    `<div class="filters">${filters.map(f=>`<button class="chip ${state.ledgerFilter===f?'on':''}" onclick="setLedger('${f}')">${f}</button>`).join('')}</div>
+     <div class="scroll"><div class="card-w" style="margin-top:2px"><div class="ledger">
+       ${list.length?list.map(lgRow).join(''):'<div class="empty">该状态下暂无客户</div>'}
+     </div></div><div style="height:14px"></div></div>`,tabBar('customers'));
+};
+VIEWS.earnings=()=>{
+  const s=STREAMER;
+  const settled=s.ledger.filter(e=>e.status==='已结算'||e.status==='已完成'||e.status==='已升单');
+  return shell(navBar('收益明细','EARNINGS',false)+`<div class="scroll">
+    <div class="earn" style="margin-top:6px"><div class="lab">可提现余额（元）</div><div class="big">${money(s.settled)}</div>
+      <div class="sub">待结算 ${money(s.pending)} · 锁定中 ${money(s.locked)}</div>
+      <button class="btn wide" style="margin-top:18px;background:rgba(255,255,255,.14);color:#fff;padding:13px" onclick="toast('提现申请已提交，预计 1-2 个工作日到账')">申请提现</button></div>
+    <div class="card-w"><div class="card-h"><div class="t">分成规则</div></div><div class="rule">
+      <div class="rrule"><div class="ic">🎁</div><div class="tx"><div class="t">免费引流项目</div><div class="d">平台承担成本，主播 0 成本获客，引流即记一笔推荐。</div></div></div>
+      <div class="rrule"><div class="ic">📈</div><div class="tx"><div class="t">到店升单分成</div><div class="d">按客户实际消费分成：自营医院 15%，联营医院按格局返点 8-12%。</div></div></div>
+      <div class="rrule"><div class="ic">⏱</div><div class="tx"><div class="t">结算周期</div><div class="d">客户完成疗程后 T+7 自动入账，可随时提现。</div></div></div>
+    </div></div>
+    <div class="card-w"><div class="card-h"><div class="t">收益流水</div></div><div class="ledger">
+      ${settled.map(e=>`<div class="lg"><div class="lg-av">${e.name.slice(0,1)}</div>
+        <div class="lg-mid"><div class="lg-n">${e.name} · ${e.proj}</div><div class="lg-d">消费 ${money(e.spend)} · ${e.date}</div></div>
+        <div class="lg-r"><div class="lg-c">+${money(e.commission)}</div><span class="pill ${PILL[e.status]}">${e.status}</span></div></div>`).join('')}
+    </div></div><div style="height:18px"></div>
+  </div>`,tabBar('earnings'));
+};
+VIEWS.sprofile=()=>{
+  const s=STREAMER;
+  return shell(navBar('我的','MY PROFILE',false)+`<div class="scroll">
+    <div class="sphead"><div class="savatar">J</div><h2>${s.name}</h2><div class="slevel">✦ ${s.level}</div></div>
+    <div class="linkbox"><div class="l">我的专属推广链接</div>
+      <div class="row"><span class="url">gaolong.med/r/${s.code}</span><button class="cp" onclick="copyLink()">复制</button></div>
+      <button class="preview" onclick="previewAsFan()">预览粉丝看到的预约页 →</button></div>
+    <div class="menu">
+      ${[['🏅','等级与权益','GOLD'],['📊','数据看板',''],['🎨','推广素材库',''],['🏦','结算账户','已绑定'],['📞','专属对接人',''],['⚙','设置','']].map(([i,t,r])=>
+        `<div class="mitem" onclick="toast('${t}')"><div class="mleft"><div class="mico">${i}</div><span>${t}</span></div><span class="mright">${r||'→'}</span></div>`).join('')}
+    </div><div style="height:18px"></div>
+  </div>`,tabBar('sprofile'));
+};
+
+/* ============================ NAV ENGINE ============================ */
+const screenEl=document.getElementById('screen');
+let stack=[{view:'home',params:{}}];
+
+function paint(dir){
+  const top=stack[stack.length-1];
+  const v=document.createElement('div');
+  v.className='view '+(dir==='back'?'from-left':dir==='fade'?'fade':'from-right');
+  v.innerHTML=VIEWS[top.view](top.params);
+  const old=screenEl.querySelector('.view');
+  screenEl.appendChild(v);
+  void v.offsetWidth;
+  v.classList.remove('from-left','from-right','fade');
+  if(old){
+    old.classList.add(dir==='back'?'to-right':dir==='fade'?'fade':'to-left');
+    const o=old;
+    o.addEventListener('transitionend',()=>o.remove(),{once:true});
+    setTimeout(()=>{if(o.parentElement)o.remove();},600);
+  }
+}
+function refresh(){
+  const top=stack[stack.length-1];
+  const v=screenEl.querySelector('.view:last-child');
+  if(!v)return;
+  const sc=v.querySelector('.scroll');
+  const pos=sc?sc.scrollTop:0;
+  v.innerHTML=VIEWS[top.view](top.params);
+  const ns=v.querySelector('.scroll');
+  if(ns)ns.scrollTop=pos;
+}
+function navigate(view,params){stack.push({view,params:params||{}});paint('forward');}
+function back(){if(stack.length>1){stack.pop();paint('back');}}
+function switchTab(view){stack=[{view,params:{}}];paint('fade');}
+function goRoot(view){stack=[{view,params:{}}];paint('fade');}
+
+/* ============================ ACTIONS ============================ */
+function setCat(c){state.cat=c;refresh();}
+function setLedger(f){state.ledgerFilter=f;refresh();}
+function pickDate(d){state.booking.date=d;refresh();}
+function pickTime(t){state.booking.time=t;refresh();}
+function setField(k,v){state.booking[k]=v;}
+
+function startBooking(pid){
+  state.booking={projectId:pid,step:1,date:8,time:'11:00',name:'',phone:'',passport:'',referrer:state.streamer==='Jessy'?'Jessy':'妮米',errors:{}};
+  navigate('booking',{});
+}
+function bookingGo(step){state.booking.step=step;state.booking.errors={};refresh();}
+function bookingNext(){
+  const b=state.booking;
+  if(b.step===1){
+    if(!b.date||!b.time){toast('请先选择日期和时段');return;}
+    b.step=2;b.errors={};refresh();
+  } else if(b.step===2){
+    const e={};
+    if(!b.name.trim()) e.name='请填写姓名';
+    if(!/^\d{8,}$/.test(b.phone.replace(/\D/g,''))) e.phone='请填写有效手机号';
+    b.errors=e;
+    if(Object.keys(e).length){refresh();return;}
+    b.step=3;refresh();
+  }
+}
+function submitBooking(){
+  const b=state.booking,p=project(b.projectId),h=hospital(p.hid);
+  const code='GL2607-'+(900+state.myBookings.length);
+  const rec={id:code,projId:p.id,proj:p.name,hosp:h.name,region:h.city,
+    date:`2026 年 7 月 ${b.date} 日`,time:b.time,status:'待到店',referrer:b.referrer,free:p.free};
+  state.myBookings.unshift(rec);
+  state.lastBooking=rec;
+  navigate('confirm',{});
+}
+function consult(name){
+  document.getElementById('m-title').textContent='在线咨询';
+  document.getElementById('m-text').textContent=`我们的专属医美顾问将为你解答关于「${name}」的所有问题，包括适用肤质、术后护理与行程安排。`;
+  document.getElementById('modal').classList.add('show');
+}
+function ledgerDetail(name){toast(`${name} · 查看客户跟进详情`);}
+function copyLink(){toast('专属链接已复制：gaolong.med/r/'+STREAMER.code);}
+function previewAsFan(){
+  toast('已切换至粉丝视角预览');
+  state.role='customer';state.streamer='Jessy';syncSeg();
+  stack=[{view:'home',params:{}}];paint('fade');
+}
+
+/* ============================ DEMO CTRL ============================ */
+function switchRole(role){
+  state.role=role;syncSeg();
+  stack=[{view:role==='customer'?'home':'dash',params:{}}];
+  paint('fade');
+}
+function syncSeg(){
+  document.getElementById('seg-customer').classList.toggle('on',state.role==='customer');
+  document.getElementById('seg-streamer').classList.toggle('on',state.role==='streamer');
+}
+function resetDemo(){
+  state.cat='全部';state.ledgerFilter='全部';state.booking=null;
+  switchRole(state.role);
+}
+
+/* ============================ MODAL / TOAST ============================ */
+function hideModal(){document.getElementById('modal').classList.remove('show');}
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1900);
+}
+
+/* ============================ INIT ============================ */
+paint('fade');
+</script>
+</body>
+</html>
