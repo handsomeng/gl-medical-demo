@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GAOLONG MEDICAL · 高浪预防医学</title>
+<title>GOLONG MEDICAL · 高浪预防医学</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
 
@@ -20,10 +20,11 @@
     --sans:-apple-system,'SF Pro Text','Helvetica Neue',sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:var(--sans);background:#E9E4DD;color:var(--text);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:36px 0;}
+  body{font-family:var(--sans);background:#E9E4DD;color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;padding:36px 0;}
+  .desktop{width:min(1180px,calc(100vw - 48px));margin:0 auto;display:grid;grid-template-columns:390px minmax(360px,1fr);gap:44px;align-items:start;}
 
   /* ---------- phone shell ---------- */
-  .phone{width:390px;height:844px;background:var(--bg);border-radius:46px;box-shadow:0 0 0 12px #1b1b1b,0 0 0 14px #3a3a3a,0 40px 90px rgba(0,0,0,.34);overflow:hidden;position:relative;}
+  .phone{width:390px;height:844px;background:var(--bg);border-radius:46px;box-shadow:0 0 0 12px #1b1b1b,0 0 0 14px #3a3a3a,0 40px 90px rgba(0,0,0,.34);overflow:hidden;position:relative;transform:translateZ(0);}
   .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:124px;height:33px;background:#1b1b1b;border-radius:0 0 20px 20px;z-index:1500;}
   .home-bar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;background:rgba(20,20,20,.75);border-radius:3px;z-index:1500;pointer-events:none;}
   #screen{position:absolute;inset:0;overflow:hidden;}
@@ -56,7 +57,7 @@
   /* ---------- bottom action bar ---------- */
   .actionbar{flex:none;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border-2);padding:13px 22px 28px;display:flex;align-items:center;gap:11px;}
   .ab-price{flex:1;}
-  .ab-price .l{font-size:10px;color:var(--text-3);letter-spacing:1px;}
+  .ab-price .l{font-size:10px;color:var(--text-3);letter-spacing:.4px;line-height:1.35;max-width:150px;}
   .ab-price .v{font-family:var(--serif);font-size:22px;color:var(--accent);line-height:1.1;}
   .btn{border:none;cursor:pointer;border-radius:2px;letter-spacing:1px;font-family:var(--sans);transition:.18s;}
   .btn-line{padding:13px 18px;font-size:13px;border:1px solid var(--text);background:transparent;color:var(--text);}
@@ -104,7 +105,16 @@
   .bitem{aspect-ratio:1.15;background:var(--bg-card);border:1px solid var(--border-2);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:.2s;}
   .bitem:active{border-color:var(--accent-2);box-shadow:var(--shadow-2);}
   .blogo{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:2px;}
+  .blogo-ph{width:34px;height:34px;border-radius:6px;background:#E4E0D9;color:var(--text-3);display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:1px;font-weight:600;}
   .bsub{font-size:9px;color:var(--text-3);letter-spacing:1.5px;}
+
+  .hgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:0 24px 8px;}
+  .hgcard{background:var(--bg-card);border-radius:5px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .3s,transform .18s;}
+  .hgcard:active{box-shadow:var(--shadow-2);transform:translateY(-1px);}
+  .hgcard .img{width:100%;height:96px;}
+  .hgcard .bd{padding:12px 13px 14px;}
+  .hgcard .nm{font-family:var(--serif);font-size:14px;font-weight:500;line-height:1.3;margin-bottom:4px;}
+  .hgcard .rg{font-size:11px;color:var(--text-2);display:flex;align-items:center;gap:4px;}
 
   /* ---------- region / hospital list ---------- */
   .rband{height:150px;position:relative;margin-bottom:6px;}
@@ -150,7 +160,7 @@
   /* ---------- detail ---------- */
   .dhero{height:296px;position:relative;flex:none;}
   .dhero .img{width:100%;height:100%;}
-  .dround{position:absolute;top:50px;width:38px;height:38px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:none;z-index:5;}
+  .dround{position:fixed;top:50px;width:38px;height:38px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:none;z-index:1200;}
   .dback{left:16px;}.dfav{right:16px;font-size:16px;}
   .dcontent{padding:24px;}
   .dbadge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#f5f0e8,#ebe3d5);padding:6px 13px;border-radius:2px;font-size:11px;color:var(--accent);letter-spacing:1.5px;margin-bottom:15px;}
@@ -163,11 +173,11 @@
   .dprice .note{font-size:11px;color:var(--green);background:var(--green-soft);padding:3px 10px;border-radius:2px;}
   .dsec{margin-bottom:24px;}
   .dsec-t{font-family:var(--serif);font-size:16px;font-weight:600;letter-spacing:.5px;margin-bottom:11px;}
-  .dsec p{font-size:13px;color:var(--text-2);line-height:1.85;}
+  .dsec p{font-size:13px;color:var(--text-2);line-height:1.85;white-space:pre-line;}
   .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
   .dgi{background:var(--bg);border:1px solid var(--border-2);padding:13px;border-radius:4px;}
   .dgi .l{font-size:10px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-  .dgi .v{font-family:var(--serif);font-size:15px;font-weight:500;}
+  .dgi .v{font-family:var(--serif);font-size:15px;font-weight:500;line-height:1.42;overflow-wrap:anywhere;}
   .ddoc{display:flex;align-items:center;gap:14px;padding:15px;background:var(--bg);border-radius:4px;}
   .ddoc .av{width:48px;height:48px;border-radius:50%;background:var(--accent-2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;color:#fff;flex:none;}
   .ddoc .n{font-family:var(--serif);font-size:15px;font-weight:500;margin-bottom:3px;}
@@ -227,68 +237,20 @@
   .cqr-box{width:130px;height:130px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;margin:0 auto 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:12px;color:var(--text-3);}
   .cqr p{font-size:12px;color:var(--text-2);}
 
-  /* ---------- streamer ---------- */
+  /* ---------- account ---------- */
   .sphead{text-align:center;padding:18px 24px 26px;background:linear-gradient(to bottom,#efe9e0,var(--bg));}
   .savatar{width:70px;height:70px;border-radius:50%;background:var(--accent);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:27px;color:#fff;}
   .sphead h2{font-family:var(--serif);font-size:23px;margin-bottom:5px;}
   .slevel{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--gold);letter-spacing:2px;border:1px solid var(--gold);padding:3px 12px;border-radius:20px;}
-  .stats{display:flex;justify-content:space-around;margin:0 24px 18px;padding:20px 0;background:var(--bg-card);border-radius:6px;box-shadow:var(--shadow);}
-  .stat{text-align:center;}
-  .stat .v{font-family:var(--serif);font-size:24px;color:var(--accent);margin-bottom:3px;}
-  .stat .l{font-size:10px;color:var(--text-3);letter-spacing:1px;}
-  .earn{margin:0 24px 18px;padding:22px;background:linear-gradient(140deg,#2c2520,#3f352b);border-radius:6px;color:#fff;}
-  .earn .lab{font-size:11px;letter-spacing:2px;opacity:.55;margin-bottom:8px;}
-  .earn .big{font-family:var(--serif);font-size:34px;font-weight:300;}
-  .earn .sub{font-size:12px;opacity:.5;margin-top:3px;}
-  .earn .grid{display:flex;justify-content:space-between;margin-top:20px;padding-top:17px;border-top:1px solid rgba(255,255,255,.12);}
-  .earn .gi{text-align:center;flex:1;}
-  .earn .gi .v{font-family:var(--serif);font-size:18px;margin-bottom:3px;}
-  .earn .gi .l{font-size:10px;opacity:.5;letter-spacing:1px;}
-  .card-w{margin:0 24px 18px;background:var(--bg-card);border-radius:6px;box-shadow:var(--shadow);overflow:hidden;}
   .card-h{padding:16px 18px 6px;display:flex;justify-content:space-between;align-items:baseline;}
   .card-h .t{font-family:var(--serif);font-size:17px;font-weight:600;}
   .card-h .m{font-size:12px;color:var(--accent);cursor:pointer;}
-
-  .funnel{padding:8px 18px 18px;}
-  .frow{margin-bottom:13px;}
-  .frow:last-child{margin-bottom:4px;}
-  .frow .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;}
-  .frow .top .s{color:var(--text-2);}
-  .frow .top .n{font-family:var(--serif);font-size:14px;color:var(--text);}
-  .fbar{height:7px;background:var(--border-2);border-radius:4px;overflow:hidden;}
-  .fbar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent-2),var(--accent));}
-
-  .ledger{padding:4px 18px 10px;}
-  .lg{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border-2);cursor:pointer;}
-  .lg:last-child{border-bottom:none;}
-  .lg:active{opacity:.6;}
-  .lg-av{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--accent);flex:none;}
-  .lg-mid{flex:1;min-width:0;}
-  .lg-n{font-size:14px;font-weight:500;margin-bottom:3px;}
-  .lg-d{font-size:11px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .lg-r{text-align:right;flex:none;}
-  .lg-c{font-family:var(--serif);font-size:15px;color:var(--accent);margin-bottom:4px;}
-  .lg-c.pending{color:var(--text-3);}
   .pill{font-size:10px;padding:2px 9px;border-radius:20px;letter-spacing:.5px;white-space:nowrap;}
   .pill-amber{background:#f7efe1;color:var(--amber);}
   .pill-blue{background:#eaf0f5;color:var(--blue);}
   .pill-green{background:var(--green-soft);color:var(--green);}
   .pill-gold{background:#f6eed8;color:var(--gold);}
   .pill-muted{background:var(--border-2);color:var(--text-3);}
-
-  .rule{padding:6px 18px 18px;}
-  .rrule{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--border-2);}
-  .rrule:last-child{border-bottom:none;}
-  .rrule .ic{width:30px;height:30px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;}
-  .rrule .tx .t{font-size:13px;font-weight:500;margin-bottom:2px;}
-  .rrule .tx .d{font-size:12px;color:var(--text-2);line-height:1.5;}
-
-  .linkbox{margin:0 24px 18px;padding:16px 18px;background:var(--bg-card);border:1px dashed var(--accent-2);border-radius:6px;}
-  .linkbox .l{font-size:11px;letter-spacing:1px;color:var(--text-3);margin-bottom:7px;}
-  .linkbox .row{display:flex;align-items:center;gap:10px;}
-  .linkbox .url{flex:1;font-size:13px;color:var(--accent);font-family:var(--serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .linkbox .cp{font-size:12px;color:#fff;background:var(--accent);border:none;padding:7px 14px;border-radius:2px;cursor:pointer;letter-spacing:1px;}
-  .linkbox .preview{margin-top:11px;width:100%;padding:11px;font-size:12px;background:transparent;border:1px solid var(--border);border-radius:2px;color:var(--text-2);cursor:pointer;letter-spacing:1px;}
 
   .menu{padding:6px 24px;}
   .mitem{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--border-2);cursor:pointer;font-size:14px;}
@@ -304,6 +266,7 @@
   .mb-bd{padding:14px 16px;}
   .mb-n{font-family:var(--serif);font-size:17px;font-weight:500;margin-bottom:5px;}
   .mb-i{font-size:12px;color:var(--text-2);line-height:1.7;}
+  .empty-card{margin:0 24px 14px;padding:22px 18px;background:var(--bg-card);border:1px solid var(--border-2);border-radius:6px;text-align:center;color:var(--text-3);font-size:13px;}
 
   /* ---------- toast / modal ---------- */
   .toast{position:absolute;top:78px;left:50%;transform:translateX(-50%) translateY(-16px);background:rgba(26,26,26,.92);color:#fff;padding:11px 22px;border-radius:9px;font-size:13px;opacity:0;transition:.3s;z-index:2000;white-space:nowrap;pointer-events:none;}
@@ -316,142 +279,469 @@
   .sheet h3{font-family:var(--serif);font-size:20px;text-align:center;margin-bottom:13px;}
   .sheet p{font-size:13px;color:var(--text-2);line-height:1.7;text-align:center;margin-bottom:22px;}
 
-  /* ---------- demo control ---------- */
-  .demo{margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px;}
-  .demo .lab{font-size:11px;letter-spacing:3px;color:#9a9088;}
-  .demo .seg{display:flex;background:#fff;border-radius:30px;padding:4px;box-shadow:0 4px 18px rgba(60,50,40,.12);}
-  .demo .seg button{border:none;background:none;padding:9px 20px;font-size:13px;color:#8a8079;cursor:pointer;border-radius:24px;transition:.2s;letter-spacing:.5px;}
-  .demo .seg button.on{background:#2c2520;color:#fff;}
-  .demo .reset{font-size:12px;color:#9a9088;background:none;border:none;cursor:pointer;letter-spacing:1px;text-decoration:underline;text-underline-offset:3px;}
+  @media (max-width:980px){
+    body{padding:24px 0;}
+    .desktop{width:min(430px,calc(100vw - 24px));display:block;}
+    .phone{margin:0 auto;}
+  }
+
+  /* ---------- real mobile viewport: drop the phone-mockup chrome, fill the screen ---------- */
+  @media (max-width:480px){
+    body{padding:0;background:var(--bg);}
+    .desktop{width:100%;display:block;}
+    .phone{width:100vw;height:100dvh;margin:0;border-radius:0;box-shadow:none;transform:none;}
+    .notch,.home-bar,.statusbar{display:none;}
+  }
 
   /* ---------- image gradients ---------- */
-  .img-japan{background:linear-gradient(135deg,#e8d5c4,#f2e8db 50%,#d4bfa8);}
-  .img-korea{background:linear-gradient(135deg,#c8d4e0,#dde5ed 50%,#b8c8d8);}
-  .img-hk{background:linear-gradient(135deg,#d4c8b8,#e0d8cc 50%,#c8bca8);}
-  .img-macau{background:linear-gradient(135deg,#d8c8c0,#e8dcd4 50%,#ccb8b0);}
-  .img-europe{background:linear-gradient(135deg,#bcc9bc,#d4ded4 50%,#aabfaa);}
-  .img-clinic{background:linear-gradient(135deg,#e6ddd2,#f0ece4 50%,#d8cdbe);}
-  .img-skin{background:linear-gradient(135deg,#f0e0d0,#f8f0e8 50%,#e8d4c0);}
-  .img-anti-age{background:linear-gradient(135deg,#d8d0e0,#e8e0f0 50%,#c8c0d4);}
-  .img-inject{background:linear-gradient(135deg,#e0d2c4,#efe6da 50%,#d2c0ac);}
+  .bg,.img{background-size:cover;background-position:center;background-repeat:no-repeat;}
+  /* 视觉素材占位：真实机构/项目配图待补，先用统一品牌纹理占位，避免图文不符 */
+  .img-ph-a{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27300%27%20height%3D%27300%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%238B7355%27%20stroke-width%3D%271%27%20opacity%3D%27.5%27%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%27150%27%20r%3D%2786%27/%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%27150%27%20r%3D%27108%27/%3E%3C/g%3E%3Ctext%20x%3D%27150%27%20y%3D%27156%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2720%27%20letter-spacing%3D%276%27%20fill%3D%27%238B7355%27%20fill-opacity%3D%27.55%27%20text-anchor%3D%27middle%27%3EGOLONG%3C/text%3E%3C/svg%3E"),linear-gradient(135deg,#efe8dc,#f7f3ec 50%,#e2d6c2);}
+  .img-ph-b{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27300%27%20height%3D%27300%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23B08742%27%20stroke-width%3D%271%27%20opacity%3D%27.5%27%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%27150%27%20r%3D%2786%27/%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%27150%27%20r%3D%27108%27/%3E%3C/g%3E%3Ctext%20x%3D%27150%27%20y%3D%27156%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2720%27%20letter-spacing%3D%276%27%20fill%3D%27%23B08742%27%20fill-opacity%3D%27.55%27%20text-anchor%3D%27middle%27%3EGOLONG%3C/text%3E%3C/svg%3E"),linear-gradient(135deg,#f2e9d8,#f8f2e6 50%,#e6cfa4);}
+  .img-ph-c{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27300%27%20height%3D%27300%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%234A7C59%27%20stroke-width%3D%271%27%20opacity%3D%27.5%27%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%27150%27%20r%3D%2786%27/%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%27150%27%20r%3D%27108%27/%3E%3C/g%3E%3Ctext%20x%3D%27150%27%20y%3D%27156%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2720%27%20letter-spacing%3D%276%27%20fill%3D%27%234A7C59%27%20fill-opacity%3D%27.55%27%20text-anchor%3D%27middle%27%3EGOLONG%3C/text%3E%3C/svg%3E"),linear-gradient(135deg,#e4ebe6,#f2f6f3 50%,#c9dcd0);}
+  .img-japan{background-image:linear-gradient(135deg,rgba(28,23,18,.08),rgba(250,248,245,.08)),url('assets/cellastar-shinjuku-reception.jpg');}
+  .img-hk{background-image:linear-gradient(135deg,rgba(28,23,18,.04),rgba(250,248,245,.10)),url('assets/lightmac-reception.jpg');}
+  .img-macau{background-image:url('assets/clinic-macau.jpg');}
+  .img-europe{background-image:linear-gradient(135deg,rgba(28,23,18,.04),rgba(250,248,245,.08)),url('assets/iena21-lounge.jpg');}
+  .img-clinic{background-image:linear-gradient(135deg,#e6ddd2,#f0ece4 50%,#d8cdbe);}
+  .img-korea{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='none' stroke='%23a8825a' stroke-width='1' opacity='.28'%3E%3Ccircle cx='40' cy='40' r='34'/%3E%3Ccircle cx='180' cy='70' r='50'/%3E%3Ccircle cx='60' cy='190' r='60'/%3E%3Cpath d='M0 120 Q60 90 120 120 T240 120' /%3E%3Cpath d='M-20 60 Q60 30 140 60 T260 60' /%3E%3C/g%3E%3C/svg%3E"),linear-gradient(135deg,#ecd9c4,#f4ebdd 50%,#dcbf9a);background-size:220px 220px,cover;background-repeat:repeat,no-repeat;}
+  .img-newstar-main{background-image:linear-gradient(135deg,#efdcc7,#f6ede1 50%,#e0c8a1);}
+  .img-ginza-main{background-image:linear-gradient(135deg,#e8d3d0,#f4e8e6 50%,#d9b8b3);}
+  .img-marceau-main{background-image:linear-gradient(135deg,#d3e0d8,#e8f0eb 50%,#b8d0c3);}
+  .img-hero{background-image:url('assets/cellastar-shinjuku-reception.jpg');}
+  .img-cellastar-main{background-image:url('assets/cellastar-shinjuku-reception.jpg');}
+  .img-cellastar-treatment{background-image:url('assets/cellastar-shinjuku-treatment.jpg');}
+  .img-cellastar-consult{background-image:url('assets/cellastar-shinjuku-consult.jpg');}
+  .img-utopiart-main{background-image:url('assets/utopiart-reception.jpg');}
+  .img-utopiart-treatment{background-image:url('assets/utopiart-treatment.jpg');}
+  .img-utopiart-room{background-image:url('assets/utopiart-room.jpg');}
+  .img-iena-lounge{background-image:url('assets/iena21-lounge.jpg');}
+  .img-iena-corridor{background-image:url('assets/iena21-corridor.jpg');}
+  .img-iena-treatment{background-image:url('assets/iena21-treatment.jpg');}
+  .img-iena-device{background-image:url('assets/iena21-device-treatment.jpg');}
+  .img-iena-injection{background-image:url('assets/iena21-injection.jpg');}
+  .img-lightmac-room{background-image:url('assets/lightmac-room-a.jpg');}
+  .img-lightmac-poster{background-image:url('assets/lightmac-exosome-poster.jpg');background-position:center top;}
+  .img-lightmac-reception{background-image:url('assets/lightmac-reception.jpg');}
+  .img-hian-reception{background-image:url('assets/hian-macau-reception.jpg');}
+  .img-skin{background-image:url('assets/iena21-treatment.jpg');}
+  .img-anti-age{background-image:url('assets/iena21-device-treatment.jpg');}
+  .img-inject{background-image:url('assets/iena21-injection.jpg');}
+  .img-tokyo-a{background-image:url('assets/clinic-tokyo-a.jpg');}
+  .img-tokyo-b{background-image:url('assets/clinic-tokyo-b.jpg');}
+  .img-paris{background-image:url('assets/clinic-paris.jpg');}
+  .img-seoul{background-image:url('assets/clinic-seoul.jpg');}
+  .img-hongkong{background-image:url('assets/clinic-hongkong.jpg');}
+  .img-consult{background-image:url('assets/scene-consult.jpg');}
+  .img-iv{background-image:url('assets/scene-iv.jpg');}
+  .img-injection{background-image:url('assets/scene-injection.jpg');}
+  .img-device{background-image:url('assets/scene-device.jpg');}
 </style>
 </head>
 <body>
 
-<div class="phone">
-  <div class="notch"></div>
-  <div id="screen"></div>
-  <div class="home-bar"></div>
-  <div class="toast" id="toast"></div>
-  <div class="ov-modal" id="modal" onclick="hideModal()">
-    <div class="sheet" onclick="event.stopPropagation()">
-      <div class="handle"></div>
-      <h3 id="m-title">在线咨询</h3>
-      <p id="m-text"></p>
-      <button class="btn btn-fill wide" style="margin-bottom:10px" id="m-ok" onclick="hideModal();toast('已为您分配专属医美顾问')">添加顾问微信</button>
-      <button class="btn wide" style="background:none;color:var(--text-2);padding:14px" onclick="hideModal()">稍后再说</button>
+<main class="desktop">
+  <div class="phone">
+    <div class="notch"></div>
+    <div id="screen"></div>
+    <div class="home-bar"></div>
+    <div class="toast" id="toast"></div>
+    <div class="ov-modal" id="modal" onclick="hideModal()">
+      <div class="sheet" onclick="event.stopPropagation()">
+        <div class="handle"></div>
+        <h3 id="m-title">在线咨询</h3>
+        <p id="m-text"></p>
+        <button class="btn btn-fill wide" style="margin-bottom:10px" id="m-ok" onclick="hideModal();toast('已提交咨询需求')">提交咨询</button>
+        <button class="btn wide" style="background:none;color:var(--text-2);padding:14px" onclick="hideModal()">稍后再说</button>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="demo">
-  <div class="lab">演 示 视 角</div>
-  <div class="seg">
-    <button id="seg-customer" class="on" onclick="switchRole('customer')">客户端 · 粉丝</button>
-    <button id="seg-streamer" onclick="switchRole('streamer')">主播工作台</button>
-  </div>
-  <button class="reset" onclick="resetDemo()">重置演示</button>
-</div>
+</main>
 
 <script>
 /* ============================ DATA ============================ */
+const PENDING='待确认';
 const REGIONS=[
-  {id:'kr',name:'韩国',flag:'🇰🇷',cities:'首尔 · 釜山',img:'img-korea'},
-  {id:'jp',name:'日本',flag:'🇯🇵',cities:'东京 · 大阪',img:'img-japan'},
-  {id:'hk',name:'中国香港',flag:'🇭🇰',cities:'中环 · 尖沙咀',img:'img-hk'},
-  {id:'mo',name:'澳门',flag:'🇲🇴',cities:'澳门半岛 · 氹仔',img:'img-macau'},
-  {id:'eu',name:'欧洲',flag:'🇪🇺',cities:'卢森堡 · 巴黎 · 苏黎世',img:'img-europe'},
-  {id:'cn',name:'中国 · 海南',flag:'🇨🇳',cities:'博鳌乐城 · 即将上线',img:'img-clinic',soon:true},
+  {id:'jp',name:'日本',flag:'🇯🇵',cities:'新宿医院 · UTOPIART CLINIC EBISU · THE GINZA CLINIC',img:'img-tokyo-a'},
+  {id:'eu',name:'法国巴黎',flag:'🇫🇷',cities:'Iena21 · SKIN MARCEAU',img:'img-paris'},
+  {id:'kr',name:'韩国首尔',flag:'🇰🇷',cities:'NEW STAR CLINIC',img:'img-seoul'},
+  {id:'hk',name:'香港',flag:'🇭🇰',cities:'LIGHTMAC',img:'img-hongkong'},
+  {id:'mo',name:'澳门',flag:'🇲🇴',cities:'感恩國際美容有限公司',img:'img-macau'},
 ];
-const HOSPITALS=[
-  {id:'h_newstar',name:'Newstar 皮肤科医院',region:'kr',city:'首尔江南区',brand:'Medpcent 核心供应商',rating:4.9},
-  {id:'h_medclinic',name:'Med 联合诊所',region:'kr',city:'首尔明洞',brand:'Med 合作',rating:4.7},
-  {id:'h_tokyo',name:'东京长寿医学中心',region:'jp',city:'东京银座',brand:'高浪自营',rating:4.8},
-  {id:'h_osaka',name:'大阪抗衰研究所',region:'jp',city:'大阪心斋桥',brand:'合作机构',rating:4.6},
-  {id:'h_hk',name:'中环综合医疗中心',region:'hk',city:'香港中环',brand:'合作机构',rating:4.7},
-  {id:'h_macau',name:'澳门国际医美',region:'mo',city:'澳门氹仔',brand:'合作机构',rating:4.6},
-  {id:'h_lux',name:'卢森堡 Pluryal 医学中心',region:'eu',city:'卢森堡市',brand:'Pluryal 自营',rating:4.9},
-  {id:'h_hainan',name:'博鳌乐城高浪诊所',region:'cn',city:'海南博鳌',brand:'高浪自营',rating:0,soon:true},
-];
-const PROJECTS=[
-  {id:'p_water',name:'水光焕肤疗程',hid:'h_newstar',cat:'皮肤管理',price:0,original:6800,free:true,duration:'60 分钟',recovery:'24 小时',times:'单次',age:'25 岁以上',brand:'Medpcent',
-   doctor:{n:'金泰熙',t:'Newstar 皮肤科 · 院长 · 15 年经验'},
-   products:['Medpcent 透明质酸精华液（KFDA 认证）','Medpcent 胶原蛋白修复面膜','Newstar 专利导入凝胶'],
-   intro:'采用韩国最新一代微针水光注射技术，将 Medpcent 专研玻尿酸精华直接导入真皮层，一次治疗即可深层补水、提亮肤色、细致毛孔。所有操作由持证皮肤科医师完成。',
-   notices:['治疗前 24 小时避免饮酒','术后 6 小时内避免碰水','术后 3 天内避免剧烈运动','到店需签署知情同意书']},
-  {id:'p_photon',name:'胶原蛋白光子嫩肤',hid:'h_newstar',cat:'皮肤管理',price:5200,original:6800,free:false,duration:'45 分钟',recovery:'即时',times:'单次',age:'22 岁以上',brand:'Medpcent',
-   doctor:{n:'金泰熙',t:'Newstar 皮肤科 · 院长'},products:['Medpcent 舒缓修复精华','医用冷敷贴'],
-   intro:'宽光谱强脉冲光作用于真皮层，刺激胶原再生，改善色斑、泛红与整体肤质。',notices:['治疗前两周避免暴晒','术后加强防晒']},
-  {id:'p_prp',name:'PRP 自体血清焕活',hid:'h_newstar',cat:'抗衰老',price:8800,original:11800,free:false,duration:'90 分钟',recovery:'1-2 天',times:'建议 3 次',age:'30 岁以上',brand:'Newstar',
-   doctor:{n:'金泰熙',t:'Newstar 皮肤科 · 院长'},products:['自体血小板血浆','Medpcent 修复面膜'],
-   intro:'提取自体血液离心后的高浓度血小板血浆回输面部，激活自我修复与胶原新生。',notices:['治疗当天清淡饮食','术后避免化妆 24 小时']},
-  {id:'p_pdrn',name:'PDRN 三文鱼针',hid:'h_medclinic',cat:'注射填充',price:12000,original:15000,free:false,duration:'30 分钟',recovery:'1 天',times:'建议 3 次',age:'28 岁以上',brand:'Med',
-   doctor:{n:'朴敏珠',t:'Med 联合诊所 · 主诊医师'},products:['PDRN 多核苷酸注射剂'],
-   intro:'三文鱼 DNA 提取的多核苷酸成分，促进组织修复与细胞再生，改善细纹与肤质。',notices:['孕期及哺乳期禁用','术后避免高温环境']},
-  {id:'p_baby',name:'少女针面部填充',hid:'h_medclinic',cat:'注射填充',price:18000,original:0,free:false,duration:'40 分钟',recovery:'2-3 天',times:'单次',age:'30 岁以上',brand:'Med',
-   doctor:{n:'朴敏珠',t:'Med 联合诊所 · 主诊医师'},products:['聚己内酯（PCL）填充剂'],
-   intro:'胶原蛋白再生型填充，循序渐进改善凹陷与轮廓，自然持久。',notices:['术后一周避免按压注射部位']},
-  {id:'p_stem',name:'干细胞再生抗衰疗程',hid:'h_tokyo',cat:'长寿医学',price:88000,original:0,free:false,duration:'180 分钟',recovery:'3 天',times:'单次',age:'35 岁以上',brand:'高浪自营',
-   doctor:{n:'佐藤健一',t:'东京长寿医学中心 · 主任医师'},products:['自体脂肪间充质干细胞'],
-   intro:'提取自体脂肪干细胞，体外培养扩增后回输，从细胞层面实现整体年轻化与机能修复。',notices:['需提前一周面诊评估','术前需完成血液检查']},
-  {id:'p_nmn',name:'NMN 静脉滴注',hid:'h_tokyo',cat:'长寿医学',price:0,original:6800,free:true,duration:'60 分钟',recovery:'即时',times:'单次',age:'30 岁以上',brand:'高浪自营',
-   doctor:{n:'佐藤健一',t:'东京长寿医学中心 · 主任医师'},products:['医用级 NMN 滴注液','复合维生素'],
-   intro:'通过静脉滴注补充 NMN 前体，提升细胞 NAD+ 水平，改善疲劳与代谢，是入门级长寿医学体验。',notices:['滴注后多饮水','当天避免饮酒']},
-  {id:'p_rf',name:'黄金射频紧致',hid:'h_osaka',cat:'抗衰老',price:9800,original:12800,free:false,duration:'50 分钟',recovery:'即时',times:'建议 3 次',age:'30 岁以上',brand:'合作',
-   doctor:{n:'山本由美',t:'大阪抗衰研究所 · 医师'},products:['微针射频探头','医用修复凝胶'],
-   intro:'微针射频深入真皮层加热，刺激胶原收缩与新生，紧致提升面部轮廓。',notices:['体内有金属植入物者禁用']},
-  {id:'p_hk',name:'全身抗衰健康管理',hid:'h_hk',cat:'长寿医学',price:28000,original:0,free:false,duration:'120 分钟',recovery:'即时',times:'年度方案',age:'35 岁以上',brand:'合作',
-   doctor:{n:'陈志强',t:'中环综合医疗中心 · 抗衰专科'},products:['全身机能检测','个性化营养方案'],
-   intro:'结合精密体检、激素与营养评估，制定个性化抗衰与健康管理方案。',notices:['建议空腹到店']},
-  {id:'p_pluryal',name:'Pluryal 玻尿酸面部填充',hid:'h_lux',cat:'注射填充',price:15000,original:0,free:false,duration:'45 分钟',recovery:'1-2 天',times:'单次',age:'28 岁以上',brand:'Pluryal',
-   doctor:{n:'Dr. Müller',t:'卢森堡 Pluryal 医学中心'},products:['Pluryal 系列玻尿酸'],
-   intro:'欧洲原产 Pluryal 玻尿酸，精准填充塑形，改善法令纹与面部凹陷。',notices:['术后 48 小时避免高温']},
-  {id:'p_ocean',name:'海洋胶原焕肤',hid:'h_macau',cat:'皮肤管理',price:0,original:4200,free:true,duration:'50 分钟',recovery:'即时',times:'单次',age:'22 岁以上',brand:'合作',
-   doctor:{n:'何美玲',t:'澳门国际医美 · 美容医师'},products:['深海胶原导入精华'],
-   intro:'深海胶原蛋白配合超声导入，快速补水修护、提亮肤色。',notices:['敏感肌需提前告知']},
-];
-const CATS=['全部','皮肤管理','抗衰老','长寿医学','注射填充'];
-const CAT_IMG={'皮肤管理':'img-skin','抗衰老':'img-anti-age','长寿医学':'img-clinic','注射填充':'img-inject'};
-const BRANDS=[['MPC','MEDPCENT'],['N★','NEWSTAR'],['PLY','PLURYAL'],['JM','JMOON'],['AP','APOEM'],['+','MORE']];
 
-const STREAMER={
-  name:'Jessy',level:'GOLD PARTNER',code:'JESSY888',
-  month:38400, settled:12800, pending:25600, locked:4200, trend:'+23%',
-  funnel:[['推荐客户',127],['进店预约',58],['确认到店',43],['完成疗程',39],['到店升单',16]],
-  ledger:[
-    {name:'王*婷',proj:'水光焕肤疗程',region:'首尔',date:'06-15',status:'已升单',commission:2500,spend:58000},
-    {name:'李*宁',proj:'干细胞再生抗衰',region:'东京',date:'06-12',status:'已完成',commission:8800,spend:88000},
-    {name:'张*萌',proj:'PDRN 三文鱼针',region:'首尔',date:'06-16',status:'已到店',commission:1200,spend:12000},
-    {name:'陈*琳',proj:'NMN 静脉滴注',region:'东京',date:'06-17',status:'待到店',commission:0,spend:0},
-    {name:'周*怡',proj:'Pluryal 玻尿酸填充',region:'卢森堡',date:'06-10',status:'已结算',commission:1500,spend:15000},
-    {name:'刘*月',proj:'黄金射频紧致',region:'大阪',date:'06-11',status:'已完成',commission:980,spend:9800},
-    {name:'吴*',proj:'胶原蛋白光子嫩肤',region:'首尔',date:'06-14',status:'已升单',commission:1800,spend:23000},
-    {name:'赵*璐',proj:'海洋胶原焕肤',region:'澳门',date:'06-18',status:'待到店',commission:0,spend:0},
-  ],
-};
-const PILL={'待到店':'pill-amber','已到店':'pill-blue','已完成':'pill-green','已升单':'pill-gold','已结算':'pill-muted'};
+const HOSPITALS=[
+  {id:'h_shinjuku',name:'新宿医院',region:'jp',city:'〒160-0022 東京都新宿区新宿3丁目24-1 NEWNO・GS新宿 10階',brand:'真实合作机构',rating:PENDING,img:'img-tokyo-a',website:'https://www.shinjukuclinic.com',isVirtual:false},
+  {id:'h_utopiart',name:'UTOPIART CLINIC EBISU',region:'jp',city:'〒150-0021 東京都渋谷区恵比寿西1-12-11 Biosビル5階',brand:'真实合作机构',rating:PENDING,img:'img-tokyo-b',website:'https://utopiart.jp/',isVirtual:false},
+  {id:'h_ginza',name:'THE GINZA CLINIC',region:'jp',city:'〒104-0061 東京都中央区銀座7-5-5 長谷第一ビル 5階-A',brand:'虚拟合作机构（示例）',rating:PENDING,img:'img-tokyo-b',website:'https://the-ginza-clinic.jp/',isVirtual:true},
+  {id:'h_iena21',name:'Iena21',region:'eu',city:'21 bis avenue d\'Iena75116, Paris',brand:'真实合作机构',rating:PENDING,img:'img-paris',website:'https://iena21.com/',isVirtual:false},
+  {id:'h_marceau',name:'SKIN MARCEAU',region:'eu',city:'75 bis Avenue Marceau, 75116 Paris, France',brand:'虚拟合作机构（示例）',rating:PENDING,img:'img-paris',website:'https://skinmarceau.com/en/skin-marceau/',isVirtual:true},
+  {id:'h_newstar',name:'NEW STAR CLINIC',region:'kr',city:'서울 서초구 강남대로 531 B722 빌딩 11층~14층',brand:'真实合作机构',rating:PENDING,img:'img-seoul',website:'https://newstarclinic.co.kr/en',isVirtual:false},
+  {id:'h_lightmac',name:'LIGHTMAC',region:'hk',city:'门店1：銅鑼灣世貿中心店 香港銅鑼灣告士打道280號世貿中心3602-03室',brand:'真实合作机构',rating:PENDING,img:'img-hongkong',website:'https://lightmac.com/en/',isVirtual:false},
+  {id:'h_ganen',name:'感恩國際美容有限公司',region:'mo',city:'澳門路義士若翰巴地士打街1-A號悦雅軒地下D',brand:'真实合作机构',rating:PENDING,img:'img-macau',website:PENDING,isVirtual:false},
+];
+
+const FREE_GIFTS=[
+  {hid:'h_shinjuku',name:'健康体检',value:2000},
+  {hid:'h_shinjuku',name:'舒敏之星.屏障修护',value:1140},
+  {hid:'h_utopiart',name:'健康体检',value:2000},
+  {hid:'h_utopiart',name:'红宝石激光 （Ruby Toning）',value:1240},
+  {hid:'h_ginza',name:'深海水疗·细胞灌溉',value:1140},
+  {hid:'h_iena21',name:'焕肤新生疗程',value:1200},
+  {hid:'h_marceau',name:'深层水合透光管理',value:1200},
+  {hid:'h_newstar',name:'皮肤焕新管理 （小气泡）',value:1040},
+  {hid:'h_lightmac',name:'肌底活能重塑',value:1080},
+  {hid:'h_ganen',name:'肌底活能重塑',value:1080},
+];
+
+const CATS_ALL=["水光", "肉毒", "饱满填充", "光电抗衰提拉", "光电皮肤管理", "基础光电", "皮肤管理", "干细胞", "营养点滴"];
+
+function excelProject(data){
+  return {cat:PENDING,price:null,starts:false,isVirtual:false,isOwnBrand:false,specs:[],img:'img-clinic',intro:PENDING,...data};
+}
+const PROJECTS=[
+  excelProject({id:'h_shinjuku_p1',hid:'h_shinjuku',name:'自体脂肪来源干细胞 （静脉点滴）',cat:'干细胞',price:228000.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:228000.0},{spec:'2次',price:340000.0},{spec:'3次',price:440000.0},{spec:'4次',price:588000.0},{spec:'5次',price:670000.0},{spec:'6次',price:760000.0}],img:'img-cellastar-main',
+   intro:'来源于自身脂肪组织中分离的间充质干细胞，经处理后回输体内，属于“用自己的细胞帮助自己修复”的再生医学方案。相较异体细胞，自体来源免疫排斥风险较低、更安全。'}),
+  excelProject({id:'h_shinjuku_p2',hid:'h_shinjuku',name:'牙髓来源干细胞外泌体 （静脉点滴）',cat:'干细胞',price:18000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1A',price:18000.0}],img:'img-cellastar-treatment',
+   intro:'外泌体是干细胞分泌的微小囊泡，携带多种活性蛋白和信号分子，可通过血液循环向全身细胞传递“修复与调节”的信息。静脉点滴方式更偏向全身性支持，有助于在抗炎、组织修复和细胞状态调节方面提供辅助作用。'}),
+  excelProject({id:'h_shinjuku_p3',hid:'h_shinjuku',name:'脐带来源干细胞外泌体 （静脉点滴）',cat:'干细胞',price:14000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1A',price:14000.0}],img:'img-cellastar-consult',
+   intro:'外泌体是干细胞分泌的微小囊泡，携带多种活性蛋白和信号分子，可通过血液循环向全身细胞传递“修复与调节”的信息。静脉点滴方式更偏向全身性支持，有助于在抗炎、组织修复和细胞状态调节方面提供辅助作用。'}),
+  excelProject({id:'h_shinjuku_p4',hid:'h_shinjuku',name:'NMN点滴疗法',cat:'营养点滴',price:4900.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'150mg/次',price:4900.0},{spec:'300mg/次',price:9000.0}],img:'img-cellastar-main',
+   intro:'NAD⁺ 前体，能温和提升体内 NAD⁺ 水平，支持长期抗衰与代谢优化。'}),
+  excelProject({id:'h_shinjuku_p5',hid:'h_shinjuku',name:'Glutathione（谷胱甘肽） 点滴疗法',cat:'营养点滴',price:1400.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'600mg/次',price:1400.0}],img:'img-cellastar-treatment',
+   intro:'帮助肝脏解毒与抗氧化，能均匀肤色、减少暗沉。'}),
+  excelProject({id:'h_shinjuku_p6',hid:'h_shinjuku',name:'Vitamin C（抗坏血酸） 点滴疗法',cat:'营养点滴',price:3200.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'美国进口，25g/次',price:3200.0}],img:'img-cellastar-consult',
+   intro:'提升抵抗力和抗氧化力，抑制黑色素生成，和谷胱甘肽搭配能实现从内到外的美白亮肤。'}),
+  excelProject({id:'h_shinjuku_p7',hid:'h_shinjuku',name:'Vitamin B complex（维生素B群） 点滴疗法',cat:'营养点滴',price:360.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1A',price:360.0}],img:'img-cellastar-main',
+   intro:'糖脂代谢和神经功能的关键辅酶； 常和其他调理搭配，用于提升精力、改善神经症状和口角炎等问题。'}),
+  excelProject({id:'h_shinjuku_p8',hid:'h_shinjuku',name:'BB Labs-EXOSOME蓝童颜水光',cat:'水光',price:3600.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3600.0}],img:'img-cellastar-treatment',
+   intro:'富含高纯度干细胞外泌体与多种生长因子，能够精准传递细胞再生信号，深层激活皮肤自我修复机制。强效促进胶原蛋白与弹性纤维新生，从肌底改善肤质、淡化细纹并提升面部紧致度，实现深层抗衰与焕肤。'}),
+  excelProject({id:'h_shinjuku_p9',hid:'h_shinjuku',name:'BB Labs-EXOSOME超发泡水光（头皮）',cat:'水光',price:4050.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4050.0}],img:'img-cellastar-consult',
+   intro:'利用外泌体强大的细胞通讯能力，靶向作用于头皮毛囊及微环境，调节头皮油脂分泌并抑制炎症反应。唤醒休眠毛囊，强韧发根并改善头皮屏障，有效缓解脱发与头皮敏感问题，重塑健康浓密的秀发基础。'}),
+  excelProject({id:'h_shinjuku_p10',hid:'h_shinjuku',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:7000.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:7000.0}],img:'img-cellastar-main',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_shinjuku_p11',hid:'h_shinjuku',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:8400.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:8400.0}],img:'img-cellastar-treatment',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_shinjuku_p12',hid:'h_shinjuku',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:3000.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3000.0}],img:'img-cellastar-consult',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_shinjuku_p13',hid:'h_shinjuku',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:3000.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3000.0}],img:'img-cellastar-main',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_shinjuku_p14',hid:'h_shinjuku',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:3000.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3000.0}],img:'img-cellastar-treatment',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_shinjuku_p15',hid:'h_shinjuku',name:'玻尿酸水光',cat:'水光',price:4000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:4000.0}],img:'img-cellastar-consult',
+   intro:'通过补充皮肤流失的透明质酸，利用其强大的吸水锁水能力实现深层补水与物理填充。 能够即刻抚平皱纹、填充凹陷部位并重塑面部立体轮廓，且生物相容性极高，术后触感自然柔软，安全性与适用性广泛。'}),
+  excelProject({id:'h_shinjuku_p16',hid:'h_shinjuku',name:'抗皱水光',cat:'水光',price:3000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:3000.0}],img:'img-cellastar-main',
+   intro:'精准阻断神经末梢与肌肉之间的乙酰胆碱信号传导，使过度收缩的目标肌肉得到适度放松。 能够高效淡化动态皱纹（如鱼尾纹、抬头纹），同时可安全用于瘦脸、瘦肩及局部止汗，实现面部年轻化与局部轮廓精雕。'}),
+  excelProject({id:'h_shinjuku_p17',hid:'h_shinjuku',name:'Argireline（六胜肽） +Leuphasyl（莱菲斯）',cat:'水光',price:4000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:4000.0}],img:'img-cellastar-treatment',
+   intro:'通过双重胜肽协同作用，模拟肉毒素机制以温和抑制神经肌肉收缩，并干扰神经递质释放。 以非侵入、无恢复期的涂抹或导入方式，有效淡化表情纹与动态细纹，兼具卓越的保湿与平滑肌肤功效。'}),
+  excelProject({id:'h_shinjuku_p18',hid:'h_shinjuku',name:'脸部除皱',cat:'肉毒',price:1100.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'1个部位',price:1100.0}],img:'img-cellastar-consult',
+   intro:'精准阻断神经与肌肉间的信号传导，使过度收缩的表情肌适度放松。有效淡化抬头纹、眉间纹及鱼尾纹等动态皱纹，在保留自然灵动表情的同时，实现平滑肌肤与面部年轻化。'}),
+  excelProject({id:'h_shinjuku_p19',hid:'h_shinjuku',name:'肩部肉毒',cat:'肉毒',price:4000.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:4000.0}],img:'img-cellastar-main',
+   intro:'靶向作用于肩颈部斜方肌，通过暂时阻断神经冲动使肥大肌肉松弛并逐渐萎缩。视觉上拉长颈部线条，打造纤细的“直角肩”轮廓，同时缓解因肌肉长期紧绷导致的肩颈酸痛与僵硬感。'}),
+  excelProject({id:'h_shinjuku_p20',hid:'h_shinjuku',name:'腋下肉毒',cat:'肉毒',price:4500.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:4500.0}],img:'img-cellastar-treatment',
+   intro:'作用于腋下局部汗腺的胆碱能神经末梢，抑制乙酰胆碱的释放以阻断汗液分泌。从源头减少腋下潮湿与细菌分解产生的异味，无创无痕地解决多汗症与腋臭困扰，轻松保持夏日清爽。'}),
+  excelProject({id:'h_shinjuku_p21',hid:'h_shinjuku',name:'皮秒激光',cat:'基础光电',price:3600.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:3600.0},{spec:'1次',price:4250.0},{spec:'单点',price:2000.0}],img:'img-cellastar-consult',
+   intro:'利用皮秒激光的超短脉宽和光声效应，将黑色素颗粒震碎成极细微的粉尘状，便于身体代谢排出。 在不损伤表皮的前提下，温和改善全脸肤色不均、暗沉和色素沉淀，实现整体提亮和净肤效果。'}),
+  excelProject({id:'h_shinjuku_p22',hid:'h_shinjuku',name:'eCO2点阵激光（eCO₂ Evolution）',cat:'基础光电',price:2000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:2000.0}],img:'img-cellastar-main',
+   intro:'超脉冲二氧化碳激光，能量穿透深，能精准气化表皮并刺激真皮层胶原重塑。 治疗痘坑、深层皱纹及疤痕的“金标准”，单次效果显著，恢复期相对较短。'}),
+  excelProject({id:'h_shinjuku_p23',hid:'h_shinjuku',name:'光子嫩肤',cat:'基础光电',price:1140.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'全脸1周',price:1140.0}],img:'img-cellastar-treatment',
+   intro:'采用强脉冲光（IPL）技术，并优化了500-600nm波段的光谱，对血红蛋白和黑色素的吸收峰值更高。 在祛斑、祛红血丝方面效果更显著，治疗次数更少，能高效改善肤色不均、色素沉着和毛细血管扩张问题。'}),
+  excelProject({id:'h_shinjuku_p24',hid:'h_shinjuku',name:'舒敏之星.屏障修护',cat:'皮肤管理',price:1140.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'全脸1周',price:1140.0}],img:'img-cellastar-consult',
+   intro:'射频导入修复因子，针对敏感肌泛红、刺痛。抓住换季期“烂脸焦虑”，做完即刻退红舒缓'}),
+  excelProject({id:'h_utopiart_p1',hid:'h_utopiart',name:'自体脂肪来源干细胞 （静脉点滴）',cat:'干细胞',price:7580.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:7580.0}],img:'img-utopiart-main',
+   intro:'来源于自身脂肪组织中分离的间充质干细胞，经处理后回输体内，属于“用自己的细胞帮助自己修复”的再生医学方案。相较异体细胞，自体来源免疫排斥风险较低、更安全。'}),
+  excelProject({id:'h_utopiart_p2',hid:'h_utopiart',name:'脂肪来源干细胞外泌体 （局部导入）',cat:'干细胞',price:19800.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'3cc',price:19800.0}],img:'img-utopiart-treatment',
+   intro:'将外泌体集中应用于局部区域，如面部、颈部或瘢痕周围，重点作用于该处的皮肤和软组织微环境。通过促进胶原与弹性纤维生成、改善炎症反应，可在改善肤质、细纹和局部修复方面起到辅助提升作用，创伤小、日常活动影响相对较少。'}),
+  excelProject({id:'h_utopiart_p3',hid:'h_utopiart',name:'NAD+点滴疗法',cat:'营养点滴',price:9900.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'200mg/次',price:9900.0}],img:'img-utopiart-room',
+   intro:'抗衰老和代谢调理，有助于缓解慢性疲劳、脑雾、睡眠与情绪问题。'}),
+  excelProject({id:'h_utopiart_p4',hid:'h_utopiart',name:'Glutathione 谷胱甘肽 点滴疗法',cat:'营养点滴',price:1400.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'600mg/次',price:1400.0}],img:'img-utopiart-main',
+   intro:'帮助肝脏解毒与抗氧化，能均匀肤色、减少暗沉。'}),
+  excelProject({id:'h_utopiart_p5',hid:'h_utopiart',name:'Vitamin C（抗坏血酸） 点滴疗法',cat:'营养点滴',price:1500.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'韩国进口，25g/次',price:1500.0},{spec:'美国进口，25g/次',price:3200.0}],img:'img-utopiart-treatment',
+   intro:'提升抵抗力和抗氧化力，抑制黑色素生成，和谷胱甘肽搭配能实现从内到外的美白亮肤。'}),
+  excelProject({id:'h_utopiart_p6',hid:'h_utopiart',name:'Lipoic Acid（α硫辛酸） 点滴疗法',cat:'营养点滴',price:1000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'300mg/次',price:1000.0}],img:'img-utopiart-room',
+   intro:'能水溶也能脂溶，抗氧化效果全面； 能帮助清除自由基、减轻炎症，辅助调节血糖，改善皮肤老化和代谢问题。'}),
+  excelProject({id:'h_utopiart_p7',hid:'h_utopiart',name:'Magnesium Sulphate（硫酸镁） 点滴疗法',cat:'营养点滴',price:360.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1安瓶/次',price:360.0}],img:'img-utopiart-main',
+   intro:'参与身体能量和神经传导，能放松血管、缓解肌肉紧张，搭配其他调理可改善睡眠、减轻头痛。'}),
+  excelProject({id:'h_utopiart_p8',hid:'h_utopiart',name:'Vitamin B complex（维生素B群） 点滴疗法',cat:'营养点滴',price:360.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1安瓶/次',price:360.0}],img:'img-utopiart-treatment',
+   intro:'糖脂代谢和神经功能的关键辅酶； 常和其他调理搭配，用于提升精力、改善神经症状和口角炎等问题。'}),
+  excelProject({id:'h_utopiart_p9',hid:'h_utopiart',name:'BB Labs-EXOSOME蓝童颜水光',cat:'水光',price:3750.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3750.0}],img:'img-utopiart-room',
+   intro:'富含高纯度干细胞外泌体与多种生长因子，能够精准传递细胞再生信号，深层激活皮肤自我修复机制。强效促进胶原蛋白与弹性纤维新生，从肌底改善肤质、淡化细纹并提升面部紧致度，实现深层抗衰与焕肤。'}),
+  excelProject({id:'h_utopiart_p10',hid:'h_utopiart',name:'BB Labs-EXOSOME超发泡水光（头皮）',cat:'水光',price:4250.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4250.0}],img:'img-utopiart-main',
+   intro:'利用外泌体强大的细胞通讯能力，靶向作用于头皮毛囊及微环境，调节头皮油脂分泌并抑制炎症反应。唤醒休眠毛囊，强韧发根并改善头皮屏障，有效缓解脱发与头皮敏感问题，重塑健康浓密的秀发基础。'}),
+  excelProject({id:'h_utopiart_p11',hid:'h_utopiart',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:7500.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:7500.0}],img:'img-utopiart-treatment',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_utopiart_p12',hid:'h_utopiart',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:8500.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:8500.0}],img:'img-utopiart-room',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_utopiart_p13',hid:'h_utopiart',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:3250.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3250.0}],img:'img-utopiart-main',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_utopiart_p14',hid:'h_utopiart',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:3250.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3250.0}],img:'img-utopiart-treatment',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_utopiart_p15',hid:'h_utopiart',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:3250.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3250.0}],img:'img-utopiart-room',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_utopiart_p16',hid:'h_utopiart',name:'Neauvia（诺薇雅）-HYDRO DELUXE"女神冰冰针"',cat:'水光',price:4400.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1v',price:4400.0}],img:'img-utopiart-main',
+   intro:'含利多卡因的柔性玻尿酸，专为动态表情丰富区域设计，延展性极佳。 注射过程无痛，术后表情自然不僵硬，特别适合法令纹与口周抗衰。'}),
+  excelProject({id:'h_utopiart_p17',hid:'h_utopiart',name:'JarPro-超级水光',cat:'水光',price:5000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1v',price:5000.0}],img:'img-utopiart-treatment',
+   intro:'专为下颌轮廓设计的VYCROSS交联技术玻尿酸，高内聚力与高弹性。 打造清晰下颌线，支撑力极强，不易受肌肉挤压变形，塑形效果持久。'}),
+  excelProject({id:'h_utopiart_p18',hid:'h_utopiart',name:'爱唯缇（Olidia）-童颜水光',cat:'水光',price:4750.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1v',price:4750.0}],img:'img-utopiart-room',
+   intro:'日本本土高端玻尿酸，专为亚洲人肤质研发，含利多卡因麻醉成分。 注射体验舒适，组织相容性极佳，适合泪沟、唇部等精细部位填充。'}),
+  excelProject({id:'h_utopiart_p19',hid:'h_utopiart',name:'魅俪（MaiLi）-Precise/Define/Volume/ Extreme',cat:'饱满填充',price:605.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'0.1ml',price:605.0},{spec:'1ml',price:4400.0}],img:'img-utopiart-main',
+   intro:'OxiFree 无氧交联专利玻尿酸，含利多卡因，多型号分层适配细纹、塑形、轮廓提拉，交联剂更少、抗降解能力更强。高支撑力且质地柔软，塑形不假面，减缓玻尿酸降解速度，淡纹充盈、立体提拉，维持周期更长。'}),
+  excelProject({id:'h_utopiart_p20',hid:'h_utopiart',name:'泰奥（TEOSYAL）',cat:'饱满填充',price:605.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'0.1ml',price:605.0},{spec:'1ml',price:4400.0}],img:'img-utopiart-treatment',
+   intro:'源自瑞士的纯净玻尿酸品牌，采用非动物源性透明质酸，并添加氨基酸等护肤成分。 兼具填充与养肤双重功效，产品线覆盖全面，从精细除皱到深层塑形均有对应型号，满足个性化抗衰需求。'}),
+  excelProject({id:'h_utopiart_p21',hid:'h_utopiart',name:'筱黛（CLEVIEL）',cat:'饱满填充',price:605.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'0.1ml',price:605.0},{spec:'1ml',price:4400.0}],img:'img-utopiart-room',
+   intro:'采用独特的HEC交联技术，使玻尿酸分子结构更稳定，兼具高内聚力与高粘弹性。 注射后组织相容性佳，不易吸水肿胀，效果自然持久，尤其适合用于面部轮廓的精细调整与修饰。'}),
+  excelProject({id:'h_utopiart_p22',hid:'h_utopiart',name:'热玛吉',cat:'光电抗衰提拉',price:8400.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:8400.0}],img:'img-utopiart-main',
+   intro:'采用单极射频技术，能量可穿透至皮下SMAS筋膜层，实现由内而外的全层加热。 无创紧肤的“金标准”，能显著收紧松弛皮肤，刺激胶原蛋白新生，实现全脸及眼周的提拉紧致效果。'}),
+  excelProject({id:'h_utopiart_p23',hid:'h_utopiart',name:'超声刀 (HIFU)',cat:'光电抗衰提拉',price:12400.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'3000发',price:12400.0}],img:'img-utopiart-treatment',
+   intro:'利用高能聚焦超声波技术，将能量精准作用于皮下特定深度，形成热凝固点。非侵入式提升，能精准作用于SMAS筋膜层，产生强大的提拉收紧效果，尤其适合改善中下面部下垂。'}),
+  excelProject({id:'h_utopiart_p24',hid:'h_utopiart',name:'黄金微针(Virtue RF )',cat:'光电皮肤管理',price:6400.0,starts:true,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:6400.0}],img:'img-utopiart-room',
+   intro:'结合微针穿刺与射频能量，微针穿透表皮的同时释放射频能量，精准作用于真皮层。 在改善毛孔粗大、痘坑痘印的同时，有效刺激胶原新生，实现紧致嫩肤，对表皮损伤小，恢复期短。'}),
+  excelProject({id:'h_utopiart_p25',hid:'h_utopiart',name:'氧肤活力弹（GENEO X)',cat:'光电皮肤管理',price:2375.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:2375.0}],img:'img-utopiart-main',
+   intro:'通过“波佛效应”在皮肤表面产生大量二氧化碳气泡，模拟身体缺氧状态，从而激发毛细血管扩张。 无创无痛，能从内部提升皮肤含氧量与新陈代谢，改善暗沉、提亮肤色，实现“由内而外”的焕活光泽。'}),
+  excelProject({id:'h_utopiart_p26',hid:'h_utopiart',name:'红宝石激光（Ruby Toning）',cat:'光电皮肤管理',price:1240.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:1240.0}],img:'img-utopiart-treatment',
+   intro:'采用694nm波长的红宝石激光，对黑色素具有极高的选择性吸收率。 祛除褐色、青色等深层色素（如太田痣、雀斑）的“金标准”，爆破色素颗粒精准高效，对周围正常组织损伤极小。'}),
+  excelProject({id:'h_ginza_p1',hid:'h_ginza',name:'BB Labs-EXOSOME蓝童颜水光',cat:'水光',price:3675.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3675.0}],img:'img-ginza-main',
+   intro:'富含高纯度干细胞外泌体与多种生长因子，能够精准传递细胞再生信号，深层激活皮肤自我修复机制。强效促进胶原蛋白与弹性纤维新生，从肌底改善肤质、淡化细纹并提升面部紧致度，实现深层抗衰与焕肤。'}),
+  excelProject({id:'h_ginza_p2',hid:'h_ginza',name:'BB Labs-EXOSOME超发泡水光（头皮）',cat:'水光',price:4300.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4300.0}],img:'img-ginza-main',
+   intro:'利用外泌体强大的细胞通讯能力，靶向作用于头皮毛囊及微环境，调节头皮油脂分泌并抑制炎症反应。唤醒休眠毛囊，强韧发根并改善头皮屏障，有效缓解脱发与头皮敏感问题，重塑健康浓密的秀发基础。'}),
+  excelProject({id:'h_ginza_p3',hid:'h_ginza',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:7550.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:7550.0}],img:'img-ginza-main',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_ginza_p4',hid:'h_ginza',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:8750.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:8750.0}],img:'img-ginza-main',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_ginza_p5',hid:'h_ginza',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:3090.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3090.0}],img:'img-ginza-main',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_ginza_p6',hid:'h_ginza',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:3090.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3090.0}],img:'img-ginza-main',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_ginza_p7',hid:'h_ginza',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:3090.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3090.0}],img:'img-ginza-main',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_ginza_p8',hid:'h_ginza',name:'Juvelook-素颜针',cat:'水光',price:4900.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:4900.0}],img:'img-ginza-main',
+   intro:'核心成分为PN（多核苷酸），从三文鱼DNA中提取，与人体DNA结构高度相似，具有卓越的生物相容性。 强效修复受损肌肤屏障，增厚角质层，改善敏感肌与细纹，从肌底提升皮肤健康度，实现“素颜也发光”的自然美。'}),
+  excelProject({id:'h_ginza_p9',hid:'h_ginza',name:'保妥适VISTA肉毒（日本专供）',cat:'肉毒',price:7400.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:7400.0}],img:'img-ginza-main',
+   intro:'专为日本市场调配的保妥适产品，针对亚洲人面部肌肉走向与咬肌特征优化。 起效快，维持时间更贴合亚洲人代谢周期，下颌缘提升效果更细腻。'}),
+  excelProject({id:'h_ginza_p10',hid:'h_ginza',name:'瑞蓝（Restylane）',cat:'饱满填充',price:6900.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:6900.0}],img:'img-ginza-main',
+   intro:'源自瑞典的NASHA™非动物源性稳定玻尿酸，拥有多种不同颗粒大小和交联度的产品型号。 全球应用广泛，安全性高，可根据不同部位和需求（如丰唇、填泪沟、隆鼻）精准选择，效果自然，触感真实。'}),
+  excelProject({id:'h_ginza_p11',hid:'h_ginza',name:'乔雅登（Juvederm）',cat:'饱满填充',price:6400.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:6400.0}],img:'img-ginza-main',
+   intro:'采用VYCROSS®交联技术，将不同分子量的玻尿酸进行混合，使产品兼具高内聚力与高粘弹性。 注射后平滑度与支撑力俱佳，维持时间更长，尤其擅长打造流畅自然的面部轮廓和饱满的苹果肌。'}),
+  excelProject({id:'h_ginza_p12',hid:'h_ginza',name:'少女针（Ellanse）',cat:'饱满填充',price:17400.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:17400.0}],img:'img-ginza-main',
+   intro:'PCL微球刺激自体胶原蛋白再生，兼具玻尿酸的即时填充与长效抗衰功能。 效果可维持1-2年，随时间推移肤质持续改善，避免了频繁注射的麻烦。'}),
+  excelProject({id:'h_ginza_p13',hid:'h_ginza',name:'超声刀 (HIFU)',cat:'光电抗衰提拉',price:6400.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'660发（全脸）',price:6400.0}],img:'img-ginza-main',
+   intro:'利用高能聚焦超声波技术，将能量精准作用于皮下特定深度，形成热凝固点。非侵入式提升，能精准作用于SMAS筋膜层，产生强大的提拉收紧效果，尤其适合改善中下面部下垂。'}),
+  excelProject({id:'h_ginza_p14',hid:'h_ginza',name:'Forma超美塑紧致射频',cat:'光电抗衰提拉',price:4840.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:4840.0}],img:'img-ginza-main',
+   intro:'射频溶脂与紧致二合一设备，恒温加热真皮层与皮下脂肪，智能控温防烫伤。 无痛无创，面部与身体均可使用，紧致轮廓同时减少局部脂肪，无需恢复期。'}),
+  excelProject({id:'h_ginza_p15',hid:'h_ginza',name:'皮秒激光（Pico Toning）',cat:'基础光电',price:3440.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:3440.0}],img:'img-ginza-main',
+   intro:'利用皮秒激光的超短脉宽和光声效应，将黑色素颗粒震碎成极细微的粉尘状，便于身体代谢排出。 在不损伤表皮的前提下，温和改善全脸肤色不均、暗沉和色素沉淀，实现整体提亮和净肤效果。'}),
+  excelProject({id:'h_ginza_p16',hid:'h_ginza',name:'皮秒激光（Pico Fractional）',cat:'基础光电',price:4450.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:4450.0}],img:'img-ginza-main',
+   intro:'通过蜂巢透镜或点阵透镜，将激光能量聚焦成微小的光束，在皮肤真皮层形成局灶性光击穿效应（LIOB）。 在刺激胶原蛋白和弹性纤维再生的同时，有效改善毛孔粗大、浅表痘坑和细纹，实现嫩肤与紧致。'}),
+  excelProject({id:'h_ginza_p17',hid:'h_ginza',name:'光子嫩肤',cat:'基础光电',price:9900.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'全脸1周',price:9900.0}],img:'img-ginza-main',
+   intro:'采用强脉冲光（IPL）技术，并优化了500-600nm波段的光谱，对血红蛋白和黑色素的吸收峰值更高。 在祛斑、祛红血丝方面效果更显著，治疗次数更少，能高效改善肤色不均、色素沉着和毛细血管扩张问题。'}),
+  excelProject({id:'h_ginza_p18',hid:'h_ginza',name:'黄金微针（Potenza）',cat:'基础光电',price:1990.0,starts:true,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:1990.0}],img:'img-ginza-main',
+   intro:'射频微针结合AI智能系统，微针穿透同时释放射频能量，精准作用于真皮层。 改善毛孔粗大、痘印与轻中度松弛，痛感较传统微针大幅降低，安全性高。'}),
+  excelProject({id:'h_ginza_p19',hid:'h_ginza',name:'深海水疗·细胞灌溉',cat:'皮肤管理',price:1991.0,starts:true,isVirtual:true,isOwnBrand:false,specs:[{spec:'全脸一次',price:1991.0}],img:'img-ginza-main',
+   intro:'利用电穿孔导入仪，将富含微量元素的深海海水精华高压雾化灌入皮肤深层。主打“从源头解渴，而不是表面湿敷”，做完水润感持续3-5天。'}),
+  excelProject({id:'h_iena21_p1',hid:'h_iena21',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:7840.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:7840.0}],img:'img-iena-lounge',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_iena21_p2',hid:'h_iena21',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:8640.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:8640.0}],img:'img-iena-corridor',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_iena21_p3',hid:'h_iena21',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:3440.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次',price:3440.0}],img:'img-iena-treatment',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_iena21_p4',hid:'h_iena21',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:3440.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次',price:3440.0}],img:'img-iena-device',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_iena21_p5',hid:'h_iena21',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:3440.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次',price:3440.0}],img:'img-iena-injection',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_iena21_p6',hid:'h_iena21',name:'赛丝尔（Suisselle）-CELLBOOSTER® 细胞动能水光',cat:'水光',price:5200.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:5200.0}],img:'img-iena-lounge',
+   intro:'采用瑞士专利CHAC技术，作为首款获CE认证的稳定复合水光，能深层激活细胞动能。能兼具提亮、抗皱、局部塑形及防脱等多重复合功效，从肌底全方位重塑面部与头皮年轻状态。'}),
+  excelProject({id:'h_iena21_p7',hid:'h_iena21',name:'塑妍萃（Sculptra）',cat:'饱满填充',price:5200.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1ml',price:5200.0}],img:'img-iena-corridor',
+   intro:'核心成分为聚左旋乳酸（PLLA）微球，通过水光注射方式均匀分布于真皮层，作为胶原再生的“信号源”。以渐进式的方式刺激自身胶原蛋白持续新生，从肌底改善皮肤厚度与弹性，实现全脸肤质细腻化和轮廓的紧致提升，效果自然且持久。'}),
+  excelProject({id:'h_iena21_p8',hid:'h_iena21',name:'瑞蓝（Restylane）',cat:'饱满填充',price:7040.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1ml',price:7040.0}],img:'img-iena-treatment',
+   intro:'源自瑞典的NASHA™非动物源性稳定玻尿酸，拥有多种不同颗粒大小和交联度的产品型号。 全球应用广泛，安全性高，可根据不同部位和需求（如丰唇、填泪沟、隆鼻）精准选择，效果自然，触感真实。'}),
+  excelProject({id:'h_iena21_p9',hid:'h_iena21',name:'保柔缇（Belotero）',cat:'饱满填充',price:5120.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1ml',price:5120.0}],img:'img-iena-device',
+   intro:'采用CPM（内聚性多密度）技术，使玻尿酸凝胶兼具高内聚力与优异的延展性，能与皮肤组织完美融合。尤其适合用于眼周、唇部等皮肤纤薄区域的精细填充，注射后触感极其柔软自然，动态表情下无僵硬感，有效避免“丁达尔现象”。'}),
+  excelProject({id:'h_iena21_p10',hid:'h_iena21',name:'思妥欣（Cytosial）',cat:'饱满填充',price:4640.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1ml',price:4640.0}],img:'img-iena-injection',
+   intro:'法国进口含甘露醇玻尿酸，抗氧化剂有效减缓玻尿酸降解速度。 维持时间长，交联技术成熟，注射后触感柔软自然，不易移位。'}),
+  excelProject({id:'h_iena21_p11',hid:'h_iena21',name:'乔雅登（Juvederm）',cat:'饱满填充',price:6240.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1ml',price:6240.0}],img:'img-iena-lounge',
+   intro:'采用VYCROSS®交联技术，将不同分子量的玻尿酸进行混合，使产品兼具高内聚力与高粘弹性。 注射后平滑度与支撑力俱佳，维持时间更长，尤其擅长打造流畅自然的面部轮廓和饱满的苹果肌。'}),
+  excelProject({id:'h_iena21_p12',hid:'h_iena21',name:'超声刀（Ulthera®）',cat:'光电抗衰提拉',price:11840.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（400发）',price:11840.0}],img:'img-iena-corridor',
+   intro:'采用微点聚焦超音波技术，能将能量精准送达皮下SMAS筋膜层，形成热凝固点，实现由深至浅的提拉。全球首款FDA批准的非侵入式面部提升设备，有10年以上临床验证。非侵入式抗衰的“金标准”，能实现显著的提拉紧致效果，尤其擅长改善中下面部下垂、下颌线模糊等问题，效果可维持一年以上。'}),
+  excelProject({id:'h_iena21_p13',hid:'h_iena21',name:'美修斯二代-身体塑形（Emsculpt neo®）',cat:'光电抗衰提拉',price:8640.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1 次单部位 （腰腹/大腿/手臂任选1处）',price:8640.0}],img:'img-iena-treatment',
+   intro:'全球首款同步释放高强度聚焦电磁（HIFEM®）与射频（RF）能量的塑形设备，同时作用于肌肉与脂肪层。在诱导肌肉进行超极限收缩以增肌塑形的同时，利用射频加热并凋亡脂肪细胞，实现“增肌减脂”二合一的身体轮廓精雕。'}),
+  excelProject({id:'h_iena21_p14',hid:'h_iena21',name:'ONDA-酷塑冷冻溶脂（Coolwaves®）',cat:'光电抗衰提拉',price:8640.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次单脂肪点位',price:8640.0}],img:'img-iena-device',
+   intro:'采用独特的微米波技术，能够穿透表皮，精准加热皮下脂肪层，破坏脂肪细胞膜并促进其代谢。 非侵入式溶脂，专门针对腰腹、大腿、手臂等局部顽固脂肪，在减少脂肪体积的同时，还能紧致皮肤，改善橘皮组织。'}),
+  excelProject({id:'h_iena21_p15',hid:'h_iena21',name:'艾维岚-激光祛痘（AviClear™）',cat:'光电皮肤管理',price:4640.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:4640.0}],img:'img-iena-injection',
+   intro:'全球首款FDA批准的痤疮治疗激光，采用独特的1726nm波长激光，能精准靶向并抑制皮脂腺的过度活跃，从源头减少油脂分泌。非药物、无创的祛痘方案，能有效治疗轻中度痤疮，并预防未来痘痘再生，适用于所有皮肤类型，无需恢复期，是传统药物治疗的理想替代方案。'}),
+  excelProject({id:'h_iena21_p16',hid:'h_iena21',name:'埋线提升（Fils tenseurs）',cat:'光电皮肤管理',price:15040.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1 次 （全脸，10根标准用量）',price:15040.0}],img:'img-iena-lounge',
+   intro:'通过将可被人体吸收的蛋白线（如PPDO线）植入皮下不同层次的非手术微创方式，从物理提拉和生物刺激双重作用实现抗衰，创伤小，恢复快。能即刻看到面部组织的复位与提拉效果，同时持续刺激胶原蛋白新生，实现“即刻提拉+长效紧致”的叠加效应， 效果可维持6-24个月。'}),
+  excelProject({id:'h_iena21_p17',hid:'h_iena21',name:'骨相抗衰（Radiesse©）',cat:'光电皮肤管理',price:10320.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1.5ml',price:10320.0}],img:'img-iena-corridor',
+   intro:'主要成分为羟基磷灰石钙（CaHA）微球，. 可生物降解、生物相容，成分与人体骨骼、牙齿天然成分一致，安全性高，注入后能即刻提供物理支撑，并作为支架诱导自体胶原再生。兼具即时填充与长效紧致双重功效，能有效重塑面部骨骼轮廓感，改善深层皱纹与组织流失，效果自然且维持时间长（10-14个月）。'}),
+  excelProject({id:'h_iena21_p18',hid:'h_iena21',name:'欧洲大提升（Toxine botulique）',cat:'光电皮肤管理',price:4320.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次 （全脸，标准50 单位用量）',price:4320.0}],img:'img-iena-treatment',
+   intro:'一种多点、微量的 个性化定制肉毒素注射技术，广泛作用于面部、颈部等多个提拉肌群。采用Azzalure、Bocouture等高品质合规产品，安全性经过验。通过放松向下牵拉的肌肉，使向上提拉的肌肉力量相对增强，从而实现面部轮廓的整体向上提升，改善下颌线，效果自然。'}),
+  excelProject({id:'h_iena21_p19',hid:'h_iena21',name:'焕肤新生疗程',cat:'光电皮肤管理',price:1200.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:1200.0}],img:'img-iena-device',
+   intro:'根据皮肤pH值定制中和方案，定向清除老化角质与色素，刺激胶原新生，一次治疗即可显著改善暗沉、粗糙与毛孔问题，提升皮肤光泽度与细腻度。'}),
+  excelProject({id:'h_marceau_p1',hid:'h_marceau',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:8160.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:8160.0}],img:'img-marceau-main',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_marceau_p2',hid:'h_marceau',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:11840.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:11840.0}],img:'img-marceau-main',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_marceau_p3',hid:'h_marceau',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:4080.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4080.0}],img:'img-marceau-main',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_marceau_p4',hid:'h_marceau',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:4080.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4080.0}],img:'img-marceau-main',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_marceau_p5',hid:'h_marceau',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:4080.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4080.0}],img:'img-marceau-main',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_marceau_p6',hid:'h_marceau',name:'赛丝尔（Suisselle）-CELLBOOSTER® 细胞动能水光',cat:'水光',price:5760.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:5760.0}],img:'img-marceau-main',
+   intro:'采用瑞士专利CHAC技术，作为首款获CE认证的稳定复合水光，能深层激活细胞动能。能兼具提亮、抗皱、局部塑形及防脱等多重复合功效，从肌底全方位重塑面部与头皮年轻状态。'}),
+  excelProject({id:'h_marceau_p7',hid:'h_marceau',name:'塑妍萃（Sculptra）',cat:'饱满填充',price:5440.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1ml',price:5440.0}],img:'img-marceau-main',
+   intro:'核心成分为聚左旋乳酸（PLLA）微球，通过水光注射方式均匀分布于真皮层，作为胶原再生的“信号源”。以渐进式的方式刺激自身胶原蛋白持续新生，从肌底改善皮肤厚度与弹性，实现全脸肤质细腻化和轮廓的紧致提升，效果自然且持久。'}),
+  excelProject({id:'h_marceau_p8',hid:'h_marceau',name:'乔雅登（Juvederm）',cat:'饱满填充',price:6000.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1针',price:6000.0}],img:'img-marceau-main',
+   intro:'采用VYCROSS®交联技术，将不同分子量的玻尿酸进行混合，使产品兼具高内聚力与高粘弹性。 注射后平滑度与支撑力俱佳，维持时间更长，尤其擅长打造流畅自然的面部轮廓和饱满的苹果肌。'}),
+  excelProject({id:'h_marceau_p9',hid:'h_marceau',name:'瑞蓝（Restylane）',cat:'饱满填充',price:6640.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1针',price:6640.0}],img:'img-marceau-main',
+   intro:'源自瑞典的NASHA™非动物源性稳定玻尿酸，拥有多种不同颗粒大小和交联度的产品型号。 全球应用广泛，安全性高，可根据不同部位和需求（如丰唇、填泪沟、隆鼻）精准选择，效果自然，触感真实。'}),
+  excelProject({id:'h_marceau_p10',hid:'h_marceau',name:'超声刀',cat:'光电抗衰提拉',price:10080.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:10080.0}],img:'img-marceau-main',
+   intro:'利用高能聚焦超声波技术，将能量精准作用于皮下特定深度，形成热凝固点。非侵入式提升，能精准作用于SMAS筋膜层，产生强大的提拉收紧效果，尤其适合改善中下面部下垂。'}),
+  excelProject({id:'h_marceau_p11',hid:'h_marceau',name:'热玛吉',cat:'光电抗衰提拉',price:8640.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:8640.0}],img:'img-marceau-main',
+   intro:'采用单极射频技术，能量可均匀穿透至真皮深层及皮下组织，进行全层加热，刺激胶原即刻收缩与后续新生。无创紧肤的“金标准”，能实现全脸及眼周的收紧与肤质改善，尤其适合皮肤轻中度松弛、希望获得整体紧致提升效果的人群。'}),
+  excelProject({id:'h_marceau_p12',hid:'h_marceau',name:'保妥适（Botox®）肉毒',cat:'肉毒',price:6000.0,starts:true,isVirtual:true,isOwnBrand:false,specs:[{spec:'皱纹、额头、鱼尾纹/1瓶',price:6000.0},{spec:'咬肌',price:5200.0},{spec:'腋下/手部 （多汗症）',price:6400.0}],img:'img-marceau-main',
+   intro:'高纯度的A型肉毒毒素，能精准阻断神经与肌肉间的信号传递，使过度收缩的肌肉得到放松。动态皱纹（如鱼尾纹、抬头纹）治疗的“金标准”，弥散度低，作用精准，在有效除皱的同时能最大程度保留自然表情。同时可安全用于瘦脸及局部止汗，实现面部年轻化与局部轮廓精雕。'}),
+  excelProject({id:'h_marceau_p13',hid:'h_marceau',name:'超脉冲CO2点阵激光 （ULTRApulse Alpha CO2激光）',cat:'光电皮肤管理',price:12000.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:12000.0}],img:'img-marceau-main',
+   intro:'采用超脉冲二氧化碳激光技术，能精准气化剥脱表皮并深入真皮层，启动皮肤的创伤修复与胶原重塑机制。治疗痘坑、增生性疤痕、深层皱纹的“金标准”，单次治疗效果显著，能实现皮肤表面的重建与质地的根本性改善。'}),
+  excelProject({id:'h_marceau_p14',hid:'h_marceau',name:'铂金蜂巢皮秒（Picosure Pro）',cat:'光电皮肤管理',price:1440.0,starts:true,isVirtual:true,isOwnBrand:false,specs:[{spec:'医生问诊',price:1440.0},{spec:'面积较小 （5平方厘米）',price:1680.0},{spec:'面积中等 （5-10平方厘米）',price:2480.0},{spec:'面积较大 （大于10平方厘米）',price:3280.0}],img:'img-marceau-main',
+   intro:'在皮秒级超短脉宽的基础上，搭配独有的蜂巢透镜（Focus Lens Array），将能量聚焦放大，产生LIOB效应。 在高效祛除各类色素斑的同时，能无创刺激真皮层胶原蛋白与弹性纤维新生，实现祛斑、嫩肤、缩毛孔、改善细纹的多重功效。'}),
+  excelProject({id:'h_marceau_p15',hid:'h_marceau',name:'深层水合透光管理',cat:'光电皮肤管理',price:1200.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:1200.0}],img:'img-marceau-main',
+   intro:'借助专业导入系统，将小分子透明质酸及多元醇复合剂输送至活细胞层，即刻提升肌肤含水量，持续24小时锁水，令肌肤呈现水润透亮的健康光泽。'}),
+  excelProject({id:'h_newstar_p1',hid:'h_newstar',name:'Medpcent 青春水光',cat:'水光',price:6350.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'5cc',price:6350.0}],img:'img-newstar-main',
+   intro:'韩国院线 6 合 1 复合居家水光，搭配纳米滚针无创透皮导入，复配外泌体、干细胞上清液、三文鱼 PDRN、5 重玻尿酸、17 重氨基酸，一次覆盖 6 大医美项目效果。细胞级再生抗衰，突破皮肤吸收壁垒，深层补水提亮、淡纹收毛孔、紧致饱满，一站式改善全维度轻熟肌问题。'}),
+  excelProject({id:'h_newstar_p2',hid:'h_newstar',name:'Medpcent 粉童颜水光',cat:'水光',price:1500.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'5cc',price:1500.0}],img:'img-newstar-main',
+   intro:'PLLA+Exo-dna 双相胶原再生配方，均匀 25-50μm 黄金微球，搭配纳晶仪器居家导入，直补多重胶原与 18 重多肽。长效激活自体胶原新生，填充面部凹陷、收紧松弛轮廓，改善胶原流失导致的脸垮馒化，重塑紧致贴合皮肉线条。'}),
+  excelProject({id:'h_newstar_p3',hid:'h_newstar',name:'Medpcent 紫肉毒水光',cat:'水光',price:1250.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'5cc',price:1250.0}],img:'img-newstar-main',
+   intro:'纯化轻链肉毒无毒性重链，复配双重肉毒肽、4 重焕亮保湿成分，无创纳晶渗透，全脸含眼周可用。舒缓动态表情纹、抚平静态干纹，上脸自然不僵硬，居家长期使用可延长院线抗皱效果，抑黑去黄匀净透亮肌肤。'}),
+  excelProject({id:'h_newstar_p4',hid:'h_newstar',name:'Medpcent NAD+能量水光',cat:'水光',price:1250.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'5cc',price:1250.0}],img:'img-newstar-main',
+   intro:'院线同源 NAD+涂抹水光，双重外泌体运载大分子活性物，搭配 18 重胜肽+四重美白成分，纳米微针加速真皮吸收。补充细胞 NAD+激活线粒体抗疲老，修护 DNA 延缓老化，同时淡纹紧致、抗氧去暗沉，改善作息压力带来的蜡黄垮脸。'}),
+  excelProject({id:'h_newstar_p5',hid:'h_newstar',name:'Medpcent 蓝溶水光',cat:'水光',price:1000.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'10cc',price:1000.0}],img:'img-newstar-main',
+   intro:'面身两用液态塑型精华，肉碱减脂搭配三重排水植萃、17 重氨基酸，配套滚轮操作，温和代谢不暴力溶脂。加速脂肪代谢、疏通淋巴消水肿，改善双下巴、咬肌发腮、面部浮肿，紧致软组织，打造清晰超薄小 V 脸与纤细身体线条。'}),
+  excelProject({id:'h_newstar_p6',hid:'h_newstar',name:'丽珠兰-黑盒',cat:'水光',price:1820.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'2cc',price:1820.0}],img:'img-newstar-main',
+   intro:'核心成分为PN（多核苷酸），从三文鱼DNA中提取，与人体DNA结构高度相似，具有卓越的生物相容性。强效修复受损肌肤屏障，增厚角质层，改善敏感肌与细纹，从肌底提升皮肤健康度，实现“素颜也发光”的自然美。'}),
+  excelProject({id:'h_newstar_p7',hid:'h_newstar',name:'丽珠兰-白盒 眼部',cat:'水光',price:1625.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:1625.0}],img:'img-newstar-main',
+   intro:'专为眼周脆弱肌肤设计的PN修复剂，质地细腻，能精准作用于眼周细纹、黑眼圈及皮肤松弛问题。温和修复眼周受损组织，促进胶原蛋白再生，有效淡化干纹、细纹，改善眼周暗沉，令双眸更显年轻神采。'}),
+  excelProject({id:'h_newstar_p8',hid:'h_newstar',name:'丽珠兰-红盒 HBplus',cat:'水光',price:1625.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:1625.0}],img:'img-newstar-main',
+   intro:'在PN基础上复配高浓度透明质酸，兼具细胞修复与深层补水双重功效。 在修复肌肤屏障的同时，为皮肤注入大量水分，实现长效保湿与锁水，改善皮肤干燥、粗糙，令肌肤水润饱满，光泽透亮。'}),
+  excelProject({id:'h_newstar_p9',hid:'h_newstar',name:'童颜针 塑妍萃（Sculptra）胶原水光',cat:'水光',price:7020.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1v',price:7020.0}],img:'img-newstar-main',
+   intro:'核心成分为聚左旋乳酸（PLLA）微球，通过水光注射方式均匀分布于真皮层，作为胶原再生的“信号源”。以渐进式的方式刺激自身胶原蛋白持续新生，从肌底改善皮肤厚度与弹性，实现全脸肤质细腻化和轮廓的紧致提升，效果自然且持久。'}),
+  excelProject({id:'h_newstar_p10',hid:'h_newstar',name:'乔雅登-长效水光（Skinvive）',cat:'水光',price:2600.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:2600.0}],img:'img-newstar-main',
+   intro:'采用VYCROSS®交联技术，形成质地平滑的凝胶微滴，专为改善皮肤质感而设计。能均匀平铺于真皮层，长效改善皮肤光滑度与含水量，显著提升肤质，实现长达数月的“磨皮”般柔滑触感。'}),
+  excelProject({id:'h_newstar_p11',hid:'h_newstar',name:'韩国产玻尿酸（The chaeum）',cat:'饱满填充',price:2400.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:2400.0}],img:'img-newstar-main',
+   intro:'采用HICE（高压交联）技术，使玻尿酸分子结构更稳定，兼具优异的支撑力与延展性。产品线覆盖全面，从精细填充到轮廓塑形均有对应型号，注射后形态自然，不易移位或产生僵硬感，性价比高。'}),
+  excelProject({id:'h_newstar_p12',hid:'h_newstar',name:'瑞蓝（Restylan）',cat:'饱满填充',price:3425.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:3425.0}],img:'img-newstar-main',
+   intro:'源自瑞典的NASHA™非动物源性稳定玻尿酸，拥有多种不同颗粒大小和交联度的产品型号。 全球应用广泛，安全性高，可根据不同部位和需求（如丰唇、填泪沟、隆鼻）精准选择，效果自然，触感真实。'}),
+  excelProject({id:'h_newstar_p13',hid:'h_newstar',name:'乔雅登（Juvederm）',cat:'饱满填充',price:3425.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:3425.0}],img:'img-newstar-main',
+   intro:'采用VYCROSS®交联技术，将不同分子量的玻尿酸进行混合，使产品兼具高内聚力与高粘弹性。 注射后平滑度与支撑力俱佳，维持时间更长，尤其擅长打造流畅自然的面部轮廓和饱满的苹果肌。'}),
+  excelProject({id:'h_newstar_p14',hid:'h_newstar',name:'少女针（Ellanse）',cat:'饱满填充',price:6435.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1cc',price:6435.0}],img:'img-newstar-main',
+   intro:'PCL微球刺激自体胶原蛋白再生，兼具玻尿酸的即时填充与长效抗衰功能。 效果可维持1-2年，随时间推移肤质持续改善，避免了频繁注射的麻烦。'}),
+  excelProject({id:'h_newstar_p15',hid:'h_newstar',name:'美版超声刀',cat:'光电抗衰提拉',price:7475.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'300发',price:7475.0}],img:'img-newstar-main',
+   intro:'采用微点聚焦超音波技术，能将能量精准送达皮下SMAS筋膜层，形成热凝固点，实现由深至浅的提拉。非侵入式抗衰的“金标准”，能实现显著的提拉紧致效果，尤其擅长改善中下面部下垂、下颌线模糊等问题，效果可维持一年以上。'}),
+  excelProject({id:'h_newstar_p16',hid:'h_newstar',name:'美版热玛吉 FLX（face)',cat:'光电抗衰提拉',price:85800.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'300发',price:85800.0}],img:'img-newstar-main',
+   intro:'采用单极射频技术，能量可均匀穿透至真皮深层及皮下组织，进行全层加热，刺激胶原即刻收缩与后续新生。无创紧肤的“金标准”，能实现全脸及眼周的收紧与肤质改善，尤其适合皮肤轻中度松弛、希望获得整体紧致提升效果的人群。'}),
+  excelProject({id:'h_newstar_p17',hid:'h_newstar',name:'Onda微波提升',cat:'光电抗衰提拉',price:643.5,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'10KJ',price:643.5}],img:'img-newstar-main',
+   intro:'采用独特的微米波技术，能够穿透表皮，精准加热皮下脂肪层，破坏脂肪细胞膜并促进其代谢。非侵入式溶脂，专门针对腰腹、大腿、手臂等局部顽固脂肪，在减少脂肪体积的同时，还能紧致皮肤，改善橘皮组织。'}),
+  excelProject({id:'h_newstar_p18',hid:'h_newstar',name:'Reviderm极光焕肤-Aurora',cat:'光电皮肤管理',price:1750.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'55分',price:1750.0}],img:'img-newstar-main',
+   intro:'德国专业院线焕肤品牌，采用复合酸配方，能温和剥脱老废角质，疏通毛孔，并刺激皮肤自我更新。有效改善肤色暗沉、粗糙、闭口粉刺等问题，提亮肤色，细腻肤质，让肌肤重现健康光泽与通透感。'}),
+  excelProject({id:'h_newstar_p19',hid:'h_newstar',name:'皮肤焕新管理（小气泡）',cat:'光电皮肤管理',price:1040.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:1040.0}],img:'img-newstar-main',
+   intro:'通过真空负压形成真空回路，将超微小气泡与营养液充分结合，通过特殊设计的小螺旋形吸头直接作用于皮肤。深层清洁毛孔内的油脂、污垢和彩妆残留，同时为皮肤补充水分和营养，是日常皮肤管理的基础项目，让肌肤清爽洁净。'}),
+  excelProject({id:'h_newstar_p20',hid:'h_newstar',name:'皮秒激光 Pico / Clarity',cat:'光电皮肤管理',price:975.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:975.0}],img:'img-newstar-main',
+   intro:'利用皮秒级超短脉宽和光声效应，将黑色素颗粒震碎成极细微的粉尘状，便于身体代谢排出。在不损伤表皮的前提下，温和改善全脸肤色不均、暗沉和色素沉淀，实现整体提亮和净肤效果。'}),
+  excelProject({id:'h_newstar_p21',hid:'h_newstar',name:'黄金微针（Potenza)',cat:'光电皮肤管理',price:1950.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:1950.0}],img:'img-newstar-main',
+   intro:'结合微针穿刺与射频能量，微针穿透表皮的同时释放射频能量，精准作用于真皮层。在改善毛孔粗大、痘坑痘印的同时，有效刺激胶原新生，实现紧致嫩肤，对表皮损伤小，恢复期短。'}),
+  excelProject({id:'h_lightmac_p1',hid:'h_lightmac',name:'BB Labs-EXOSOME蓝童颜水光',cat:'水光',price:4500.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次',price:4500.0}],img:'img-lightmac-reception',
+   intro:'富含高纯度干细胞外泌体与多种生长因子，能够精准传递细胞再生信号，深层激活皮肤自我修复机制。强效促进胶原蛋白与弹性纤维新生，从肌底改善肤质、淡化细纹并提升面部紧致度，实现深层抗衰与焕肤。'}),
+  excelProject({id:'h_lightmac_p2',hid:'h_lightmac',name:'BB Labs-EXOSOME超发泡水光（头皮）',cat:'水光',price:6300.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次',price:6300.0}],img:'img-lightmac-room',
+   intro:'利用外泌体强大的细胞通讯能力，靶向作用于头皮毛囊及微环境，调节头皮油脂分泌并抑制炎症反应。唤醒休眠毛囊，强韧发根并改善头皮屏障，有效缓解脱发与头皮敏感问题，重塑健康浓密的秀发基础。'}),
+  excelProject({id:'h_lightmac_p3',hid:'h_lightmac',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:7920.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:7920.0}],img:'img-lightmac-poster',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_lightmac_p4',hid:'h_lightmac',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:9720.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:9720.0}],img:'img-lightmac-reception',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_lightmac_p5',hid:'h_lightmac',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:4140.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4140.0}],img:'img-lightmac-room',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_lightmac_p6',hid:'h_lightmac',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:4140.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4140.0}],img:'img-lightmac-poster',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_lightmac_p7',hid:'h_lightmac',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:4140.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:4140.0}],img:'img-lightmac-reception',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_lightmac_p8',hid:'h_lightmac',name:'塑妍萃（Sculptra）',cat:'饱满填充',price:5220.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:5220.0}],img:'img-lightmac-room',
+   intro:'核心成分为聚左旋乳酸（PLLA）微球，通过水光注射方式均匀分布于真皮层，作为胶原再生的“信号源”。以渐进式的方式刺激自身胶原蛋白持续新生，从肌底改善皮肤厚度与弹性，实现全脸肤质细腻化和轮廓的紧致提升，效果自然且持久。'}),
+  excelProject({id:'h_lightmac_p9',hid:'h_lightmac',name:'瑞蓝（Restylan）',cat:'饱满填充',price:6120.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:6120.0}],img:'img-lightmac-poster',
+   intro:'源自瑞典的NASHA™非动物源性稳定玻尿酸，拥有多种不同颗粒大小和交联度的产品型号。 全球应用广泛，安全性高，可根据不同部位和需求（如丰唇、填泪沟、隆鼻）精准选择，效果自然，触感真实。'}),
+  excelProject({id:'h_lightmac_p10',hid:'h_lightmac',name:'乔雅登（Juvederm）',cat:'饱满填充',price:5850.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:5850.0}],img:'img-lightmac-reception',
+   intro:'采用VYCROSS®交联技术，将不同分子量的玻尿酸进行混合，使产品兼具高内聚力与高粘弹性。 注射后平滑度与支撑力俱佳，维持时间更长，尤其擅长打造流畅自然的面部轮廓和饱满的苹果肌。'}),
+  excelProject({id:'h_lightmac_p11',hid:'h_lightmac',name:'少女针（Ellanse）',cat:'饱满填充',price:15552.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:15552.0}],img:'img-lightmac-room',
+   intro:'PCL微球刺激自体胶原蛋白再生，兼具玻尿酸的即时填充与长效抗衰功能。 效果可维持1-2年，随时间推移肤质持续改善，避免了频繁注射的麻烦。'}),
+  excelProject({id:'h_lightmac_p12',hid:'h_lightmac',name:'EMFACE®輪廓重塑',cat:'光电抗衰提拉',price:7920.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:7920.0}],img:'img-lightmac-poster',
+   intro:'结合高能射频（HIFES）与同步电刺激（SES）技术，在加热真皮层的同时，对面部肌肉进行无创性锻炼。实现“增肌+紧肤”的双重功效，在提升面部轮廓、改善松弛的同时，增加肌肉量以支撑面部组织，实现更自然、立体的年轻化效果。'}),
+  excelProject({id:'h_lightmac_p13',hid:'h_lightmac',name:'Thermage®FLX紧肤',cat:'光电抗衰提拉',price:11520.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次 （全脸，600发）',price:11520.0}],img:'img-lightmac-reception',
+   intro:'采用第四代单极射频技术，能量可均匀穿透至真皮深层及皮下组织，进行全层加热，刺激胶原即刻收缩与后续新生。无创紧肤的“金标准”，能实现全脸及眼周的收紧与肤质改善，尤其适合皮肤轻中度松弛、希望获得整体紧致提升效果的人群。'}),
+  excelProject({id:'h_lightmac_p14',hid:'h_lightmac',name:'钛提升',cat:'光电抗衰提拉',price:13320.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次 （全脸，3000发）',price:13320.0}],img:'img-lightmac-room',
+   intro:'利用钛金微针将射频能量精准导入皮肤不同层次，通过热效应刺激胶原蛋白收缩与新生。在实现紧致提拉效果的同时，能有效改善毛孔粗大、痘坑痘印等皮肤质地问题，兼具抗衰与嫩肤双重功效。'}),
+  excelProject({id:'h_lightmac_p15',hid:'h_lightmac',name:'M22超光子嫩肤',cat:'光电皮肤管理',price:7092.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:7092.0}],img:'img-lightmac-poster',
+   intro:'采用优化的强脉冲光（IPL）技术，拥有多个滤光片，可针对不同皮肤问题（如色素、血管、痤疮）进行个性化治疗。全能型皮肤管理项目，能有效改善肤色不均、色斑、红血丝、毛孔粗大等多种问题，实现肤质、肤色的综合提升。'}),
+  excelProject({id:'h_lightmac_p16',hid:'h_lightmac',name:'Pico皮秒激光',cat:'光电皮肤管理',price:4140.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次（全脸）',price:4140.0}],img:'img-lightmac-reception',
+   intro:'利用皮秒级超短脉宽和光声效应，将黑色素颗粒震碎成极细微的粉尘状，便于身体代谢排出。在不损伤表皮的前提下，温和改善全脸肤色不均、暗沉和色素沉淀，实现整体提亮和净肤效果。'}),
+  excelProject({id:'h_lightmac_p17',hid:'h_lightmac',name:'白瓷娃娃',cat:'光电皮肤管理',price:3312.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:3312.0}],img:'img-lightmac-room',
+   intro:'通常指采用特定波长（如1064nm）的激光，以低能量、大光斑的模式进行全脸扫描，温和作用于皮肤。能有效淡化表皮色素，改善肤色暗沉，提亮整体肤色，同时能细致毛孔，使皮肤呈现如白瓷般的光滑洁净感。'}),
+  excelProject({id:'h_lightmac_p18',hid:'h_lightmac',name:'黄金微针',cat:'光电皮肤管理',price:7020.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:7020.0}],img:'img-lightmac-poster',
+   intro:'结合微针穿刺与射频能量，微针穿透表皮的同时释放射频能量，精准作用于真皮层。在改善毛孔粗大、痘坑痘印的同时，有效刺激胶原新生，实现紧致嫩肤，对表皮损伤小，恢复期短。'}),
+  excelProject({id:'h_lightmac_p19',hid:'h_lightmac',name:'极光焕肤',cat:'光电皮肤管理',price:3312.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:3312.0}],img:'img-lightmac-reception',
+   intro:'通常指采用复合酸或特定光电技术，温和剥脱老废角质，疏通毛孔，并刺激皮肤自我更新。 有效改善肤色暗沉、粗糙、闭口粉刺等问题，提亮肤色，细腻肤质，让肌肤重现健康光泽与通透感。'}),
+  excelProject({id:'h_lightmac_p20',hid:'h_lightmac',name:'肌底活能重塑',cat:'光电皮肤管理',price:1080.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:1080.0}],img:'img-lightmac-room',
+   intro:'针对肌肤吸收力下降、代谢迟缓、早期松弛等问题，通过专业仪器与活性成分结合，唤醒基底细胞活性，恢复皮肤自我修复节'}),
+  excelProject({id:'h_ganen_p1',hid:'h_ganen',name:'BB Labs-EXOSOME蓝童颜水光',cat:'水光',price:4500.0,starts:false,isVirtual:false,isOwnBrand:true,specs:[{spec:'1次',price:4500.0}],img:'img-hian-reception',
+   intro:'富含高纯度干细胞外泌体与多种生长因子，能够精准传递细胞再生信号，深层激活皮肤自我修复机制。强效促进胶原蛋白与弹性纤维新生，从肌底改善肤质、淡化细纹并提升面部紧致度，实现深层抗衰与焕肤。'}),
+  excelProject({id:'h_ganen_p2',hid:'h_ganen',name:'BB Labs-EXOSOME超发泡水光（头皮）',cat:'水光',price:6300.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:6300.0}],img:'img-hian-reception',
+   intro:'利用外泌体强大的细胞通讯能力，靶向作用于头皮毛囊及微环境，调节头皮油脂分泌并抑制炎症反应。唤醒休眠毛囊，强韧发根并改善头皮屏障，有效缓解脱发与头皮敏感问题，重塑健康浓密的秀发基础。'}),
+  excelProject({id:'h_ganen_p3',hid:'h_ganen',name:'佰洛雅（Pluryal）-Silk 丝柔针',cat:'水光',price:7200.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（眼部）',price:7200.0}],img:'img-hian-reception',
+   intro:'高纯度 HPN 专利单 PN 多核苷酸配方，适配眼周、唇周、颈部薄嫩脆弱肌肤，温和抗炎修护，促胶原与弹性纤维新生，淡化浅表细纹、改善暗沉倦容、细腻毛孔，专项娇嫩区域再生嫩肤。'}),
+  excelProject({id:'h_ganen_p4',hid:'h_ganen',name:'佰洛雅（Pluryal）-Densify 致柔针',cat:'水光',price:8352.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次（全脸）',price:8352.0}],img:'img-hian-reception',
+   intro:'PN 多核苷酸复配非交联透明质酸黄金配比，兼具即时补水充盈与长效胶原再生，全面部分层紧致，提升真皮密度、改善凹陷痘坑、松弛粗糙，一站式实现水润膨弹与全脸抗衰。'}),
+  excelProject({id:'h_ganen_p5',hid:'h_ganen',name:'佰洛雅（Pluryal）-FIRM',cat:'水光',price:3492.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3492.0}],img:'img-hian-reception',
+   intro:'复合帝美妮、阿魏酸、辅酶 A 前体与促胶原矿物质，三重通路代谢多余软组织、排水消水肿，同步收紧提拉皮肉、加固胶原支撑，改善馒化浮肿、下颌模糊、苹果肌下垂，打造紧致贴骨轮廓。'}),
+  excelProject({id:'h_ganen_p6',hid:'h_ganen',name:'佰洛雅（Pluryal）-RENEW',cat:'水光',price:3492.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3492.0}],img:'img-hian-reception',
+   intro:'独家 HPN 高浓纯化 PN 搭配豌豆植物干细胞，长链 3D 支架结构长效促 I 型、III 型胶原自生，填补面部凹陷、抚平沟壑干纹，提升真皮饱满度，改善干瘪苦相、胶原流失塌陷。'}),
+  excelProject({id:'h_ganen_p7',hid:'h_ganen',name:'佰洛雅（Pluryal）-AOX',cat:'水光',price:3492.0,starts:false,isVirtual:true,isOwnBrand:true,specs:[{spec:'1次',price:3492.0}],img:'img-hian-reception',
+   intro:'4 重抗氧化剂 + 4 种能量氨基酸 + 促胶原矿物质的专属 441 配方，中和自由基抑制糖化暗沉，加速角质代谢、平衡水油、细腻毛孔，长效锁水提亮，打造匀净透亮细腻少女肌。'}),
+  excelProject({id:'h_ganen_p8',hid:'h_ganen',name:'塑妍萃（Sculptra）',cat:'饱满填充',price:6120.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:6120.0}],img:'img-hian-reception',
+   intro:'核心成分为聚左旋乳酸（PLLA）微球，作为胶原再生的“信号源”，以渐进式的方式刺激自身胶原蛋白持续新生，从肌底改善皮肤厚度与弹性，实现全脸肤质细腻化和轮廓的紧致提升，效果自然且持久。'}),
+  excelProject({id:'h_ganen_p9',hid:'h_ganen',name:'瑞蓝 Restylan',cat:'饱满填充',price:6120.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:6120.0}],img:'img-hian-reception',
+   intro:'源自瑞典的NASHA™非动物源性稳定玻尿酸，拥有多种不同颗粒大小和交联度的产品型号。 全球应用广泛，安全性高，可根据不同部位和需求（如丰唇、填泪沟、隆鼻）精准选择，效果自然，触感真实。'}),
+  excelProject({id:'h_ganen_p10',hid:'h_ganen',name:'乔雅登（Juvederm）',cat:'饱满填充',price:5562.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:5562.0}],img:'img-hian-reception',
+   intro:'采用VYCROSS®交联技术，将不同分子量的玻尿酸进行混合，使产品兼具高内聚力与高粘弹性。 注射后平滑度与支撑力俱佳，维持时间更长，尤其擅长打造流畅自然的面部轮廓和饱满的苹果肌。'}),
+  excelProject({id:'h_ganen_p11',hid:'h_ganen',name:'少女针（Ellanse）',cat:'饱满填充',price:15120.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1cc',price:15120.0}],img:'img-hian-reception',
+   intro:'PCL微球刺激自体胶原蛋白再生，兼具玻尿酸的即时填充与长效抗衰功能。 效果可维持1-2年，随时间推移肤质持续改善，避免了频繁注射的麻烦。'}),
+  excelProject({id:'h_ganen_p12',hid:'h_ganen',name:'超声刀',cat:'光电抗衰提拉',price:12420.0,starts:false,isVirtual:false,isOwnBrand:false,specs:[{spec:'1次',price:12420.0}],img:'img-hian-reception',
+   intro:'采用微点聚焦超音波技术，能将能量精准送达皮下SMAS筋膜层，形成热凝固点，实现由深至浅的提拉。非侵入式抗衰的“金标准”，能实现显著的提拉紧致效果，尤其擅长改善中下面部下垂、下颌线模糊等问题，效果可维持一年以上。'}),
+  excelProject({id:'h_ganen_p13',hid:'h_ganen',name:'热玛吉',cat:'光电抗衰提拉',price:9720.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:9720.0}],img:'img-hian-reception',
+   intro:'采用单极射频技术，能量可均匀穿透至真皮深层及皮下组织，进行全层加热，刺激胶原即刻收缩与后续新生。无创紧肤的“金标准”，能实现全脸及眼周的收紧与肤质改善，尤其适合皮肤轻中度松弛、希望获得整体紧致提升效果的人群。'}),
+  excelProject({id:'h_ganen_p14',hid:'h_ganen',name:'Onda微波提升',cat:'光电抗衰提拉',price:8100.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:8100.0}],img:'img-hian-reception',
+   intro:'采用独特的微米波技术，能够穿透表皮，精准加热皮下脂肪层，破坏脂肪细胞膜并促进其代谢。非侵入式溶脂，专门针对腰腹、大腿、手臂等局部顽固脂肪，在减少脂肪体积的同时，还能紧致皮肤，改善橘皮组织。'}),
+  excelProject({id:'h_ganen_p15',hid:'h_ganen',name:'OPT光子嫩肤',cat:'光电皮肤管理',price:7920.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:7920.0}],img:'img-hian-reception',
+   intro:'采用优化脉冲技术（OPT）的强脉冲光，能量输出更稳定、均匀，治疗过程更舒适，安全性更高。在祛斑、祛红、嫩肤方面效果显著，能有效改善皮肤光老化问题，提亮肤色，细腻肤质，是入门级光电项目的理想选择。'}),
+  excelProject({id:'h_ganen_p16',hid:'h_ganen',name:'皮秒激光',cat:'光电皮肤管理',price:3852.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:3852.0}],img:'img-hian-reception',
+   intro:'利用皮秒级超短脉宽和光声效应，将黑色素颗粒震碎成极细微的粉尘状，便于身体代谢排出。在不损伤表皮的前提下，温和改善全脸肤色不均、暗沉和色素沉淀，实现整体提亮和净肤效果。'}),
+  excelProject({id:'h_ganen_p17',hid:'h_ganen',name:'极光焕肤',cat:'光电皮肤管理',price:3312.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:3312.0}],img:'img-hian-reception',
+   intro:'通常指采用复合酸或特定光电技术，温和剥脱老废角质，疏通毛孔，并刺激皮肤自我更新。 有效改善肤色暗沉、粗糙、闭口粉刺等问题，提亮肤色，细腻肤质，让肌肤重现健康光泽与通透感。'}),
+  excelProject({id:'h_ganen_p18',hid:'h_ganen',name:'黄金微针',cat:'光电皮肤管理',price:7920.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:7920.0}],img:'img-hian-reception',
+   intro:'结合微针穿刺与射频能量，微针穿透表皮的同时释放射频能量，精准作用于真皮层。在改善毛孔粗大、痘坑痘印的同时，有效刺激胶原新生，实现紧致嫩肤，对表皮损伤小，恢复期短。'}),
+  excelProject({id:'h_ganen_p19',hid:'h_ganen',name:'皮肤焕新管理（小气泡）',cat:'光电皮肤管理',price:2052.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:2052.0}],img:'img-hian-reception',
+   intro:'通过真空负压形成真空回路，将超微小气泡与营养液充分结合，通过特殊设计的小螺旋形吸头直接作用于皮肤。深层清洁毛孔内的油脂、污垢和彩妆残留，同时为皮肤补充水分和营养，是日常皮肤管理的基础项目，让肌肤清爽洁净。'}),
+  excelProject({id:'h_ganen_p20',hid:'h_ganen',name:'肌底活能重塑',cat:'光电皮肤管理',price:1080.0,starts:false,isVirtual:true,isOwnBrand:false,specs:[{spec:'1次',price:1080.0}],img:'img-hian-reception',
+   intro:'针对肌肤吸收力下降、代谢迟缓、早期松弛等问题，通过专业仪器与活性成分结合，唤醒基底细胞活性，恢复皮肤自我修复节'}),
+];
+const CATS=['全部',...CATS_ALL];
+const BRANDS=[['BB','BB Labs',true],['PLU','佰洛雅',false]];
+
+// 项目配图按分类映射到 GPT 生成的场景图，无匹配分类（如免费体验，后续单独赋值）落回占位纹理。
+const CAT_IMG_MAP={'干细胞':'img-iv','营养点滴':'img-iv','水光':'img-injection','肉毒':'img-injection','饱满填充':'img-injection','光电抗衰提拉':'img-device','光电皮肤管理':'img-device','基础光电':'img-device','皮肤管理':'img-device'};
+PROJECTS.forEach(p=>{p.img=CAT_IMG_MAP[p.cat]||'img-ph-a';});
+const PILL={'待确认':'pill-amber','已确认':'pill-blue','已完成':'pill-green'};
 
 /* ============================ STATE ============================ */
 const state={
-  role:'customer',
-  streamer:'Jessy',
   cat:'全部',
-  ledgerFilter:'全部',
   booking:null,
   lastBooking:null,
-  myBookings:[
-    {id:'GL2606-882',proj:'胶原蛋白光子嫩肤',hosp:'Newstar 皮肤科医院',region:'首尔江南区',date:'2026 年 6 月 10 日',time:'14:00',status:'已完成',referrer:'Jessy',free:false},
-  ],
+  myBookings:[],
 };
 
 /* ============================ HELPERS ============================ */
@@ -463,6 +753,31 @@ const projByRegion=rid=>PROJECTS.filter(p=>hospital(p.hid).region===rid);
 const projByHosp=hid=>PROJECTS.filter(p=>p.hid===hid);
 const hospByRegion=rid=>HOSPITALS.filter(h=>h.region===rid);
 const projRegionId=p=>hospital(p.hid).region;
+const hasPrice=p=>typeof p.price==='number'&&p.price>0;
+const priceText=p=>p.isFree?'<span class="freeword">免费体验</span>':(hasPrice(p)?money(p.price)+(p.starts?' 起':''):PENDING);
+const checkoutText=priceText;
+const projectImage=p=>p.img||'img-clinic';
+const sortProjects=list=>list.slice().sort((a,b)=>((b.isFree?1:0)-(a.isFree?1:0))||((b.isOwnBrand?1:0)-(a.isOwnBrand?1:0)));
+const freeGiftsFor=hid=>FREE_GIFTS.filter(g=>g.hid===hid);
+const virtualBadge=()=>'<span class="pill pill-amber" style="margin-left:8px;vertical-align:middle">示例数据</span>';
+// 把 FREE_GIFTS 的每一条转换为可点击、可预约的伪项目记录，并入 PROJECTS
+FREE_GIFTS.forEach((g,i)=>{
+  const h=hospital(g.hid);
+  PROJECTS.push(excelProject({id:`free_${g.hid}_${i}`,hid:g.hid,name:g.name,cat:'免费体验',price:0,starts:false,
+    isVirtual:h.isVirtual,isOwnBrand:false,isFree:true,specs:[],img:'img-consult',
+    intro:`到店即享免费体验项目，价值 ${money(g.value)}，用于新客到店体验。`}));
+});
+function freeGiftBanner(hid){
+  const gifts=freeGiftsFor(hid);
+  if(!gifts.length) return '';
+  return `<div class="fnote" style="margin:0 24px 12px;background:linear-gradient(135deg,#eef6f1,#fbfaf4);border:1.5px solid var(--green)">
+    <span class="i" style="font-size:18px">🎁</span><span>以下为到店即享<b style="color:var(--green)">免费体验</b>项目</span></div>`;
+}
+function hospitalVirtualNote(h){
+  if(!h||!h.isVirtual) return '';
+  return `<div class="fnote" style="margin:0 24px 14px;background:#f7efe1;border:1px solid #ecdcc0">
+    <span class="i">⚠</span><span>该机构为示例合作机构，此处项目与价格均为演示数据，尚未完成真实商务签约，仅供内部方案演示，请勿对外报价。</span></div>`;
+}
 
 const IC={
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>',
@@ -480,9 +795,7 @@ function navBar(title,sub,backTo){
   return `<div class="navbar">${back}<div><div class="nav-ttl" style="text-align:center">${title}</div>${sub?`<div class="nav-sub">${sub}</div>`:''}</div><div style="width:38px"></div></div>`;
 }
 function tabBar(active){
-  const tabs = state.role==='customer'
-    ? [['home','首页','home'],['regions','地区','globe'],['projects','项目','grid'],['my','我的','user']]
-    : [['dash','工作台','board'],['customers','客户','users'],['earnings','收益','wallet'],['sprofile','我的','user']];
+  const tabs = [['home','首页','home'],['regions','地区','globe'],['projects','项目','grid'],['my','我的','user']];
   return `<div class="tabbar">${tabs.map(([v,l,ic])=>
     `<button class="tab ${active===v?'on':''}" onclick="switchTab('${v}')">${IC[ic]}<span>${l}</span></button>`).join('')}</div>`;
 }
@@ -493,14 +806,14 @@ const VIEWS={};
 
 VIEWS.home=()=>shell(navBarless()+`<div class="scroll">
   <div class="hero">
-    <div class="bg img-clinic"></div><div class="ov"></div>
+    <div class="bg img-tokyo-a"></div><div class="ov"></div>
     <div class="ct">
-      <div class="eyebrow">Gaolong Preventive Medicine</div>
-      <h1>全球预防医学<br>触手可及</h1>
-      <p>汇聚日韩港澳与欧洲顶级医疗资源，为你定制专属抗衰方案</p>
+      <div class="eyebrow">Golong Preventive Medicine</div>
+      <h1>GOLONG全球医疗<br>官方预约平台</h1>
+      <p>严选日本、巴黎、首尔、香港与澳门合作机构，配备私人医疗顾问，在线查看项目详情并直接提交预约</p>
     </div>
   </div>
-  <div class="sec-h"><div class="sec-t">选择目的地</div><div class="sec-m" onclick="switchTab('regions')">全部地区 →</div></div>
+  <div class="sec-h"><div class="sec-t">严选目的地</div><div class="sec-m" onclick="switchTab('regions')">全部地区 →</div></div>
   <div class="rscroll">${REGIONS.map(r=>{
     const cnt=projByRegion(r.id).length;
     const click = r.soon?`onclick="toast('${r.name}项目即将上线')"`:`onclick="navigate('hospitals',{rid:'${r.id}'})"`;
@@ -508,17 +821,15 @@ VIEWS.home=()=>shell(navBarless()+`<div class="scroll">
       ${r.soon?'<span class="soon">即将上线</span>':''}
       <div class="ct"><div class="fl">${r.flag}</div><div class="nm">${r.name}</div><div class="cn">${r.soon?'敬请期待':cnt+' 个项目'}</div></div></div>`;
   }).join('')}</div>
-  <div class="sec-h"><div class="sec-t">精选项目</div><div class="sec-m" onclick="switchTab('projects')">查看更多 →</div></div>
-  ${[project('p_water'),project('p_stem')].map(p=>{const h=hospital(p.hid);return `
-    <div class="fcard" onclick="navigate('detail',{id:'${p.id}'})">
-      <div class="img ${CAT_IMG[p.cat]}"></div>
-      <div class="bd"><span class="ftag">${p.brand}</span>
-        <div class="nm">${p.name}</div>
-        <div class="ds">${p.intro.slice(0,46)}…</div>
-        <div class="fmeta"><span>📍 ${h.city}</span><span>⏱ ${p.duration}</span><span>⭐ ${h.rating}</span></div>
-      </div></div>`;}).join('')}
-  <div class="sec-h"><div class="sec-t">合作品牌</div></div>
-  <div class="bgrid">${BRANDS.map(([lo,sub])=>`<div class="bitem" onclick="toast('${sub} 品牌专区')"><div class="blogo" ${lo==='+'?'style=color:var(--text-3)':''}>${lo}</div><div class="bsub">${sub}</div></div>`).join('')}</div>
+  <div class="sec-h"><div class="sec-t">严选机构</div><div class="sec-m" onclick="switchTab('regions')">全部地区 →</div></div>
+  <div class="hgrid">${HOSPITALS.map(h=>{const r=region(h.region);return `
+    <div class="hgcard" onclick="navigate('projects',{hid:'${h.id}'})">
+      <div class="img ${h.img}"></div>
+      <div class="bd"><div class="nm">${h.name}</div>
+        <div class="rg">${r.flag} ${r.name}${h.isVirtual?'<span class="pill pill-amber" style="margin-left:6px;font-size:9px">示例机构</span>':''}</div>
+      </div></div>`;}).join('')}</div>
+  <div class="sec-h"><div class="sec-t">高浪自有品牌</div></div>
+  <div class="bgrid">${BRANDS.map(([lo,sub,pendingLogo])=>`<div class="bitem" onclick="toast('${sub} 品牌专区')">${pendingLogo?'<div class="blogo-ph">LOGO</div>':`<div class="blogo">${lo}</div>`}<div class="bsub">${sub}</div></div>`).join('')}</div>
   <div style="height:14px"></div>
 </div>`,tabBar('home'));
 function navBarless(){return '';}
@@ -541,64 +852,80 @@ VIEWS.hospitals=({rid})=>{
       <div class="ct"><span class="fl">${r.flag}</span><h2>${r.name}</h2><div class="cn">${r.cities} · 共 ${projByRegion(rid).length} 个项目</div></div></div>
     <div class="sec-h" style="padding-top:14px"><div class="sec-t">合作医疗机构</div></div>
     <div class="list">${hs.map(h=>`
-      <div class="litem" onclick="navigate('projects',{hid:'${h.id}'})">
+      <div class="litem" ${h.soon?`onclick="toast('${h.name}资料待补充')"`:`onclick="navigate('projects',{hid:'${h.id}'})"`}>
         <div class="lico" style="font-size:15px;font-family:var(--serif);color:var(--accent)">${h.name.slice(0,1)}</div>
         <div class="linfo"><div class="lname">${h.name}</div><div class="ldet">📍 ${h.city} · ${projByHosp(h.id).length} 个项目</div>
-          <span class="lbrand">${h.brand}</span></div>
-        <div style="text-align:right"><div class="lrate">${h.rating?'★ '+h.rating:'即将'}</div></div>
+          <span class="lbrand">${h.brand}</span>${h.isVirtual?'<span class="pill pill-amber" style="margin-left:6px">示例</span>':''}</div>
+        <div style="text-align:right"><div class="lrate">${h.rating}</div></div>
       </div>`).join('')}</div>
     <div style="height:20px"></div>
   </div>`,tabBar('regions'));
 };
 
+function pcardHtml(p){
+  const h=hospital(p.hid);
+  return `<div class="pcard" onclick="navigate('detail',{id:'${p.id}'})">
+    <div class="img ${projectImage(p)}">${p.isFree?'<span class="free-rib">免费体验</span>':(p.isOwnBrand?'<span class="free-rib" style="background:var(--accent)">高浪严选</span>':'')}</div>
+    <div class="bd"><div class="row">
+      <div class="nm">${p.name}</div>
+      <div class="pr">${priceText(p)}${p.isVirtual?virtualBadge():''}</div></div>
+      <div class="hp">📍 ${h.name} · ${h.city}</div>
+      <div class="ptags"><span class="ptag">${p.cat}</span>${p.isOwnBrand?'<span class="ptag" style="color:var(--accent);border-color:var(--accent-2)">自有品牌</span>':''}</div>
+    </div></div>`;
+}
+function catSection(cat,items){
+  return `<div class="sec-h" style="padding:20px 24px 6px"><div class="sec-t" style="font-size:16px">${cat}</div></div>${items.map(pcardHtml).join('')}`;
+}
 VIEWS.projects=({rid,hid})=>{
-  let list, title, sub;
-  if(hid){const h=hospital(hid);list=projByHosp(hid);title=h.name;sub=h.city;}
+  let list, title, sub, h=null;
+  if(hid){h=hospital(hid);list=projByHosp(hid);title=h.name;sub=h.city;}
   else if(rid){const r=region(rid);list=projByRegion(rid);title=r.name;sub='全部项目';}
   else{list=PROJECTS.slice();title='全部项目';sub='ALL TREATMENTS';}
   if(state.cat!=='全部') list=list.filter(p=>p.cat===state.cat);
-  const cards = list.length?list.map(p=>{const h=hospital(p.hid);return `
-    <div class="pcard" onclick="navigate('detail',{id:'${p.id}'})">
-      <div class="img ${CAT_IMG[p.cat]}">${p.free?'<span class="free-rib">粉丝专属 · 免费</span>':''}</div>
-      <div class="bd"><div class="row">
-        <div class="nm">${p.name}</div>
-        <div class="pr">${p.free?'<span class="freeword">限时免费</span>':money(p.price)}</div></div>
-        <div class="hp">📍 ${h.name} · ${h.city}</div>
-        <div class="ptags"><span class="ptag">${p.brand}</span><span class="ptag">${p.duration}</span><span class="ptag">${p.cat}</span></div>
-      </div></div>`;}).join('') : `<div class="empty">该分类下暂无项目</div>`;
+  list=sortProjects(list);
+  let body;
+  if(!list.length){
+    body=`<div class="empty">该分类下暂无项目</div>`;
+  } else if(hid){
+    const freeItems=list.filter(p=>p.isFree);
+    const restItems=list.filter(p=>!p.isFree);
+    const cats=CATS_ALL.filter(c=>restItems.some(p=>p.cat===c));
+    body=freeItems.map(pcardHtml).join('')+cats.map(c=>catSection(c,restItems.filter(p=>p.cat===c))).join('');
+  } else {
+    body=list.map(pcardHtml).join('');
+  }
+  const banner=hospitalVirtualNote(h)+(hid?freeGiftBanner(hid):'');
   return shell(navBar(title,sub)+
     `<div class="filters">${CATS.map(c=>`<button class="chip ${state.cat===c?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('')}</div>
-     <div class="scroll">${cards}<div style="height:14px"></div></div>`,tabBar('projects'));
+     <div class="scroll">${banner}${body}<div style="height:14px"></div></div>`,tabBar('projects'));
 };
 
 VIEWS.detail=({id})=>{
   const p=project(id),h=hospital(p.hid);
-  const priceBlock = p.free
-    ? `<div class="big free">限时免费</div><div class="ori">原价 ${money(p.original)}</div><div class="note">粉丝专属</div>`
-    : `<div class="big">${money(p.price)}</div>${p.original?`<div class="ori">原价 ${money(p.original)}</div>`:''}`;
+  const specsHtml = p.specs&&p.specs.length ? `<div class="dsec"><div class="dsec-t">规格与价格</div><ul class="dlist">
+    ${p.specs.map(s=>`<li>${s.spec} — ${money(s.price)}</li>`).join('')}
+  </ul></div>` : '';
   return `<div class="scroll" style="padding-bottom:0">
-    <div class="dhero"><div class="img ${CAT_IMG[p.cat]}"></div>
+    <div class="dhero"><div class="img ${projectImage(p)}"></div>
       <button class="dround dback" onclick="back()">←</button>
       <div class="dround dfav" onclick="toast('已收藏到「我的」')">♡</div></div>
     <div class="dcontent">
-      <div class="dbadge">✦ ${p.brand.toUpperCase()}</div>
+      <div class="dbadge">✦ ${p.cat}</div>
+      ${p.isOwnBrand?'<span class="pill pill-gold" style="margin-right:6px">高浪自有品牌</span>':''}${p.isVirtual?virtualBadge():''}
       <div class="dtitle">${p.name}</div>
-      <div class="dhosp">📍 ${h.name} · ${h.city}</div>
-      <div class="dprice">${priceBlock}</div>
-      ${p.free?`<div class="fnote" style="margin-bottom:24px"><span class="i">✦</span><span>本项目由平台承担成本，作为粉丝专属引流体验。到院后可由医师评估，自愿升级为正式疗程方案。</span></div>`:''}
-      <div class="dsec"><div class="dsec-t">项目介绍</div><p>${p.intro}</p></div>
-      <div class="dsec"><div class="dsec-t">疗程信息</div><div class="dgrid">
-        <div class="dgi"><div class="l">时长</div><div class="v">${p.duration}</div></div>
-        <div class="dgi"><div class="l">恢复期</div><div class="v">${p.recovery}</div></div>
-        <div class="dgi"><div class="l">疗程次数</div><div class="v">${p.times}</div></div>
-        <div class="dgi"><div class="l">适用人群</div><div class="v">${p.age}</div></div></div></div>
-      <div class="dsec"><div class="dsec-t">主治医师</div><div class="ddoc"><div class="av">${p.doctor.n.slice(0,1)}</div>
-        <div><div class="n">${p.doctor.n} 医师</div><div class="t">${p.doctor.t}</div></div></div></div>
-      <div class="dsec"><div class="dsec-t">使用产品</div><ul class="dlist">${p.products.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-      <div class="dsec"><div class="dsec-t">注意事项</div><ul class="dlist">${p.notices.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <div class="dhosp">📍 ${h.name} · ${h.city}${h.isVirtual?' · <span style="color:var(--amber)">示例机构</span>':''}</div>
+      <div class="dprice"><div class="big ${p.isFree?'free':''}">${priceText(p)}</div><div class="note">${p.isFree?'到店即享免费体验':(p.isVirtual?'示例价格，非最终报价':'参考价格')}</div></div>
+      ${hospitalVirtualNote(h)}
+      <div class="dsec"><div class="dsec-t">项目介绍</div><p>${p.intro||PENDING}</p></div>
+      ${specsHtml}
+      <div class="dsec"><div class="dsec-t">表格字段</div><div class="dgrid">
+        <div class="dgi"><div class="l">分类</div><div class="v">${p.cat}</div></div>
+        <div class="dgi"><div class="l">价格</div><div class="v">${priceText(p)}</div></div>
+        <div class="dgi"><div class="l">品牌属性</div><div class="v">${p.isOwnBrand?'高浪自有品牌':'合作品牌'}</div></div>
+        <div class="dgi"><div class="l">数据性质</div><div class="v">${p.isVirtual?'示例数据':'已确认'}</div></div></div></div>
     </div></div>
     <div class="actionbar">
-      <div class="ab-price"><div class="l">${p.free?'粉丝专属价':'参考价'}</div><div class="v">${p.free?'免费体验':money(p.price)}</div></div>
+      <div class="ab-price"><div class="l">价格</div><div class="v">${priceText(p)}</div></div>
       <button class="btn btn-line" onclick="consult('${p.name}')">咨询</button>
       <button class="btn btn-fill" onclick="startBooking('${p.id}')">立即预约</button>
     </div>`;
@@ -620,9 +947,9 @@ VIEWS.booking=()=>{
         ${['09:00','10:00','11:00','14:00','15:00','16:00'].map(t=>{
           const dis=t==='16:00';return `<div class="ts ${dis?'dis':''} ${b.time===t?'sel':''}" ${dis?'':`onclick="pickTime('${t}')"`}>${t}${dis?' 满':''}</div>`;}).join('')}
       </div></div>
-      <div class="fnote"><span class="i">ℹ</span><span>实际到店时间以专属顾问最终确认为准，预约成功后可免费改期一次。</span></div>
+      <div class="fnote"><span class="i">ℹ</span><span>预约提交后由顾问确认最终到店时间。</span></div>
     </div>`;
-    bar=`<div class="actionbar"><div class="ab-price"><div class="l">${p.name}</div><div class="v">${p.free?'免费体验':money(p.price)}</div></div>
+    bar=`<div class="actionbar"><div class="ab-price"><div class="l">${p.name}</div><div class="v">${priceText(p)}</div></div>
       <button class="btn btn-fill wide" onclick="bookingNext()">下一步</button></div>`;
   } else if(b.step===2){
     body=`<div class="bform">
@@ -633,10 +960,9 @@ VIEWS.booking=()=>{
         <input class="finput ${b.errors.phone?'err':''}" type="tel" inputmode="numeric" placeholder="用于顾问联系，11 位手机号" value="${b.phone}" oninput="setField('phone',this.value)">
         ${b.errors.phone?`<div class="ferr">${b.errors.phone}</div>`:''}</div>
       <div class="fg"><label class="flabel">护照号（选填）</label>
-        <input class="finput" placeholder="出境就医可提前协助办理" value="${b.passport}" oninput="setField('passport',this.value)"></div>
-      <div class="fg"><label class="flabel">推荐主播</label>
-        <select class="finput fselect" onchange="setField('referrer',this.value)">
-          ${['Jessy','妮米','其他主播','无'].map(s=>`<option ${b.referrer===s?'selected':''}>${s}</option>`).join('')}</select></div>
+        <input class="finput" placeholder="如需登记请填写" value="${b.passport}" oninput="setField('passport',this.value)"></div>
+      <div class="fg"><label class="flabel">预约达人是谁（选填）</label>
+        <input class="finput" placeholder="填写你是从哪位达人处报名的" value="${b.referrer}" oninput="setField('referrer',this.value)"></div>
       <div class="fnote"><span class="i">🔒</span><span>你的信息仅用于本次预约与行程协助，受加密保护，不会用于其他用途。</span></div>
     </div>`;
     bar=`<div class="actionbar"><button class="btn btn-line" onclick="bookingGo(1)">上一步</button>
@@ -652,11 +978,11 @@ VIEWS.booking=()=>{
       <div class="rdiv"></div>
       <div class="rrow"><span class="l">姓名</span><span class="v">${b.name}</span></div>
       <div class="rrow"><span class="l">手机号</span><span class="v">${b.phone}</span></div>
-      <div class="rrow"><span class="l">推荐主播</span><span class="v">${b.referrer}</span></div>
+      ${b.referrer.trim()?`<div class="rrow"><span class="l">预约达人</span><span class="v">${b.referrer}</span></div>`:''}
       <div class="rdiv"></div>
-      <div class="rrow"><span class="l">费用</span><span class="v" style="color:${p.free?'var(--green)':'var(--accent)'}">${p.free?'粉丝专属 · 免费':money(p.price)}</span></div>
+      <div class="rrow"><span class="l">费用</span><span class="v" style="color:var(--accent)">${checkoutText(p)}</span></div>
     </div></div>
-    <div class="fnote"><span class="i">ℹ</span><span>提交后专属顾问将在 24 小时内与你联系，确认行程并协助签证、机票、酒店安排。</span></div></div>`;
+    <div class="fnote"><span class="i">ℹ</span><span>提交后由顾问联系确认预约信息。</span></div></div>`;
     bar=`<div class="actionbar"><button class="btn btn-line" onclick="bookingGo(2)">上一步</button>
       <button class="btn btn-fill wide" onclick="submitBooking()">确认预约</button></div>`;
   }
@@ -679,7 +1005,7 @@ VIEWS.confirm=()=>{
   const r=state.lastBooking;
   return STATUS+`<div class="scroll">
     <div class="csuccess"><div class="ccheck">✓</div><h2>预约提交成功</h2>
-      <p>专属顾问将在 24 小时内联系你<br>确认预约详情并协助行程安排</p></div>
+      <p>预约信息已提交<br>后续由顾问确认</p></div>
     <div class="rev" style="margin:8px 24px 0"><div class="rev-h">BOOKING DETAILS</div><div class="rev-b">
       <div class="rrow"><span class="l">预约编号</span><span class="v">${r.id}</span></div>
       <div class="rrow"><span class="l">项目</span><span class="v">${r.proj}</span></div>
@@ -689,11 +1015,10 @@ VIEWS.confirm=()=>{
       <div class="rrow"><span class="l">时段</span><span class="v">${r.time}</span></div>
       <div class="rrow"><span class="l">地点</span><span class="v">${r.region}</span></div>
       <div class="rdiv"></div>
-      <div class="rrow"><span class="l">费用</span><span class="v" style="color:${r.free?'var(--green)':'var(--accent)'}">${r.free?'粉丝专属 · 免费':'到店结算'}</span></div>
-      <div class="rrow"><span class="l">推荐主播</span><span class="v">${r.referrer}</span></div>
+      <div class="rrow"><span class="l">费用</span><span class="v" style="color:var(--accent)">${r.price}</span></div>
     </div></div>
     <div class="cqr"><div class="cqr-box"><span style="font-size:30px">⊞</span><span>扫码添加顾问</span></div>
-      <p>添加专属顾问微信，获取出行攻略与术后跟踪</p></div>
+      <p>添加顾问微信，继续确认项目资料与预约安排</p></div>
     <div style="padding:0 24px;display:flex;gap:11px">
       <button class="btn btn-line wide" onclick="goRoot('home')">返回首页</button>
       <button class="btn btn-fill wide" onclick="goRoot('my')">我的预约</button></div>
@@ -705,97 +1030,18 @@ VIEWS.my=()=>shell(navBar('我的','MY ACCOUNT',false)+`<div class="scroll">
   <div class="sphead" style="padding-top:6px">
     <div class="savatar" style="background:var(--accent-2)">客</div>
     <h2>体验官 · 138****8991</h2>
-    <div class="slevel" style="color:var(--accent);border-color:var(--accent-2)">推荐人 ${state.streamer}</div>
+    <div class="slevel" style="color:var(--accent);border-color:var(--accent-2)">GOLONG MEMBER</div>
   </div>
   <div class="card-h" style="padding:6px 24px 4px"><div class="t" style="font-size:18px">我的预约</div></div>
-  ${state.myBookings.map(r=>`
+  ${state.myBookings.length?state.myBookings.map(r=>`
     <div class="mb"><div class="mb-top"><span class="mb-code">${r.id}</span><span class="pill ${PILL[r.status]||'pill-amber'}">${r.status}</span></div>
       <div class="mb-bd"><div class="mb-n">${r.proj}</div>
-        <div class="mb-i">📍 ${r.hosp} · ${r.region}<br>🗓 ${r.date} ${r.time} · ${r.free?'<span style="color:var(--green)">粉丝免费</span>':'到店结算'}</div></div></div>`).join('')}
+        <div class="mb-i">📍 ${r.hosp} · ${r.region}<br>🗓 ${r.date} ${r.time} · 费用 ${r.price}</div></div></div>`).join(''):'<div class="empty-card">暂无预约记录</div>'}
   <div class="menu" style="margin-top:8px">
-    ${[['📋','咨询记录'],['❤','我的收藏'],['🎫','优惠与权益'],['⚙','设置']].map(([i,t])=>
+    ${[['📋','咨询记录'],['❤','我的收藏'],['⚙','设置']].map(([i,t])=>
       `<div class="mitem" onclick="toast('${t}')"><div class="mleft"><div class="mico">${i}</div><span>${t}</span></div><span class="mright">→</span></div>`).join('')}
   </div><div style="height:14px"></div>
 </div>`,tabBar('my'));
-
-/* ---------- streamer ---------- */
-VIEWS.dash=()=>{
-  const s=STREAMER, max=s.funnel[0][1];
-  return shell(`<div class="scroll">
-    <div class="sphead"><div class="savatar">J</div><h2>${s.name}</h2><div class="slevel">✦ ${s.level}</div></div>
-    <div class="stats">
-      <div class="stat"><div class="v">${s.funnel[0][1]}</div><div class="l">累计推荐</div></div>
-      <div class="stat"><div class="v">${s.funnel[3][1]}</div><div class="l">完成疗程</div></div>
-      <div class="stat"><div class="v">${s.funnel[4][1]}</div><div class="l">到店升单</div></div>
-    </div>
-    <div class="earn"><div class="lab">本月收益（元）</div><div class="big">${money(s.month)}</div><div class="sub">较上月 ${s.trend}</div>
-      <div class="grid">
-        <div class="gi"><div class="v">${money(s.settled)}</div><div class="l">已结算</div></div>
-        <div class="gi"><div class="v">${money(s.pending)}</div><div class="l">待结算</div></div>
-        <div class="gi"><div class="v">${money(s.locked)}</div><div class="l">锁定中</div></div>
-      </div></div>
-    <div class="card-w"><div class="card-h"><div class="t">转化漏斗</div><div class="m">本月</div></div>
-      <div class="funnel">${s.funnel.map(([label,n])=>`
-        <div class="frow"><div class="top"><span class="s">${label}</span><span class="n">${n}</span></div>
-          <div class="fbar"><i style="width:${Math.max(8,n/max*100)}%"></i></div></div>`).join('')}</div></div>
-    <div class="linkbox"><div class="l">我的专属推广链接</div>
-      <div class="row"><span class="url">gaolong.med/r/${s.code}</span><button class="cp" onclick="copyLink()">复制</button></div>
-      <button class="preview" onclick="previewAsFan()">预览粉丝看到的预约页 →</button></div>
-    <div class="card-w"><div class="card-h"><div class="t">最近成交</div><div class="m" onclick="switchTab('customers')">查看全部</div></div>
-      <div class="ledger">${s.ledger.slice(0,3).map(lgRow).join('')}</div></div>
-    <div style="height:18px"></div>
-  </div>`,tabBar('dash'));
-};
-function lgRow(e){
-  const pend=e.commission===0;
-  return `<div class="lg" onclick="ledgerDetail('${e.name}')">
-    <div class="lg-av">${e.name.slice(0,1)}</div>
-    <div class="lg-mid"><div class="lg-n">${e.name}</div><div class="lg-d">${e.proj} · ${e.region} · ${e.date}</div></div>
-    <div class="lg-r"><div class="lg-c ${pend?'pending':''}">${pend?'待计':'+'+money(e.commission)}</div><span class="pill ${PILL[e.status]}">${e.status}</span></div>
-  </div>`;
-}
-VIEWS.customers=()=>{
-  const filters=['全部','待到店','已到店','已完成','已升单','已结算'];
-  let list=STREAMER.ledger.slice();
-  if(state.ledgerFilter!=='全部') list=list.filter(e=>e.status===state.ledgerFilter);
-  return shell(navBar('客户台账','CUSTOMER LEDGER',false)+
-    `<div class="filters">${filters.map(f=>`<button class="chip ${state.ledgerFilter===f?'on':''}" onclick="setLedger('${f}')">${f}</button>`).join('')}</div>
-     <div class="scroll"><div class="card-w" style="margin-top:2px"><div class="ledger">
-       ${list.length?list.map(lgRow).join(''):'<div class="empty">该状态下暂无客户</div>'}
-     </div></div><div style="height:14px"></div></div>`,tabBar('customers'));
-};
-VIEWS.earnings=()=>{
-  const s=STREAMER;
-  const settled=s.ledger.filter(e=>e.status==='已结算'||e.status==='已完成'||e.status==='已升单');
-  return shell(navBar('收益明细','EARNINGS',false)+`<div class="scroll">
-    <div class="earn" style="margin-top:6px"><div class="lab">可提现余额（元）</div><div class="big">${money(s.settled)}</div>
-      <div class="sub">待结算 ${money(s.pending)} · 锁定中 ${money(s.locked)}</div>
-      <button class="btn wide" style="margin-top:18px;background:rgba(255,255,255,.14);color:#fff;padding:13px" onclick="toast('提现申请已提交，预计 1-2 个工作日到账')">申请提现</button></div>
-    <div class="card-w"><div class="card-h"><div class="t">分成规则</div></div><div class="rule">
-      <div class="rrule"><div class="ic">🎁</div><div class="tx"><div class="t">免费引流项目</div><div class="d">平台承担成本，主播 0 成本获客，引流即记一笔推荐。</div></div></div>
-      <div class="rrule"><div class="ic">📈</div><div class="tx"><div class="t">到店升单分成</div><div class="d">按客户实际消费分成：自营医院 15%，联营医院按格局返点 8-12%。</div></div></div>
-      <div class="rrule"><div class="ic">⏱</div><div class="tx"><div class="t">结算周期</div><div class="d">客户完成疗程后 T+7 自动入账，可随时提现。</div></div></div>
-    </div></div>
-    <div class="card-w"><div class="card-h"><div class="t">收益流水</div></div><div class="ledger">
-      ${settled.map(e=>`<div class="lg"><div class="lg-av">${e.name.slice(0,1)}</div>
-        <div class="lg-mid"><div class="lg-n">${e.name} · ${e.proj}</div><div class="lg-d">消费 ${money(e.spend)} · ${e.date}</div></div>
-        <div class="lg-r"><div class="lg-c">+${money(e.commission)}</div><span class="pill ${PILL[e.status]}">${e.status}</span></div></div>`).join('')}
-    </div></div><div style="height:18px"></div>
-  </div>`,tabBar('earnings'));
-};
-VIEWS.sprofile=()=>{
-  const s=STREAMER;
-  return shell(navBar('我的','MY PROFILE',false)+`<div class="scroll">
-    <div class="sphead"><div class="savatar">J</div><h2>${s.name}</h2><div class="slevel">✦ ${s.level}</div></div>
-    <div class="linkbox"><div class="l">我的专属推广链接</div>
-      <div class="row"><span class="url">gaolong.med/r/${s.code}</span><button class="cp" onclick="copyLink()">复制</button></div>
-      <button class="preview" onclick="previewAsFan()">预览粉丝看到的预约页 →</button></div>
-    <div class="menu">
-      ${[['🏅','等级与权益','GOLD'],['📊','数据看板',''],['🎨','推广素材库',''],['🏦','结算账户','已绑定'],['📞','专属对接人',''],['⚙','设置','']].map(([i,t,r])=>
-        `<div class="mitem" onclick="toast('${t}')"><div class="mleft"><div class="mico">${i}</div><span>${t}</span></div><span class="mright">${r||'→'}</span></div>`).join('')}
-    </div><div style="height:18px"></div>
-  </div>`,tabBar('sprofile'));
-};
 
 /* ============================ NAV ENGINE ============================ */
 const screenEl=document.getElementById('screen');
@@ -834,13 +1080,12 @@ function goRoot(view){stack=[{view,params:{}}];paint('fade');}
 
 /* ============================ ACTIONS ============================ */
 function setCat(c){state.cat=c;refresh();}
-function setLedger(f){state.ledgerFilter=f;refresh();}
 function pickDate(d){state.booking.date=d;refresh();}
 function pickTime(t){state.booking.time=t;refresh();}
 function setField(k,v){state.booking[k]=v;}
 
 function startBooking(pid){
-  state.booking={projectId:pid,step:1,date:8,time:'11:00',name:'',phone:'',passport:'',referrer:state.streamer==='Jessy'?'Jessy':'妮米',errors:{}};
+  state.booking={projectId:pid,step:1,date:8,time:'11:00',name:'',phone:'',passport:'',referrer:'',errors:{}};
   navigate('booking',{});
 }
 function bookingGo(step){state.booking.step=step;state.booking.errors={};refresh();}
@@ -862,37 +1107,18 @@ function submitBooking(){
   const b=state.booking,p=project(b.projectId),h=hospital(p.hid);
   const code='GL2607-'+(900+state.myBookings.length);
   const rec={id:code,projId:p.id,proj:p.name,hosp:h.name,region:h.city,
-    date:`2026 年 7 月 ${b.date} 日`,time:b.time,status:'待到店',referrer:b.referrer,free:p.free};
+    date:`2026 年 7 月 ${b.date} 日`,time:b.time,status:'待确认',price:checkoutText(p),
+    name:b.name,phone:b.phone,referrer:b.referrer};
   state.myBookings.unshift(rec);
   state.lastBooking=rec;
+  const notifyPayload={...rec,price:p.isFree?'免费体验':rec.price};
+  fetch('/api/notify-feishu',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(notifyPayload)}).catch(()=>{});
   navigate('confirm',{});
 }
 function consult(name){
   document.getElementById('m-title').textContent='在线咨询';
-  document.getElementById('m-text').textContent=`我们的专属医美顾问将为你解答关于「${name}」的所有问题，包括适用肤质、术后护理与行程安排。`;
+  document.getElementById('m-text').textContent=`提交后可继续确认「${name}」的项目资料与预约信息。`;
   document.getElementById('modal').classList.add('show');
-}
-function ledgerDetail(name){toast(`${name} · 查看客户跟进详情`);}
-function copyLink(){toast('专属链接已复制：gaolong.med/r/'+STREAMER.code);}
-function previewAsFan(){
-  toast('已切换至粉丝视角预览');
-  state.role='customer';state.streamer='Jessy';syncSeg();
-  stack=[{view:'home',params:{}}];paint('fade');
-}
-
-/* ============================ DEMO CTRL ============================ */
-function switchRole(role){
-  state.role=role;syncSeg();
-  stack=[{view:role==='customer'?'home':'dash',params:{}}];
-  paint('fade');
-}
-function syncSeg(){
-  document.getElementById('seg-customer').classList.toggle('on',state.role==='customer');
-  document.getElementById('seg-streamer').classList.toggle('on',state.role==='streamer');
-}
-function resetDemo(){
-  state.cat='全部';state.ledgerFilter='全部';state.booking=null;
-  switchRole(state.role);
 }
 
 /* ============================ MODAL / TOAST ============================ */
