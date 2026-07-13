@@ -37,3 +37,5 @@
 2026-07-13 补丁：美化打包器默认加载屏（外层静态HTML，未动manifest/template）。title改「GOLONG 全球医疗官方预约平台」；thumbnail SVG从深青底GL换成米白底GOLONG字标+副标题+三点渐隐动画；右下角Unpacking气泡display:none隐藏；noscript文案改中文。diff确认line188/196（打包数据）与备份逐字节一致，manifest 115 keys/template JSON.parse均正常。
 
 2026-07-13 补丁：英文点缀系统+BB前缀统一。①template加DESTINATIONS/PARTNER CLINICS/HOUSE BRANDS首页eyebrow、ABOUT/PRICING详情页小字、SCHEDULE/DETAILS/REVIEW预约步骤点缀、COMPLIMENTARY免费横幅点缀、hero eyebrow改CURATED MEDICAL AESTHETICS · WORLDWIDE；②REGIONS加nameEn(TOKYO/PARIS/SEOUL/HONG KONG/MACAU)渲染进地区卡片；③数据模块新增CAT_EN九分类英文映射，接入详情页分类badge与项目页分组标题；④数据模块「BB Labs-」前缀全量替换为「Bb LABORATORIES 」(实际10处，非预估45处，isOwnBrand=45不变)，template内残留的"BB Labs 品牌专区"toast文案同步统一。补丁流程同上(template JSON.parse+`</`转义/manifest gzip+base64重打包)，逐字节diff确认两script块之外内容与备份完全一致，node --check通过。
+
+2026-07-13 修正：瀚森哥反馈hero eyebrow不要「Curated Medical Aesthetics · Worldwide」，改回「GOLONG Preventive Medicine」（全大写GOLONG，不用旧拼写Gaolong/Golong）。仅template补丁单点替换，其余英文点缀不动。断言notify-feishu=1/hero-main=1/官方合作机构=0/无未转义`</script`均通过，两script块外字节与备份一致。
