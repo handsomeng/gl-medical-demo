@@ -3,3 +3,4 @@ CLAUDE.md
 *.xlsx
 .git
 .DS_Store
+_source/
