@@ -23,3 +23,5 @@
 2026-07-09：老板反馈处理。①BB Labs 短标改为灰色 LOGO 占位框(BRANDS加pendingLogo标记，后续替换成真实logo图片)；②图片素材全部换成统一品牌纹理占位(.img-ph-a/b/c，REGIONS/HOSPITALS/PROJECTS用PLACEHOLDER_IMGS覆写)，避免真实照片与项目文案不匹配的问题，旧的机构真实照片CSS class暂留未删，等设计侧出真实素材后再逐条换回。真实图片制作交给GPT另行处理，本轮不做文案规范化。
 
 2026-07-13：接入10张GPT生成配图（6张机构地区图+4张场景图），替换占位纹理。REGIONS/HOSPITALS按地区/机构直接映射真图；PLACEHOLDER_IMGS覆写逻辑改为CAT_IMG_MAP按项目分类映射(干细胞/营养点滴→img-iv，水光/肉毒/饱满填充→img-injection，光电类→img-device)；免费项目统一用img-consult；首页hero改img-tokyo-a；.img-macau复用原有类名直接更新图片source避免CSS选择器重复；.img-ph-a/b/c及旧真实照片class保留兜底。node --check通过，vm沙箱跑数据层断言174条PROJECTS(164真实+10免费)img全部落在合法类集合内，REGIONS/HOSPITALS映射与规格一致。
+
+2026-07-13：切换到凝白版v2（Claude Design React bundle，桌面版9MB自解包单文件）。米白衬线杂志旧版已提交为回滚点(commit 16056f4)。对bundle做了三处补丁：①数据资产(f84578bf)的IMGS表全部指向10张GPT新图+末尾追加地区/机构/分类映射覆写；②内联app脚本submitBooking加飞书推送(fetch /api/notify-feishu，免费项目price去HTML标签)；③SSR首屏静态标记旧图URL全量替换保持hydration前后一致。补丁脚本方式：解包line188(gzip+base64资产)/line196(JSON主HTML)→字符串补丁→重打包。数据JS node --check通过，全部图片引用断言落在10张新图内。
