@@ -32,15 +32,9 @@ const days = computed(() => {
   }
   return out;
 });
-const TIMES = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
-
 function pickDate(day) {
   if (day.disabled || day.full) return;
   state.booking.date = day.d;
-}
-function pickTime(t) {
-  if (t === '16:00') return;
-  state.booking.time = t;
 }
 
 function goBack() { router.back(); }
@@ -48,7 +42,7 @@ function goBack() { router.back(); }
 function next() {
   const ok = goStepNext();
   if (!ok) {
-    if (state.booking.step === 1) showToast('请先选择日期和时段');
+    if (state.booking.step === 1) showToast('请先选择日期');
   }
 }
 function prev() { goStepPrev(); }
@@ -96,16 +90,6 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
             @click="pickDate(day)"
           >{{ day.d }}</div>
         </div>
-        <div class="section-label" style="padding:22px 0 12px;">选择时段</div>
-        <div class="time-grid">
-          <div
-            v-for="t in TIMES"
-            :key="t"
-            class="time-cell"
-            :class="{ selected: state.booking.time === t, disabled: t === '16:00' }"
-            @click="pickTime(t)"
-          >{{ t === '16:00' ? t + ' 满' : t }}</div>
-        </div>
         <div class="hint">预约提交后由顾问确认最终到店时间。</div>
       </template>
 
@@ -142,8 +126,7 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
             <div class="review-row"><span class="k">项目</span><span class="v">{{ p.name }}</span></div>
             <div class="review-row"><span class="k">医院</span><span class="v">{{ h.name }}</span></div>
             <div class="review-row border-b"><span class="k">地点</span><span class="v">{{ h.city }}</span></div>
-            <div class="review-row"><span class="k">日期</span><span class="v">2026 年 7 月 {{ state.booking.date }} 日</span></div>
-            <div class="review-row border-b"><span class="k">时段</span><span class="v">{{ state.booking.time }}</span></div>
+            <div class="review-row border-b"><span class="k">日期</span><span class="v">2026 年 7 月 {{ state.booking.date }} 日</span></div>
             <div class="review-row"><span class="k">姓名</span><span class="v">{{ state.booking.name }}</span></div>
             <div class="review-row"><span class="k">手机号</span><span class="v">{{ state.booking.phone }}</span></div>
             <div class="review-row" v-if="hasReferrer"><span class="k">预约达人</span><span class="v">{{ state.booking.referrer }}</span></div>
@@ -197,11 +180,6 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
 .cal-cell.full { text-decoration: line-through; }
 .cal-cell.selected { background: var(--ink); color: var(--bg); border-radius: 50%; }
 
-.section-label { font-size: 9px; letter-spacing: 3px; color: var(--muted-2); text-transform: uppercase; }
-.time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.time-cell { height: 44px; display: flex; align-items: center; justify-content: center; font-size: 12.5px; border: 1px solid var(--border); color: var(--ink-2); cursor: pointer; }
-.time-cell.selected { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-.time-cell.disabled { color: var(--muted-4); cursor: default; }
 .hint { font-size: 11px; line-height: 1.8; color: var(--muted-2); padding-top: 20px; }
 
 .form { display: flex; flex-direction: column; gap: 26px; padding-top: 8px; }

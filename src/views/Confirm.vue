@@ -32,7 +32,6 @@ function goHome() { router.push({ name: 'home' }); }
           <div class="row"><span class="k">项目</span><span class="v">{{ state.lastBooking.proj }}</span></div>
           <div class="row border-b"><span class="k">医院</span><span class="v">{{ state.lastBooking.hosp }}</span></div>
           <div class="row"><span class="k">日期</span><span class="v">{{ state.lastBooking.date }}</span></div>
-          <div class="row"><span class="k">时段</span><span class="v">{{ state.lastBooking.time }}</span></div>
           <div class="row border-b"><span class="k">地点</span><span class="v">{{ state.lastBooking.region }}</span></div>
           <div class="row total"><span class="k">费用</span><span class="h-serif v-price">{{ state.lastBooking.price }}</span></div>
         </div>

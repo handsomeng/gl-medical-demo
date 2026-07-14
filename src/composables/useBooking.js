@@ -4,7 +4,7 @@ import { project, hospital, priceText, money } from '../data/index.js';
 // 预约三步状态 + 提交逻辑 + 飞书推送，跨视图共享（单例，不是每次 setup 都新建一份）。
 // 不做持久化：原 bundle 里 myBookings 也是纯内存 state，刷新页面即清空，这里保持一致。
 const state = reactive({
-  booking: null, // { projectId, step, date, time, name, phone, passport, referrer, errors }
+  booking: null, // { projectId, step, date, name, phone, passport, referrer, errors }
   lastBooking: null,
   myBookings: [],
   _submitting: false,
@@ -16,7 +16,6 @@ function startBooking(projectId, prefillDemo = false) {
     projectId,
     step: 1,
     date: 8,
-    time: '11:00',
     name: prefillDemo ? '陈女士' : '',
     phone: prefillDemo ? '13800138991' : '',
     passport: '',
@@ -29,7 +28,7 @@ function goStepNext() {
   const b = state.booking;
   if (!b) return false;
   if (b.step === 1) {
-    if (!b.date || !b.time) return false;
+    if (!b.date) return false;
     b.step = 2;
     b.errors = {};
     return true;
@@ -78,7 +77,6 @@ async function submitBooking() {
     hosp: h.name,
     region: h.city,
     date: '2026 年 7 月 ' + b.date + ' 日',
-    time: b.time,
     status: '待确认',
     price: priceText(p),
     name: b.name,

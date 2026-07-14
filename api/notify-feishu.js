@@ -52,7 +52,7 @@ async function notifyPreBook(payload) {
     phone: payload.phone || '',
     project: payload.proj || '',
     agency: `${payload.hosp || ''}（${payload.region || ''}）`,
-    book_time: `${payload.date || ''} ${payload.time || ''}`,
+    book_time: payload.date || '',
     fee: payload.price || '',
     expert: payload.referrer || '',
     time,
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
   }
 
   const {
-    id = '', proj = '', hosp = '', region = '', date = '', time = '',
+    id = '', proj = '', hosp = '', region = '', date = '',
     price = '', name = '', phone = '', referrer = '',
   } = body;
 
@@ -96,14 +96,14 @@ export default async function handler(req, res) {
     `手机号：${phone}`,
     `项目：${proj}`,
     `机构：${hosp}（${region}）`,
-    `预约时段：${date} ${time}`,
+    `预约日期：${date}`,
     `费用：${price}`,
   ];
   if (referrer && String(referrer).trim()) lines.push(`预约达人：${referrer}`);
 
   const [feishu, prebook] = await Promise.all([
     notifyFeishu(process.env.FEISHU_WEBHOOK_URL, lines),
-    notifyPreBook({ id, proj, hosp, region, date, time, price, name, phone, referrer }),
+    notifyPreBook({ id, proj, hosp, region, date, price, name, phone, referrer }),
   ]);
 
   res.status(200).json({ ok: true, feishu, prebook });
