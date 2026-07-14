@@ -1,8 +1,8 @@
 // 收到预约后并行做两件事：①转发一条文本消息到飞书群机器人（webhook 存环境变量
 // FEISHU_WEBHOOK_URL，不写进前端代码，避免暴露在页面源码里被任意调用）；②把预约信息转发给
-// 合作方的预约测试接口（PREBOOK_API_URL，默认值指向对方给的测试地址，非秘密可进代码）。
+// 合作方的预约测试接口（对方要求地址不能进源码/仓库，只走环境变量 PREBOOK_API_URL，
+// 未配置时不请求，直接跳过这一路）。
 // 两路互不阻塞：各自 try/catch，任一失败不影响另一路，也不影响给前端返回 200。
-const PREBOOK_API_URL_DEFAULT = '<PREBOOK_API_URL>';
 const FETCH_TIMEOUT_MS = 8000;
 
 async function fetchWithTimeout(url, options) {
@@ -31,7 +31,8 @@ async function notifyFeishu(webhook, lines) {
 }
 
 async function notifyPreBook(payload) {
-  const url = process.env.PREBOOK_API_URL || PREBOOK_API_URL_DEFAULT;
+  const url = process.env.PREBOOK_API_URL;
+  if (!url) return { ok: false, error: 'PREBOOK_API_URL not configured' };
   const form = new URLSearchParams({
     order_no: payload.id || '',
     name: payload.name || '',
