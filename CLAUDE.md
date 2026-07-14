@@ -47,3 +47,5 @@
 2026-07-13 新增 README.md：面向合作方技术团队的交接文档，讲清产品框架、bundle自解包技术形态（manifest/template结构+解包重打包Python示例+`</`转义踩坑说明）、部署方式（纯静态+notify-feishu是唯一动态端点）、预约payload字段清单、待开发需求（飞书多维表格写入+提醒）指路、旧版明文单文件架构(commit 16056f4)迁移建议。已commit+push到origin main(863504f)。
 
 2026-07-13 图片真假混搭：新增3张真实图assets/real-newstar.jpg(46KB)/real-lightmac.jpg(124KB，sips -Z 1400压缩)/real-device.jpg(48KB)，源自_source/图片总库/excel提取/image19·25·14.jpeg，sips质量72转码。数据模块(manifest f84578bf)补丁：①IMGS表加3个新键；②H机构图映射改为h_shinjuku→img-cellastar-main(真)/h_utopiart→img-tokyo-b(AI不变)/h_iena21→img-iena-corridor(真)/h_newstar→img-newstar-real(真)/h_lightmac→img-lightmac-real(真)/h_ganen→img-macau(AI不变)；③C分类场景图映射光电四类(光电抗衰提拉/光电皮肤管理/基础光电/皮肤管理)从img-device改img-device-real，干细胞营养点滴水光肉毒饱满填充保持AI不变。最终机构头图4真2AI，光电类27个真实项目走真图，其余52个真实项目+8个免费项目仍AI场景图，地区卡/hero不动。vm沙箱断言6家机构img路径、光电四类=real-device、其余分类=scene-iv/injection、免费=scene-consult全部通过；manifest 115 keys/template字节与改动前完全一致(本轮只碰manifest)。
+
+2026-07-14 地区卡真假混搭：新增assets/real-paris.jpg(206KB，源image16.jpeg巴黎奥斯曼窗诊疗室实拍，sips压至1400宽/质量72)，IMGS加img-paris-real键；R地区图映射eu改img-paris-real(真)、hk改img-lightmac-real(复用机构真图)，jp/kr/mo保持AI不变。vm断言REGIONS五地区imgFor全部命中预期路径通过；manifest 115 keys/template字节与改动前完全一致(只碰manifest)。
