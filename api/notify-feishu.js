@@ -44,7 +44,8 @@ async function notifyPreBook(payload) {
   if (!url) return { ok: false, error: 'PREBOOK_API_URL not configured' };
   const orderNo = payload.id || '';
   const time = beijingTimeString();
-  const sign = createHash('md5').update(`${orderNo} ${time}`).digest('hex');
+  // 实测对方校验的拼接方式是无空格 md5(order_no + time)
+  const sign = createHash('md5').update(`${orderNo}${time}`).digest('hex');
   const form = new URLSearchParams({
     order_no: orderNo,
     name: payload.name || '',
