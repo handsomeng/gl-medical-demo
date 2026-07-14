@@ -7,7 +7,7 @@ import { bgStyle } from '../utils/style.js';
 
 const props = defineProps({ id: { type: String, required: true } });
 const router = useRouter();
-const { showToast, openConsultModal } = useUI();
+const { showToast } = useUI();
 
 const p = computed(() => project(props.id));
 const h = computed(() => hospital(p.value.hid));
@@ -18,8 +18,7 @@ const specs = computed(() => (p.value.specs || []).map((s) => ({ spec: s.spec, p
 const brandAttr = computed(() => (p.value.isOwnBrand ? '高浪自有品牌' : '合作品牌'));
 
 function goBack() { router.back(); }
-function favTap() { showToast('已收藏到「我的」'); }
-function consultTap() { openConsultModal('提交后可继续确认「' + p.value.name + '」的项目资料与预约信息。'); }
+function favTap() { showToast('已收藏'); }
 function bookTap() { router.push({ name: 'booking', params: { id: p.value.id } }); }
 </script>
 
@@ -74,7 +73,6 @@ function bookTap() { router.push({ name: 'booking', params: { id: p.value.id } }
       </div>
     </div>
     <div class="action-bar">
-      <div class="btn-outline" style="flex:none;width:110px;" @click="consultTap">咨询</div>
       <div class="btn-dark" style="flex:1;" @click="bookTap">立即预约</div>
     </div>
   </div>

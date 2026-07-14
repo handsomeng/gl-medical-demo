@@ -40,7 +40,7 @@ input { outline: none; font-family: inherit; }
 @keyframes fu { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: none; } }
 @keyframes lineX { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
 @keyframes ovIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-@keyframes sheetUp { 0% { transform: translateY(100%); } 100% { transform: none; } }
+@keyframes cardPop { 0% { opacity: 0; transform: scale(.92); } 100% { opacity: 1; transform: scale(1); } }
 @keyframes checkPop { 0% { opacity: 0; transform: scale(.6); } 60% { opacity: 1; transform: scale(1.06); } 100% { transform: scale(1); } }
 
 /* ============ 手机外壳（桌面居中手机宽度容器，移动端铺满全屏） ============ */
@@ -177,7 +177,7 @@ input { outline: none; font-family: inherit; }
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-/* ============ 咨询弹窗 ============ */
+/* ============ 居中提示弹窗 ============ */
 .modal-overlay {
   position: absolute;
   inset: 0;
@@ -185,18 +185,19 @@ input { outline: none; font-family: inherit; }
   z-index: 60;
   animation: ovIn .3s both;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
 }
-.modal-sheet {
-  background: var(--bg);
-  padding: 22px 26px 38px;
-  animation: sheetUp .38s cubic-bezier(.32, .72, 0, 1) both;
+.modal-card {
+  width: 100%;
+  max-width: 300px;
+  background: var(--white);
+  padding: 30px 24px 24px;
+  animation: cardPop .32s cubic-bezier(.2, .7, .2, 1) both;
 }
-.modal-handle { width: 36px; height: 3px; background: var(--muted-4); margin: 0 auto 20px; }
 .modal-title { font-family: var(--font-serif); font-size: 20px; text-align: center; color: var(--ink); }
 .modal-text { font-size: 12.5px; color: var(--muted); line-height: 1.8; text-align: center; padding: 12px 0 22px; }
-.modal-cancel { height: 46px; display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 2px; color: var(--muted-2); cursor: pointer; }
 
 /* ============ 图片区块（背景图 + 渐变遮罩） ============ */
 .img-cover { width: 100%; height: 100%; background-size: cover; background-position: center; }

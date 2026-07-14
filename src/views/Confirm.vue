@@ -1,18 +1,20 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBooking } from '../composables/useBooking.js';
 
 const router = useRouter();
 const { state } = useBooking();
+const showSuccessModal = ref(false);
 
-// 直接刷新 /confirm 时内存态 lastBooking 会丢失（本来就不做持久化），兜底回首页。
+// 直接刷新 /confirm 时内存态 lastBooking 会丢失（本来就不做持久化），兜底回首页；
+// 有 lastBooking 说明是正常提交后跳转进来的，弹一次提交成功提示。
 onMounted(() => {
   if (!state.lastBooking) router.replace({ name: 'home' });
+  else showSuccessModal.value = true;
 });
 
 function goHome() { router.push({ name: 'home' }); }
-function goMy() { router.push({ name: 'my' }); }
 </script>
 
 <template>
@@ -35,13 +37,17 @@ function goMy() { router.push({ name: 'my' }); }
           <div class="row total"><span class="k">费用</span><span class="h-serif v-price">{{ state.lastBooking.price }}</span></div>
         </div>
       </div>
-      <div class="qr-block">
-        <div class="qr-box"><span class="qr-icon">⊞</span><span class="qr-label">扫码添加顾问</span></div>
-        <div class="qr-desc">添加顾问微信，继续确认项目资料与预约安排</div>
-      </div>
+      <div class="save-hint">📷 建议截图保存本页，留存您的预约凭证</div>
       <div class="actions">
         <div class="btn-outline" style="flex:1;" @click="goHome">返回首页</div>
-        <div class="btn-dark" style="flex:1;" @click="goMy">我的预约</div>
+      </div>
+    </div>
+
+    <div v-if="showSuccessModal" class="modal-overlay" @click="showSuccessModal = false">
+      <div class="modal-card" @click.stop>
+        <div class="modal-title">预约提交成功</div>
+        <div class="modal-text">工作人员会在 48 小时之内联系您</div>
+        <div class="btn-dark" style="width:100%;" @click="showSuccessModal = false">知道了</div>
       </div>
     </div>
   </div>
@@ -64,11 +70,7 @@ function goMy() { router.push({ name: 'my' }); }
 .row .v { font-size: 12.5px; color: var(--ink); text-align: right; line-height: 1.6; }
 .v-price { font-size: 17px; color: var(--accent); }
 
-.qr-block { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 28px 0; animation: fu .8s .55s cubic-bezier(.2, .7, .2, 1) both; }
-.qr-box { width: 104px; height: 104px; border: 1px solid var(--border); background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--muted-2); }
-.qr-icon { font-size: 26px; }
-.qr-label { font-size: 9px; letter-spacing: 1px; }
-.qr-desc { font-size: 11px; color: var(--muted-2); text-align: center; line-height: 1.7; }
+.save-hint { font-size: 11px; color: var(--muted-2); text-align: center; line-height: 1.7; padding: 28px 0; animation: fu .8s .55s cubic-bezier(.2, .7, .2, 1) both; }
 
 .actions { display: flex; gap: 12px; }
 </style>

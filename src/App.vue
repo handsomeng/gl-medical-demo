@@ -6,10 +6,10 @@ import { useFilter } from './composables/useFilter.js';
 
 const route = useRoute();
 const router = useRouter();
-const { state: ui, closeModal, submitConsult } = useUI();
+const { state: ui } = useUI();
 const { resetCat } = useFilter();
 
-const TAB_VIEWS = ['home', 'regions', 'hospitals', 'projects-all', 'projects-hospital', 'my'];
+const TAB_VIEWS = ['home', 'regions', 'hospitals', 'projects-all', 'projects-hospital'];
 const showTabs = computed(() => TAB_VIEWS.includes(route.name));
 const isRegionsTab = computed(() => route.name === 'regions' || route.name === 'hospitals');
 const isProjectsTab = computed(() => route.name === 'projects-all' || route.name === 'projects-hospital');
@@ -17,7 +17,6 @@ const isProjectsTab = computed(() => route.name === 'projects-all' || route.name
 function goHome() { router.push({ name: 'home' }); }
 function goRegions() { router.push({ name: 'regions' }); }
 function goProjects() { resetCat(); router.push({ name: 'projects-all' }); }
-function goMy() { router.push({ name: 'my' }); }
 </script>
 
 <template>
@@ -45,25 +44,10 @@ function goMy() { router.push({ name: 'my' }); }
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
           <span>项目</span>
         </div>
-        <div class="tabbar-item" :class="{ active: route.name === 'my' }" @click="goMy">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <span>我的</span>
-        </div>
       </div>
 
       <!-- ================ TOAST ================ -->
       <div class="toast" :class="{ show: ui.toast }">{{ ui.toast }}</div>
-
-      <!-- ================ CONSULT SHEET ================ -->
-      <div v-if="ui.modalText" class="modal-overlay" @click="closeModal">
-        <div class="modal-sheet" @click.stop>
-          <div class="modal-handle"></div>
-          <div class="modal-title">在线咨询</div>
-          <div class="modal-text">{{ ui.modalText }}</div>
-          <button class="btn-dark" style="width:100%;" @click="submitConsult">提交咨询</button>
-          <div class="modal-cancel" @click="closeModal">稍后再说</div>
-        </div>
-      </div>
     </div>
   </div>
 </template>

@@ -9,7 +9,6 @@ const routes = [
   { path: '/detail/:id', name: 'detail', component: () => import('./views/Detail.vue'), props: true },
   { path: '/booking/:id', name: 'booking', component: () => import('./views/Booking.vue'), props: true },
   { path: '/confirm', name: 'confirm', component: () => import('./views/Confirm.vue') },
-  { path: '/my', name: 'my', component: () => import('./views/My.vue') },
 ];
 
 export const router = createRouter({
