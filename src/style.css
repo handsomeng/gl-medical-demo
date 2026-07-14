@@ -1,0 +1,204 @@
+/* ============ 设计 Token ============ */
+:root {
+  --bg-outer: #ECEAE6;
+  --bg: #F5F7F7;
+  --white: #FFFFFF;
+  --ink: #131A1D;
+  --ink-2: #3C4A50;
+  --muted: #5F6E74;
+  --muted-2: #96A3A8;
+  --muted-3: #C4CFD2;
+  --muted-4: #D5DDDF;
+  --border: #E2E8E9;
+  --accent: #2E6068;
+  --accent-hover: #1E4A50;
+  --accent-bg: #E8EFEF;
+  --accent-border: #C9DADD;
+  --green: #4A7C59;
+  --error: #A0522D;
+
+  --font-serif: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  --font-sans: -apple-system, 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', sans-serif;
+}
+
+/* ============ 全局 reset ============ */
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg-outer);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+input { outline: none; font-family: inherit; }
+* { box-sizing: border-box; }
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ============ 动画 ============ */
+@keyframes kb { 0% { transform: scale(1.02); } 100% { transform: scale(1.14); } }
+@keyframes viewIn { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: none; } }
+@keyframes fu { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: none; } }
+@keyframes lineX { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+@keyframes ovIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes sheetUp { 0% { transform: translateY(100%); } 100% { transform: none; } }
+@keyframes checkPop { 0% { opacity: 0; transform: scale(.6); } 60% { opacity: 1; transform: scale(1.06); } 100% { transform: scale(1); } }
+
+/* ============ 手机外壳（桌面居中手机宽度容器，移动端铺满全屏） ============ */
+#app { min-height: 100dvh; }
+.app-outer {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  background: var(--bg-outer);
+}
+.phone {
+  position: relative;
+  width: min(430px, 100vw);
+  height: 100dvh;
+  background: var(--bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 80px rgba(20, 35, 38, .12);
+}
+@media (max-width: 480px) {
+  .phone { box-shadow: none; }
+}
+.phone-body {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 每个视图根节点：撑满、可滚动内容、切换动画 */
+.view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+.view-enter-active { animation: viewIn .5s cubic-bezier(.2, .7, .2, 1) both; }
+.view-scroll { flex: 1 1 auto; overflow-y: auto; }
+
+/* ============ 通用文字 ============ */
+.eyebrow { font-size: 9px; letter-spacing: 3px; color: var(--muted-2); text-transform: uppercase; }
+.h-serif { font-family: var(--font-serif); color: var(--ink); }
+.brand-mark { font-family: var(--font-serif); font-size: 13px; letter-spacing: 9px; color: var(--ink); }
+
+/* ============ 固定定位的返回/收藏按钮 ============ */
+.round-btn {
+  position: absolute;
+  top: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(245, 247, 247, .85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  z-index: 30;
+}
+.round-btn.back { left: 18px; }
+.round-btn.fav { right: 18px; font-size: 14px; }
+
+/* ============ 按钮 ============ */
+.btn-dark {
+  height: 52px;
+  background: var(--ink);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  border: none;
+}
+.btn-outline {
+  height: 52px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  background: none;
+}
+
+/* ============ 底部 tabbar ============ */
+.tabbar {
+  flex: none;
+  height: 72px;
+  border-top: 1px solid var(--border);
+  background: rgba(245, 247, 247, .97);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  padding-bottom: 10px;
+  z-index: 20;
+}
+.tabbar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--muted-2);
+}
+.tabbar-item.active { color: var(--accent); }
+.tabbar-item svg { width: 20px; height: 20px; }
+.tabbar-item span { font-size: 10px; letter-spacing: 2px; }
+
+/* ============ toast ============ */
+.toast {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  z-index: 80;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-14px);
+  opacity: 0;
+  transition: all .3s ease;
+  background: rgba(19, 26, 29, .92);
+  color: var(--bg);
+  padding: 11px 22px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ============ 咨询弹窗 ============ */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(19, 26, 29, .45);
+  z-index: 60;
+  animation: ovIn .3s both;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.modal-sheet {
+  background: var(--bg);
+  padding: 22px 26px 38px;
+  animation: sheetUp .38s cubic-bezier(.32, .72, 0, 1) both;
+}
+.modal-handle { width: 36px; height: 3px; background: var(--muted-4); margin: 0 auto 20px; }
+.modal-title { font-family: var(--font-serif); font-size: 20px; text-align: center; color: var(--ink); }
+.modal-text { font-size: 12.5px; color: var(--muted); line-height: 1.8; text-align: center; padding: 12px 0 22px; }
+.modal-cancel { height: 46px; display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 2px; color: var(--muted-2); cursor: pointer; }
+
+/* ============ 图片区块（背景图 + 渐变遮罩） ============ */
+.img-cover { width: 100%; height: 100%; background-size: cover; background-position: center; }
+.kb-anim { animation: kb 26s ease-in-out infinite alternate; }
+.hero-fade-bottom { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 4%, rgba(245, 247, 247, .1) 46%, rgba(19, 26, 29, .18) 100%); }
