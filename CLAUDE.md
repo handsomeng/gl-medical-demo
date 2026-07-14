@@ -56,7 +56,7 @@
 
 2026-07-14 接入合作方预约测试接口。api/notify-feishu.js 拆成 notifyFeishu/notifyPreBook 两个函数，Promise.all 并行执行、互不阻塞（各自 try/catch，任一失败不影响另一路，都返回200，结果都塞进响应JSON方便排查）；notifyPreBook 用 URLSearchParams 编码转发到 PREBOOK_API_URL(环境变量，地址由对方提供，不进代码/仓库)，字段映射 id→order_no/name→name/phone→phone/proj→project/`${hosp}（${region}）`→agency/`${date} ${time}`→book_time/price→fee/referrer→expert；两路 fetch 都加 AbortController 8秒超时。node --check通过；本地用真实示例payload实测调通对方测试接口，返回`{"code":200,"message":"成功","success":true,"data":{...}}`；用.cjs副本跑通完整handler(feishu因本地无webhook走error分支、prebook成功)确认两路结果都正确塞进响应JSON、互不影响。README.md第4节补充双路转发说明+字段映射表+对方接口响应格式。
 
-2026-07-14 对方要求接口地址不能进公开仓库：api/notify-feishu.js 删掉 PREBOOK_API_URL_DEFAULT 硬编码默认值，未配置环境变量时 notifyPreBook 直接跳过；README/CLAUDE.md 涉及的具体域名改成"走环境变量配置"表述；用 git-filter-repo（pip3装）对全部历史做 replace-text，把已经进过历史/推过 GitHub 的 URL 替换成 `<PREBOOK_API_URL>` 占位符，操作前 `git clone --mirror` 备份到 /tmp。本地验证 `git log --all -S 'meixun'` 为空、build/verify-data通过。已提交但按规矩没有强推，等瀚森哥本人确认后再推+部署。
+2026-07-14 对方要求接口地址不能进公开仓库：api/notify-feishu.js 删掉 PREBOOK_API_URL_DEFAULT 硬编码默认值，未配置环境变量时 notifyPreBook 直接跳过；README/CLAUDE.md 涉及的具体域名改成"走环境变量配置"表述；用 git-filter-repo（pip3装）对全部历史做 replace-text，把已经进过历史/推过 GitHub 的 URL 替换成 `<PREBOOK_API_URL>` 占位符，操作前 `git clone --mirror` 备份到 /tmp。本地验证历史里搜不到对方域名关键词、build/verify-data通过。已提交但按规矩没有强推，等瀚森哥本人确认后再推+部署。
 
 2026-07-14 preBook 接口加签名：notifyPreBook 新增 time（北京时间UTC+8手动偏移生成，不依赖Vercel函数所在的UTC时区，格式YYYY-MM-DD HH:mm:ss）和 sign（md5(order_no+' '+time)，node:crypto的createHash('md5')）两个表单字段。本地实测带空格/不带空格两种拼接对方测试环境都返回success:true，按对方示例格式采用带空格版本。node --check通过，未推送。
 
