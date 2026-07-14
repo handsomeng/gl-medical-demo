@@ -3,7 +3,16 @@
 // 合作方的预约测试接口（对方要求地址不能进源码/仓库，只走环境变量 PREBOOK_API_URL，
 // 未配置时不请求，直接跳过这一路）。
 // 两路互不阻塞：各自 try/catch，任一失败不影响另一路，也不影响给前端返回 200。
+import { createHash } from 'node:crypto';
+
 const FETCH_TIMEOUT_MS = 8000;
+
+// Vercel 函数跑在 UTC，对方要求按北京时间(UTC+8)生成 time 参数，不能用服务器本地时区。
+function beijingTimeString(date = new Date()) {
+  const beijing = new Date(date.getTime() + 8 * 60 * 60 * 1000);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${beijing.getUTCFullYear()}-${pad(beijing.getUTCMonth() + 1)}-${pad(beijing.getUTCDate())} ${pad(beijing.getUTCHours())}:${pad(beijing.getUTCMinutes())}:${pad(beijing.getUTCSeconds())}`;
+}
 
 async function fetchWithTimeout(url, options) {
   const controller = new AbortController();
@@ -33,8 +42,11 @@ async function notifyFeishu(webhook, lines) {
 async function notifyPreBook(payload) {
   const url = process.env.PREBOOK_API_URL;
   if (!url) return { ok: false, error: 'PREBOOK_API_URL not configured' };
+  const orderNo = payload.id || '';
+  const time = beijingTimeString();
+  const sign = createHash('md5').update(`${orderNo} ${time}`).digest('hex');
   const form = new URLSearchParams({
-    order_no: payload.id || '',
+    order_no: orderNo,
     name: payload.name || '',
     phone: payload.phone || '',
     project: payload.proj || '',
@@ -42,6 +54,8 @@ async function notifyPreBook(payload) {
     book_time: `${payload.date || ''} ${payload.time || ''}`,
     fee: payload.price || '',
     expert: payload.referrer || '',
+    time,
+    sign,
   });
   try {
     const r = await fetchWithTimeout(url, {
