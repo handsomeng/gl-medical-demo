@@ -4,3 +4,6 @@ node_modules
 dist
 *.xlsx
 _source/
+.env
+.env.local
+api/config.js

@@ -1,9 +1,18 @@
-// 收到预约后并行做两件事：①转发一条文本消息到飞书群机器人（webhook 存环境变量
-// FEISHU_WEBHOOK_URL，不写进前端代码，避免暴露在页面源码里被任意调用）；②把预约信息转发给
-// 合作方的预约测试接口（对方要求地址不能进源码/仓库，只走环境变量 PREBOOK_API_URL，
-// 未配置时不请求，直接跳过这一路）。
-// 两路互不阻塞：各自 try/catch，任一失败不影响另一路，也不影响给前端返回 200。
+// 收到预约后并行做两件事：①转发一条文本消息到飞书群机器人（webhook 地址不写进前端代码，
+// 避免暴露在页面源码里被任意调用）；②把预约信息转发给合作方的预约测试接口（对方要求地址
+// 不能进源码/仓库）。两路互不阻塞：各自 try/catch，任一失败不影响另一路，也不影响给前端返回 200。
+//
+// 配置来源：优先读 api/config.js（本地配置文件，不进仓库，合作方自行部署习惯直接改文件），
+// 读不到（文件不存在/没建）就兜底读环境变量 FEISHU_WEBHOOK_URL / PREBOOK_API_URL
+// （Vercel 上继续用环境变量这条路）。
 import { createHash } from 'node:crypto';
+
+let fileConfig = {};
+try {
+  fileConfig = (await import('./config.js')).default || {};
+} catch {
+  fileConfig = {}; // config.js 不存在时行为和只用环境变量完全一致
+}
 
 const FETCH_TIMEOUT_MS = 8000;
 
@@ -40,7 +49,7 @@ async function notifyFeishu(webhook, lines) {
 }
 
 async function notifyPreBook(payload) {
-  const url = process.env.PREBOOK_API_URL;
+  const url = fileConfig.PREBOOK_API_URL || process.env.PREBOOK_API_URL;
   if (!url) return { ok: false, error: 'PREBOOK_API_URL not configured' };
   const orderNo = payload.id || '';
   const time = beijingTimeString();
@@ -102,7 +111,7 @@ export default async function handler(req, res) {
   if (referrer && String(referrer).trim()) lines.push(`预约达人：${referrer}`);
 
   const [feishu, prebook] = await Promise.all([
-    notifyFeishu(process.env.FEISHU_WEBHOOK_URL, lines),
+    notifyFeishu(fileConfig.FEISHU_WEBHOOK_URL || process.env.FEISHU_WEBHOOK_URL, lines),
     notifyPreBook({ id, proj, hosp, region, date, price, name, phone, referrer }),
   ]);
 
