@@ -10,14 +10,14 @@ const state = reactive({
   _submitting: false,
 });
 
-function startBooking(projectId, prefillDemo = false) {
+function startBooking(projectId) {
   state._submitting = false;
   state.booking = {
     projectId,
     step: 1,
     date: null, // 真日历接入后不再预选日期，用户必须点选（Booking.vue 默认显示当前月）
-    name: prefillDemo ? '陈女士' : '',
-    phone: prefillDemo ? '13800138991' : '',
+    name: '',
+    phone: '',
     passport: '',
     referrer: '',
     errors: {},

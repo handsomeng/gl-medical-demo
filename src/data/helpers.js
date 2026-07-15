@@ -2,9 +2,7 @@ export const money = (n) => '¥' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',
 
 export const hasPrice = (p) => typeof p.price === 'number' && p.price > 0;
 
-export const PENDING = '待确认';
-
-export const priceText = (p) => (p.isFree ? '免费体验' : hasPrice(p) ? money(p.price) + (p.starts ? ' 起' : '') : PENDING);
+export const priceText = (p) => (p.isFree ? '免费体验' : hasPrice(p) ? money(p.price) + (p.starts ? ' 起' : '') : '详询顾问');
 
 // 免费 > 自有品牌（Bb LABORATORIES / 佰洛雅）> 其他
 export const sortProjects = (list) =>

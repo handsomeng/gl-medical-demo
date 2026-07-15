@@ -35,6 +35,10 @@ const freeWithZero = freeProjects.filter((p) => /¥0(?!\d)/.test(priceText(p)));
 assert(freeWithZero.length === 0, `免费项目 priceText 不含 ¥0 (实际残留 ${freeWithZero.length} 条)`);
 freeProjects.forEach((p) => assert(priceText(p) === '免费体验', `免费项目 ${p.id} priceText === "免费体验" (实际 "${priceText(p)}")`));
 
+// 所有非免费项目必须有有效价格（数字 > 0），从源头防止漏价格的数据上线导致前端显示「详询顾问」。
+const realWithoutPrice = realProjects.filter((p) => !(typeof p.price === 'number' && p.price > 0));
+assert(realWithoutPrice.length === 0, `所有非免费项目都有有效价格(数字>0) (实际缺失 ${realWithoutPrice.length} 条${realWithoutPrice.length ? ':\n  ' + realWithoutPrice.map((p) => p.id).join('\n  ') : ''})`);
+
 // imgFor 命中的路径必须都是 public/assets 下真实存在的文件（排除内联 SVG 占位图）。
 const missingFiles = [];
 const checkImgFor = (cls, ctx) => {

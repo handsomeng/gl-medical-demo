@@ -2,12 +2,10 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { project, hospital, priceText, money, imgFor, CAT_EN, PENDING } from '../data/index.js';
-import { useUI } from '../composables/useUI.js';
 import { bgStyle } from '../utils/style.js';
 
 const props = defineProps({ id: { type: String, required: true } });
 const router = useRouter();
-const { showToast } = useUI();
 
 const p = computed(() => project(props.id));
 const h = computed(() => hospital(p.value.hid));
@@ -18,14 +16,12 @@ const specs = computed(() => (p.value.specs || []).map((s) => ({ spec: s.spec, p
 const brandAttr = computed(() => (p.value.isOwnBrand ? '高浪自有品牌' : '合作品牌'));
 
 function goBack() { router.back(); }
-function favTap() { showToast('已收藏'); }
 function bookTap() { router.push({ name: 'booking', params: { id: p.value.id } }); }
 </script>
 
 <template>
   <div class="view" v-if="p && h">
     <div class="round-btn back" @click="goBack">←</div>
-    <div class="round-btn fav" @click="favTap">♡</div>
     <div class="view-scroll">
       <div class="hero">
         <div class="img-cover kb-anim" :style="bgStyle(imgFor(p.img))"></div>

@@ -138,7 +138,7 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
           </div>
           <div class="field">
             <div class="field-label">手机号</div>
-            <input v-model="state.booking.phone" type="tel" inputmode="numeric" placeholder="用于顾问联系，11 位手机号" />
+            <input v-model="state.booking.phone" type="tel" inputmode="numeric" placeholder="用于顾问联系" />
             <div v-if="state.booking.errors.phone" class="field-err">{{ state.booking.errors.phone }}</div>
           </div>
           <div class="field">

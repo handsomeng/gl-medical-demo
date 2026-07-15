@@ -86,7 +86,7 @@ input { outline: none; font-family: inherit; }
 .h-serif { font-family: var(--font-serif); color: var(--ink); }
 .brand-mark { font-family: var(--font-serif); font-size: 13px; letter-spacing: 9px; color: var(--ink); }
 
-/* ============ 固定定位的返回/收藏按钮 ============ */
+/* ============ 固定定位的返回按钮 ============ */
 .round-btn {
   position: absolute;
   top: 18px;
@@ -104,7 +104,6 @@ input { outline: none; font-family: inherit; }
   z-index: 30;
 }
 .round-btn.back { left: 18px; }
-.round-btn.fav { right: 18px; font-size: 14px; }
 
 /* ============ 按钮 ============ */
 .btn-dark {
