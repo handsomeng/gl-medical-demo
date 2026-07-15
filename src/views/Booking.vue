@@ -204,11 +204,25 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
 
 .body { padding: 16px 30px 8px; }
 
-.cal-head { display: flex; justify-content: space-between; align-items: baseline; }
+.cal-head { display: flex; justify-content: space-between; align-items: center; }
 .cal-head span:first-child { font-size: 18px; white-space: nowrap; }
-.cal-nav { font-size: 12px; color: var(--muted-2); letter-spacing: 6px; }
-.cal-nav-btn { cursor: pointer; padding: 0 2px; }
-.cal-nav-btn.disabled { color: var(--muted-4); cursor: default; }
+.cal-nav { display: flex; align-items: center; gap: 10px; }
+.cal-nav-btn {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  line-height: 1;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--white);
+  cursor: pointer;
+}
+.cal-nav-btn.disabled { color: var(--muted-4); border-color: var(--border); cursor: default; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; padding-top: 14px; }
 .cal-dow { text-align: center; font-size: 9px; letter-spacing: 1px; color: var(--muted-2); padding: 6px 0; }
 .cal-cell-empty, .cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; }
