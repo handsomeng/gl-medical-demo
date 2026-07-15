@@ -4,7 +4,7 @@ import { project, hospital, priceText, money } from '../data/index.js';
 // 预约三步状态 + 提交逻辑 + 飞书推送，跨视图共享（单例，不是每次 setup 都新建一份）。
 // 不做持久化：原 bundle 里 myBookings 也是纯内存 state，刷新页面即清空，这里保持一致。
 const state = reactive({
-  booking: null, // { projectId, step, date, name, phone, passport, referrer, errors }
+  booking: null, // { projectId, step, date: {y,m,d}|null, name, phone, passport, referrer, errors }
   lastBooking: null,
   myBookings: [],
   _submitting: false,
@@ -15,7 +15,7 @@ function startBooking(projectId, prefillDemo = false) {
   state.booking = {
     projectId,
     step: 1,
-    date: 8,
+    date: null, // 真日历接入后不再预选日期，用户必须点选（Booking.vue 默认显示当前月）
     name: prefillDemo ? '陈女士' : '',
     phone: prefillDemo ? '13800138991' : '',
     passport: '',
@@ -76,7 +76,7 @@ async function submitBooking() {
     proj: p.name,
     hosp: h.name,
     region: h.city,
-    date: '2026 年 7 月 ' + b.date + ' 日',
+    date: b.date.y + ' 年 ' + b.date.m + ' 月 ' + b.date.d + ' 日',
     status: '待确认',
     price: priceText(p),
     name: b.name,

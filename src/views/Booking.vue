@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { project, hospital, priceText } from '../data/index.js';
 import { useBooking } from '../composables/useBooking.js';
@@ -19,23 +19,55 @@ onMounted(() => {
 const p = computed(() => project(props.id));
 const h = computed(() => hospital(p.value.hid));
 
-const FULL_DAYS = [12, 20, 26];
+// 真日历：默认显示当前月（用户本地时间），今天之前的日期禁用，今天当天允许选
+// （到店时间由顾问确认，当天预约合理）。只算一次，不用响应式，一次预约会话内够用。
+const now = new Date();
+const TODAY = { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate() };
+
+const viewYear = ref(TODAY.y);
+const viewMonth = ref(TODAY.m); // 1-12
+
+const monthLabel = computed(() => `${viewYear.value} 年 ${viewMonth.value} 月`);
+const isPrevDisabled = computed(() => viewYear.value === TODAY.y && viewMonth.value === TODAY.m);
+
+function prevMonth() {
+  if (isPrevDisabled.value) return;
+  if (viewMonth.value === 1) { viewMonth.value = 12; viewYear.value -= 1; }
+  else viewMonth.value -= 1;
+}
+function nextMonth() {
+  if (viewMonth.value === 12) { viewMonth.value = 1; viewYear.value += 1; }
+  else viewMonth.value += 1;
+}
+
+// 当月 1 号是星期几（0=日...6=六），决定日历网格前导空格数；用真实月份计算，不再写死。
+const leadingEmpty = computed(() => new Date(viewYear.value, viewMonth.value - 1, 1).getDay());
+// 当月天数：Date(y, m, 0) 取的是「m 月」（0-indexed，正好等于 1-indexed 的 viewMonth）第 0 天，
+// 即上个月最后一天，也就是 viewMonth 当月的最后一天。
+const daysInMonth = computed(() => new Date(viewYear.value, viewMonth.value, 0).getDate());
+
 const days = computed(() => {
   const out = [];
-  for (let d = 1; d <= 31; d++) {
-    out.push({
-      d,
-      disabled: d <= 4,
-      full: FULL_DAYS.includes(d),
-      selected: state.booking && state.booking.date === d,
-    });
+  for (let d = 1; d <= daysInMonth.value; d++) {
+    const isPast = viewYear.value < TODAY.y
+      || (viewYear.value === TODAY.y && viewMonth.value < TODAY.m)
+      || (viewYear.value === TODAY.y && viewMonth.value === TODAY.m && d < TODAY.d);
+    const dt = state.booking && state.booking.date;
+    const selected = !!(dt && dt.y === viewYear.value && dt.m === viewMonth.value && dt.d === d);
+    out.push({ d, disabled: isPast, selected });
   }
   return out;
 });
+
 function pickDate(day) {
-  if (day.disabled || day.full) return;
-  state.booking.date = day.d;
+  if (day.disabled) return;
+  state.booking.date = { y: viewYear.value, m: viewMonth.value, d: day.d };
 }
+
+const dateLabel = computed(() => {
+  const dt = state.booking && state.booking.date;
+  return dt ? `${dt.y} 年 ${dt.m} 月 ${dt.d} 日` : '';
+});
 
 function goBack() { router.back(); }
 
@@ -76,17 +108,20 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
       <!-- STEP 1 -->
       <template v-if="state.booking.step === 1">
         <div class="cal-head">
-          <span class="h-serif">2026 年 7 月</span>
-          <span class="cal-nav">‹ ›</span>
+          <span class="h-serif">{{ monthLabel }}</span>
+          <span class="cal-nav">
+            <span class="cal-nav-btn" :class="{ disabled: isPrevDisabled }" @click="prevMonth">‹</span>
+            <span class="cal-nav-btn" @click="nextMonth">›</span>
+          </span>
         </div>
         <div class="cal-grid">
           <div class="cal-dow" v-for="w in ['日','一','二','三','四','五','六']" :key="w">{{ w }}</div>
-          <div class="cal-cell-empty" v-for="i in 3" :key="'e' + i"></div>
+          <div class="cal-cell-empty" v-for="i in leadingEmpty" :key="'e' + i"></div>
           <div
             v-for="day in days"
             :key="day.d"
             class="cal-cell"
-            :class="{ disabled: day.disabled, full: day.full, selected: day.selected }"
+            :class="{ disabled: day.disabled, selected: day.selected }"
             @click="pickDate(day)"
           >{{ day.d }}</div>
         </div>
@@ -126,7 +161,7 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
             <div class="review-row"><span class="k">项目</span><span class="v">{{ p.name }}</span></div>
             <div class="review-row"><span class="k">医院</span><span class="v">{{ h.name }}</span></div>
             <div class="review-row border-b"><span class="k">地点</span><span class="v">{{ h.city }}</span></div>
-            <div class="review-row border-b"><span class="k">日期</span><span class="v">2026 年 7 月 {{ state.booking.date }} 日</span></div>
+            <div class="review-row border-b"><span class="k">日期</span><span class="v">{{ dateLabel }}</span></div>
             <div class="review-row"><span class="k">姓名</span><span class="v">{{ state.booking.name }}</span></div>
             <div class="review-row"><span class="k">手机号</span><span class="v">{{ state.booking.phone }}</span></div>
             <div class="review-row" v-if="hasReferrer"><span class="k">预约达人</span><span class="v">{{ state.booking.referrer }}</span></div>
@@ -172,12 +207,13 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
 .cal-head { display: flex; justify-content: space-between; align-items: baseline; }
 .cal-head span:first-child { font-size: 18px; white-space: nowrap; }
 .cal-nav { font-size: 12px; color: var(--muted-2); letter-spacing: 6px; }
+.cal-nav-btn { cursor: pointer; padding: 0 2px; }
+.cal-nav-btn.disabled { color: var(--muted-4); cursor: default; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; padding-top: 14px; }
 .cal-dow { text-align: center; font-size: 9px; letter-spacing: 1px; color: var(--muted-2); padding: 6px 0; }
 .cal-cell-empty, .cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; }
 .cal-cell { color: var(--ink-2); cursor: pointer; }
-.cal-cell.disabled, .cal-cell.full { color: var(--muted-4); cursor: default; }
-.cal-cell.full { text-decoration: line-through; }
+.cal-cell.disabled { color: var(--muted-4); cursor: default; }
 .cal-cell.selected { background: var(--ink); color: var(--bg); border-radius: 50%; }
 
 .hint { font-size: 11px; line-height: 1.8; color: var(--muted-2); padding-top: 20px; }
