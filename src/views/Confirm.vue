@@ -66,7 +66,7 @@ function goHome() { router.push({ name: 'home' }); }
 .row.border-b { border-bottom: 1px solid var(--border); }
 .row.total { padding: 12px 0 0; }
 .row .k { font-size: 11px; color: var(--muted-2); flex: none; }
-.row .v { font-size: 12.5px; color: var(--ink); text-align: right; line-height: 1.6; }
+.row .v { font-size: 12.5px; color: var(--ink); text-align: right; line-height: 1.6; overflow-wrap: anywhere; }
 .v-price { font-size: 17px; color: var(--accent); }
 
 .save-hint { font-size: 11px; color: var(--muted-2); text-align: center; line-height: 1.7; padding: 28px 0; animation: fu .8s .55s cubic-bezier(.2, .7, .2, 1) both; }

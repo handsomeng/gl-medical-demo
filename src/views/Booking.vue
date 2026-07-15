@@ -245,7 +245,7 @@ const hasReferrer = computed(() => !!(state.booking && state.booking.referrer &&
 .review-row.border-b { border-bottom: 1px solid var(--border); }
 .review-row.total { padding: 12px 0 0; border-top: 1px solid var(--border); margin-top: 4px; }
 .review-row .k { font-size: 11px; color: var(--muted-2); flex: none; }
-.review-row .v { font-size: 12.5px; color: var(--ink); text-align: right; line-height: 1.6; }
+.review-row .v { font-size: 12.5px; color: var(--ink); text-align: right; line-height: 1.6; overflow-wrap: anywhere; }
 .v-price { font-size: 17px; color: var(--accent); }
 
 .action-bar { flex: none; display: flex; gap: 12px; padding: 14px 26px 28px; align-items: center; }

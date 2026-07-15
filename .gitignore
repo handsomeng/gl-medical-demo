@@ -7,3 +7,5 @@ _source/
 .env
 .env.local
 api/config.js
+CLAUDE.md
+AGENTS.md
